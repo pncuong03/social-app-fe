@@ -11,7 +11,7 @@ const Posts = () => {
       shareCount: "300",
       username: "John Doe",
       time: "1h",
-      imgUrls: "https://picsum.photos/200/300",
+      imgUrls: ["https://picsum.photos/200/300"],
     },
     {
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -21,7 +21,7 @@ const Posts = () => {
       shareCount: "300",
       username: "John Doe",
       time: "1h",
-      imgUrls: "https://picsum.photos/200/300",
+      imgUrls: ["https://picsum.photos/200/300"],
     },
     {
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
@@ -31,7 +31,7 @@ const Posts = () => {
       shareCount: "300",
       username: "John Doe",
       time: "1h",
-      imgUrls: "https://picsum.photos/200/300",
+      imgUrls: ["https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"],
     },
   ];
 

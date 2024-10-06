@@ -9,6 +9,8 @@ interface Props {
   open?: boolean;
   onCancel?: () => void;
   loading?: boolean;
+  size?: "small" | "medium" | "large" | number;
+  closable?: boolean;
 }
 
 const ModalCustomize = (props: Props) => {
@@ -20,6 +22,8 @@ const ModalCustomize = (props: Props) => {
       centered
       footer={null}
       style={{ borderRadius: "1rem", overflow: "auto" }}
+      width={props.size}
+      closable={props.closable}
     >
       <div className="w-full">
         {props.loading && (

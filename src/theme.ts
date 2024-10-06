@@ -8,7 +8,7 @@ const theme = createTheme({
     light: {
       palette: {
         text: {
-          primary: "#000000", // Màu chữ cho chế độ sáng
+          primary: "#ffffff", // Màu chữ cho chế độ sáng
         },
       },
     },

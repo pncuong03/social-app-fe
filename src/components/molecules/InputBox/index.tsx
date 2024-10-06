@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
+import { useColorScheme } from "@mui/material";
+import CreateBox from "./CreateBox/CreateBox";
 
 const InputBox = () => {
+  const { mode } = useColorScheme();
+  const [isVisiable, setIsVisiable] = useState(false);
+
+  const user = {
+    fullName: "Cường",
+    imageUrl: "./img/avatar.png",
+  };
+
   return (
-    <div className={`flex h-max flex-col rounded-lg bg-white p-4 shadow-md`}>
+    <div className={`flex h-max flex-col rounded-lg ${mode === "light" ? "bg-white" : "bg-black-300"} p-4 shadow-md`}>
       <div className={`mb-2 flex items-center space-x-2 border-b pb-3 ${"border-gray-200"}`}>
         <div className="h-12 w-12">
           <img src="./img/avatar.png" className="h-full w-full rounded-full" alt="dp" />
         </div>
 
-        <button className={`h-12 flex-grow rounded-full bg-gray-100 pl-5 text-left font-normal text-gray-400 `}>
+        <button
+          className={`h-12 flex-grow rounded-full ${
+            mode === "light" ? "bg-gray-100" : "bg-neutral-700"
+          } pl-5 text-left font-normal text-gray-400 `}
+          onClick={() => setIsVisiable(true)}
+        >
           Cường, bạn đang nghĩ gì thế ?
         </button>
       </div>
@@ -27,6 +42,13 @@ const InputBox = () => {
           <p className="font-semibold">Cảm thây</p>
         </Button>
       </div>
+
+      <CreateBox
+        open={isVisiable}
+        onCancel={() => setIsVisiable(false)}
+        fullName={user.fullName}
+        imageUrl={user.imageUrl}
+      />
     </div>
   );
 };
