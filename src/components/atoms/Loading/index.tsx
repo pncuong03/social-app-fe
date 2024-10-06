@@ -1,13 +1,12 @@
-import React from 'react';
-import { Spin } from 'antd'; 
-import { LoadingOutlined } from '@ant-design/icons';
+import React from "react";
+import { Spin } from "antd";
 
 const Loading = () => {
-  const loadingIcon = <LoadingOutlined className="text-4xl" spin />; 
+  // const loadingIcon = <LoadingOutlined className="text-4xl" spin />;
 
   return (
     <div className="flex items-center justify-center">
-      <Spin indicator={loadingIcon} size="large" />
+      <Spin size="large" delay={300} />
     </div>
   );
 };
