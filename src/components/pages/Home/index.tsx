@@ -5,7 +5,7 @@ import Feed from "./Feed";
 
 const HomePage = () => {
   return (
-    <div className="mt-4 flex justify-between p-4">
+    <div className="max-w-screen mt-4 flex justify-between p-4 lg:gap-4">
       <Sidebar />
 
       <Feed />

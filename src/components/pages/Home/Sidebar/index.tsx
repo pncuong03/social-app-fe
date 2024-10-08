@@ -19,7 +19,7 @@ const Sidebar = () => {
     <div
       className={`hidden h-[calc(120vh-56px)] w-[25rem] flex-col rounded-xl  ${
         mode === "light" ? "bg-white" : "bg-black-300"
-      } p-3 shadow-sm hover:overflow-y-auto xl:flex `}
+      } p-3 shadow-sm hover:overflow-y-auto lg:flex `}
     >
       {MENU_ITEMS.map((item, index) => (
         <SidebarRow key={index} title={item.name} path={item.path} icon={<item.icon />} />
