@@ -28,13 +28,13 @@ const PostCard = (props: Props) => {
       id: "1",
       imageUrl: "https://picsum.photos/200/300",
       fullName: "John Doe",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      comment: "Lorem ipsum dolor sit amet, sd adipiscing elit",
     },
     {
       id: "2",
       imageUrl: "https://picsum.photos/200/300",
       fullName: "John Doe",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+      comment: "Lorem ipsum dolor sit amet, sds adipiscing elit",
     },
     {
       id: "3",
@@ -45,8 +45,8 @@ const PostCard = (props: Props) => {
   ];
 
   return (
-    <div className={`flex h-max flex-col rounded-lg ${mode === "light" ? "bg-white" : "bg-black-300"} p-4 shadow-md`}>
-      <div className="flex justify-between">
+    <div className={`flex h-max flex-col rounded-lg ${mode === "light" ? "bg-white" : "bg-black-300"} shadow-md`}>
+      <div className="flex justify-between px-4 pt-4">
         <Link to="/" className="flex items-center space-x-4">
           <div className="h-11 w-12">
             <img src={props?.imgUrl} className="h-full w-full rounded-full" alt="dp" />
@@ -74,8 +74,8 @@ const PostCard = (props: Props) => {
         </div>
       </div>
 
-      <div className="my-3 flex flex-col gap-2">
-        <p className="text-md max-h-24 overflow-hidden text-ellipsis break-words font-normal">{props.content}</p>
+      <div className="my-2 flex flex-col gap-2">
+        <p className="text-md max-h-24 overflow-hidden text-ellipsis break-words px-4 font-normal">{props.content}</p>
 
         <CarouselCustomize images={props.imgUrls} />
       </div>
@@ -99,17 +99,17 @@ const PostCard = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex justify-between pt-2 text-sm font-semibold  ">
+        <div className="flex justify-between pt-2 text-sm font-semibold ">
           <Button className="border-none shadow-none">
-            <AiOutlineLike size={30} /> Thích
+            <AiOutlineLike size={20} /> Thích
           </Button>
 
           <Button className="border-none shadow-none" onClick={() => setIsOpenComment((prev) => !prev)}>
-            <MdOutlineModeComment size={30} /> Bình luận
+            <MdOutlineModeComment size={20} /> Bình luận
           </Button>
 
           <Button className="border-none shadow-none">
-            <TfiShare size={25} /> Chia sẻ
+            <TfiShare size={20} /> Chia sẻ
           </Button>
         </div>
       </div>

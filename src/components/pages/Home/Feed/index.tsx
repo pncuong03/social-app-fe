@@ -4,7 +4,7 @@ import Posts from "src/components/molecules/Posts";
 
 const Feed = () => {
   return (
-    <div className="mx-auto flex w-[45rem] flex-col gap-2 lg:mx-6">
+    <div className="lg:gap- mx-auto flex w-full flex-col gap-2 lg:w-[40rem]">
       <InputBox />
 
       <Posts />
