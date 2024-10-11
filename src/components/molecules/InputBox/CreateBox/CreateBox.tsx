@@ -52,8 +52,10 @@ const CreateBox = (props: Props) => {
   const handleSubmit = async () => {
     const payload = {
       fullName: props.fullName,
-      content: content,
-      privacy: privacy,
+      content,
+
+      privacy,
+
       images: fileList.map((file) => file.url || file.response?.url || ""),
     };
 

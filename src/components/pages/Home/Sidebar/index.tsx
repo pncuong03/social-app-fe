@@ -10,7 +10,7 @@ const Sidebar = () => {
   const { mode } = useColorScheme();
 
   const MENU_ITEMS = [
-    { name: "Friends", path: routesName.PROFILE, icon: UsersIcon },
+    { name: "Friends", path: routesName.FRIEND, icon: UsersIcon },
     { name: "Group", path: routesName.GROUP, icon: GroupIcon },
     { name: "Gmaing", path: routesName.GAMING, icon: GamingIcon },
   ];

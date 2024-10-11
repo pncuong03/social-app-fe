@@ -1,6 +1,7 @@
 import { useColorScheme } from "@mui/material";
 import React from "react";
 import { FiUser } from "react-icons/fi";
+import { CgWorkAlt } from "react-icons/cg";
 
 const Introduce = () => {
   const { mode } = useColorScheme();
@@ -18,6 +19,8 @@ const Introduce = () => {
 
         <div className="text-md flex flex-col space-y-4">
           <div className="flex items-center space-x-2">
+            <CgWorkAlt />
+
             <p>Software Engineer</p>
           </div>
 

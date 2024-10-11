@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PostCard from "./PostCard/PostCard";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "src/app/store";
+import { fetchPostPublic } from "src/slices/posts/postSlice";
 
 const Posts = () => {
   const posts = [
@@ -34,6 +37,15 @@ const Posts = () => {
       imgUrls: ["https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"],
     },
   ];
+
+  const dispatch = useDispatch<AppDispatch>();
+  const postPublic = useSelector((state: RootState) => state.post.postOfPublic);
+
+  console.log(postPublic);
+
+  useEffect(() => {
+    dispatch(fetchPostPublic());
+  }, [dispatch]);
 
   return (
     <div className="flex flex-col gap-3">
