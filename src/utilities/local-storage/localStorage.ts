@@ -1,6 +1,7 @@
 export enum LocalStorageKey {
   ACCESS_TOKEN = "ACCESS_TOKEN",
   IS_LOGIN = "IS_LOGIN",
+  USER = "USER",
 }
 
 export default class LocalStorage {

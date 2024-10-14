@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "antd";
-import Loading from "../Loading";
+import SpinCustomize from "../Spin";
 
 interface Props {
   children?: React.ReactNode;
@@ -28,7 +28,7 @@ const ModalCustomize = (props: Props) => {
       <div className="w-full">
         {props.loading && (
           <div className="absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-white bg-opacity-75">
-            <Loading />
+            <SpinCustomize />
           </div>
         )}
 

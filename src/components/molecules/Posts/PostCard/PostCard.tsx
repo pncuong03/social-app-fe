@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "antd";
-import { AiOutlineEllipsis, AiOutlineClose, AiOutlineLike } from "react-icons/ai";
-import { FcLike } from "react-icons/fc";
-import { MdPublic, MdOutlineModeComment } from "react-icons/md";
-import { TfiShare } from "react-icons/tfi";
 import CarouselCustomize from "src/components/atoms/Carousel";
 import { Collapse, useColorScheme } from "@mui/material";
-import Commnents from "../Comments";
+import Comments from "../Comments";
+import IconCustomize from "src/components/atoms/Icons";
+import ShareBox from "../Share";
 
 interface Props {
   fullName: string;
@@ -19,9 +18,17 @@ interface Props {
   commentCount: string;
   shareCount: string;
 }
+
 const PostCard = (props: Props) => {
   const { mode } = useColorScheme();
+  const { t } = useTranslation();
   const [isOpenComment, setIsOpenComment] = useState(false);
+  const [isOpenShare, setIsOpenShare] = useState(false);
+
+  const user = {
+    fullName: "Cường",
+    imageUrl: "./img/avatar.png",
+  };
 
   const comments = [
     {
@@ -58,18 +65,18 @@ const PostCard = (props: Props) => {
             <div className="flex gap-3">
               <span className="text-xs text-gray-400">{props.createdAt}</span>
 
-              <MdPublic />
+              <IconCustomize name="pubic" />
             </div>
           </div>
         </Link>
 
         <div className="flex p-2">
           <Button className="border-none shadow-none">
-            <AiOutlineEllipsis />
+            <IconCustomize name="ellipsis" />
           </Button>
 
           <Button className="border-none shadow-none">
-            <AiOutlineClose />
+            <IconCustomize name="close" />
           </Button>
         </div>
       </div>
@@ -85,7 +92,7 @@ const PostCard = (props: Props) => {
           <div className="flex items-center">
             <div className="flex items-center">
               <button className="ml-1 flex items-center gap-2">
-                <FcLike size={25} />
+                <IconCustomize name="heart" size={25} color="red" />
 
                 <p className="font-inherit text-gray-400">{props.likeCount}</p>
               </button>
@@ -101,22 +108,35 @@ const PostCard = (props: Props) => {
 
         <div className="flex justify-between pt-2 text-sm font-semibold ">
           <Button className="border-none shadow-none">
-            <AiOutlineLike size={20} /> Thích
+            <IconCustomize name="like" size={20} /> 
+            
+            {t("home.like")}
           </Button>
 
           <Button className="border-none shadow-none" onClick={() => setIsOpenComment((prev) => !prev)}>
-            <MdOutlineModeComment size={20} /> Bình luận
+            <IconCustomize name="comment" size={20} /> 
+            
+            {t("home.comment")}
           </Button>
 
-          <Button className="border-none shadow-none">
-            <TfiShare size={20} /> Chia sẻ
+          <Button className="border-none shadow-none" onClick={() => setIsOpenShare(true)}>
+            <IconCustomize name="share" size={20} /> 
+            
+            {t("home.share")}
           </Button>
         </div>
       </div>
 
-      <Collapse in={isOpenComment}>
-        <Commnents comments={comments} />
+      <Collapse in={isOpenComment} timeout="auto">
+        <Comments comments={comments} />
       </Collapse>
+
+      <ShareBox
+        open={isOpenShare}
+        onCancel={() => setIsOpenShare(false)}
+        fullName={user.fullName}
+        imageUrl={user.imageUrl}
+      />
     </div>
   );
 };

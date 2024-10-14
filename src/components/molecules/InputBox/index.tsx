@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import { useColorScheme } from "@mui/material";
 import CreateBox from "./CreateBox/CreateBox";
+import IconCustomize from "src/components/atoms/Icons";
 
 const InputBox = () => {
   const { mode } = useColorScheme();
+  const { t } = useTranslation();
   const [isVisiable, setIsVisiable] = useState(false);
 
   const user = {
@@ -29,21 +32,27 @@ const InputBox = () => {
           } pl-5 text-left font-normal text-gray-400 `}
           onClick={() => setIsVisiable(true)}
         >
-          Cường, bạn đang nghĩ gì thế ?
+          Cường, {t("home.whatmind")}
         </button>
       </div>
 
       <div className="mb-1 flex justify-between text-sm">
-        <Button className="gap-2 rounded-md">
+        <Button className="gap-2 rounded-md border-none shadow-none">
+          <IconCustomize name="youtube" size={25} color="#DC143C" />
+
           <p className="font-semibold">Youtube</p>
         </Button>
 
-        <Button className="gap-2 rounded-md">
-          <p className="font-semibold">Ảnh</p>
+        <Button className="gap-2 rounded-md border-none shadow-none">
+          <IconCustomize name="image" size={25} color="#90EE90" />
+
+          <p className="font-semibold">{t('home.images')}</p>
         </Button>
 
-        <Button className="hidden gap-2 rounded-md md:flex">
-          <p className="font-semibold">Cảm thây</p>
+        <Button className="hidden gap-2 rounded-md border-none shadow-none md:flex">
+          <IconCustomize name="happy" size={25} color="#FFDEAD" />
+
+          <p className="font-semibold">{t('home.feelings')}</p>
         </Button>
       </div>
 

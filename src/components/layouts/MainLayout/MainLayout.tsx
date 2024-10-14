@@ -10,7 +10,7 @@ const MainLayout: React.FC = () => {
     <div className={`min-h-screen ${mode === "dark" ? "bg-dark" : "bg-light"}`}>
       <Header />
 
-      <main className="mx-auto w-full pt-20">
+      <main className="w-full pt-20">
         <Outlet />
       </main>
     </div>

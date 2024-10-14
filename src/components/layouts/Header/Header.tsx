@@ -1,28 +1,54 @@
 import React from "react";
-import { useColorScheme } from "@mui/material";
 import clsx from "clsx";
-import { Link, useLocation } from "react-router-dom";
-import { HomeIcon } from "src/components/atoms/Icons/HomeIcon";
-import { WatchIcon } from "src/components/atoms/Icons/WatchIcon";
+import { Button } from "antd";
+import { useTranslation } from "react-i18next";
+import { useColorScheme } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import routesName from "src/routes/enum.routes";
-import MaterialUISwitch from "src/components/molecules/SwitchDarkMode/SwitchDarkMode";
+import CustomDropdown from "src/components/atoms/Dropdown";
+import IconCustomize from "src/components/atoms/Icons";
+import DrawerLanguage from "src/components/atoms/Drawer";
+import { changeLanguage } from "i18next";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "src/app/store";
+import { logOut } from "src/slices/login/loginSlice";
+import { toast } from "react-toastify";
 
-const MENU_ITEMS = [
-  { name: "Home", path: routesName.HOME, icon: HomeIcon },
-  { name: "Watch", path: routesName.WATCH, icon: WatchIcon },
+const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
+
+const languages = [
+  { text: "Vietnamese", onClick: () => changeLanguage("vi") },
+  { text: "English", onClick: () => changeLanguage("en") },
 ];
 
 const Header = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { mode } = useColorScheme();
   const { pathname } = useLocation();
-  const { mode, setMode } = useColorScheme();
+  const { t } = useTranslation();
 
-  const toggleMode = () => {
-    if (mode === "dark") {
-      setMode("light");
-    } else {
-      setMode("dark");
-    }
+  const handleLogout = () => {
+    console.log("logout");
+    
+    dispatch(logOut());
+    toast.success(t('home.logout'));
+    navigate('/login');
   };
+
+  const MENU_PROFILE = [
+    {
+      key: "1",
+      label: "Friends",
+      path: routesName.FRIEND,
+      icon: <IconCustomize name="friend" size={30} color="#00FF7F" />,
+    },
+    { key: "2", label: t('home.groups'), path: routesName.GROUP, icon: <IconCustomize name="group" size={30} color="#1E90FF" /> },
+    
+    { key: "3", label: "Watch", path: routesName.WATCH, icon: <IconCustomize name="friend" size={30} /> },
+    
+    { key: "4", label: t('home.logout'), onClick: handleLogout },
+  ];
 
   return (
     <header
@@ -40,7 +66,7 @@ const Header = () => {
         </div>
       </div>
 
-      <nav className="hidden md:flex  lg:gap-10 ">
+      <nav className="hidden md:flex lg:gap-10 ">
         {MENU_ITEMS.map((item, index) => (
           <div key={index}>
             <Link
@@ -55,24 +81,29 @@ const Header = () => {
                   mode === "light" ? "hover:bg-gray-100" : " hover:bg-neutral-600"
                 }`}
               >
-                <div className="relative flex h-auto w-14 items-center justify-center">
-                  {item.icon && <item.icon />}
-                </div>
+                <div className="relative flex h-auto w-14 items-center justify-center">{item.icon}</div>
               </div>
             </Link>
           </div>
         ))}
       </nav>
 
-      <div className="col-span-2 flex items-center justify-end">
-        <div className="flex h-10 w-auto items-center gap-2">
-          <MaterialUISwitch
-            onClick={toggleMode}
-            sx={{ my: 0 }}
-            size="medium"
-            checked={mode === "light" ? true : false}
-          />
-        </div>
+      <div className="flex items-center justify-end gap-2">
+        <DrawerLanguage menuItems={languages} />
+
+        <Button className="h-12 w-12 rounded-full bg-gray-200 !p-0">
+          <IconCustomize name="message" size={25} color="black" />
+        </Button>
+
+        <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
+          <IconCustomize name="notification" size={25} color="black" />
+        </Button>
+
+        <CustomDropdown items={MENU_PROFILE} loading={false}>
+          <button className=" h-12 w-12 rounded-full">
+            <img src="https://picsum.photos/200/300" className="h-12 w-12 rounded-full" />
+          </button>
+        </CustomDropdown>
       </div>
     </header>
   );
