@@ -9,6 +9,8 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import theme from "./theme";
 import initRequest from "./utilities/services/initRequest";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -18,9 +20,11 @@ initRequest();
 root.render(
   <Provider store={store}>
     <CssVarsProvider theme={theme}>
-      <CssBaseline />
+      <I18nextProvider i18n={i18n}>
+        <CssBaseline />
 
-      <App />
+        <App />
+      </I18nextProvider>
     </CssVarsProvider>
   </Provider>
 );

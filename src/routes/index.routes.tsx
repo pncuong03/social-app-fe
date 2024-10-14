@@ -1,11 +1,12 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "src/components/layouts/MainLayout";
-import Loading from "src/components/atoms/Loading";
+import Loading from "src/components/atoms/Spin";
 import LoginPage from "src/components/pages/Login";
 import RegisterPage from "src/components/pages/Register";
 import PrivateRoute from "./privateRoute";
 import routesName from "./enum.routes";
+import NotFound from "src/components/atoms/NotFound";
 
 const HomePage = React.lazy(() => import("src/components/pages/Home"));
 const ProfilePage = React.lazy(() => import("src/components/pages/Profile"));
@@ -19,14 +20,7 @@ function RoutesApp() {
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route
-            path="/404"
-            element={
-              <div className="flex h-[100vh] w-full items-center justify-center">
-                <p className="text-50px font-bold text-primary">404</p>
-              </div>
-            }
-          />
+          <Route path="/404" element={<NotFound />} />
 
           <Route path={routesName.LOGIN} element={<LoginPage />} />
 

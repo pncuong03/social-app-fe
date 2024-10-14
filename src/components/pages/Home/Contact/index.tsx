@@ -1,10 +1,12 @@
 import React from "react";
 import { useColorScheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 
 const Contact = () => {
   const { mode } = useColorScheme();
+  const {t} = useTranslation();
 
   const friends = [
     {
@@ -31,7 +33,7 @@ const Contact = () => {
       } p-3 shadow-sm hover:overflow-y-auto xl:flex `}
     >
       <div className="flex items-center justify-between">
-        <p className="text-lg font-semibold ">Lien he</p>
+        <p className="text-lg font-semibold ">{t('home.contact')}</p>
 
         <div className="space-x-3S flex items-center">
           {/* <Button className='rounded-full'>

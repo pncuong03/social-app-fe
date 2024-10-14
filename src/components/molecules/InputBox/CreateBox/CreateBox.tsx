@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Button, GetProp, Image, Select, Upload, UploadFile, UploadProps } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
+import { Button, GetProp, Image, Select, Spin, Upload, UploadFile, UploadProps } from "antd";
 import ModalCustomize from "src/components/atoms/Modal";
-import { MdPrivateConnectivity, MdPublic } from "react-icons/md";
-import TextArea from "antd/es/input/TextArea";
+import IconCustomize from "src/components/atoms/Icons";
 
 interface Props {
   fullName: string;
@@ -24,11 +23,13 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 
 const CreateBox = (props: Props) => {
+  const { t } = useTranslation();
   const [content, setContent] = useState("");
-  const [privacy, setPrivacy] = useState("Công khai");
+  const [privacy, setPrivacy] = useState(t("PUBLIC"));
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -50,12 +51,18 @@ const CreateBox = (props: Props) => {
   const handleChanges: UploadProps["onChange"] = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const handleSubmit = async () => {
+    if (content.trim()) {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setContent("");
+      }, 2000);
+    }
+
     const payload = {
       fullName: props.fullName,
       content,
-
       privacy,
-
       images: fileList.map((file) => file.url || file.response?.url || ""),
     };
 
@@ -63,16 +70,16 @@ const CreateBox = (props: Props) => {
   };
 
   const uploadButton = (
-    <button style={{ border: 0, background: "none" }} type="button">
-      <PlusOutlined />
+    <button className="h-full w-full" type="button">
+      <IconCustomize name="plus" />
 
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div className="mt-2">{t("home.addimage")}</div>
     </button>
   );
 
   return (
-    <ModalCustomize title="Đăng bài viết" open={props.open} onCancel={props.onCancel}>
-      <div className="mb-2 border-t">
+    <ModalCustomize title={t("home.postarticle")} open={props.open} onCancel={props.onCancel}>
+      <div className="mb-2 border-t-2">
         <div className="my-4 flex items-center gap-3">
           <div className="rounded-full ">
             <img src={props?.imageUrl} className="h-14 w-14 rounded-full" />
@@ -84,12 +91,12 @@ const CreateBox = (props: Props) => {
             <Select
               labelInValue
               defaultValue={{
-                value: "Công khai",
+                value: "PUBIC",
                 label: (
                   <span className="flex items-center justify-between">
-                    <p>PUBLIC</p>
+                    <p>{t("home.public")}</p>
 
-                    <MdPublic />
+                    <IconCustomize name="public" />
                   </span>
                 ),
               }}
@@ -98,22 +105,22 @@ const CreateBox = (props: Props) => {
               suffixIcon={null}
               options={[
                 {
-                  value: "Công khai",
+                  value: "PUBIC",
                   label: (
                     <span className="flex items-center justify-between">
-                      <p>PUBLIC</p>
+                      <p>{t("home.public")}</p>
 
-                      <MdPublic />
+                      <IconCustomize name="public" />
                     </span>
                   ),
                 },
                 {
-                  value: "Riêng tư",
+                  value: "PRIVATE",
                   label: (
                     <span className="flex items-center justify-between">
-                      <p>PRIVATE</p>
+                      <p>{t("home.private")}</p>
 
-                      <MdPrivateConnectivity />
+                      <IconCustomize name="private" />
                     </span>
                   ),
                 },
@@ -122,11 +129,10 @@ const CreateBox = (props: Props) => {
           </div>
         </div>
 
-        <TextArea
+        <textarea
           value={content}
           onChange={handleContentChange}
-          placeholder="What's on your mind?"
-          autoSize={{ minRows: 3, maxRows: 5 }}
+          placeholder={t("home.whatmind")}
           className="mt-2 w-full resize-none rounded-md border-none p-2 shadow-none outline-none"
         />
 
@@ -154,10 +160,21 @@ const CreateBox = (props: Props) => {
           )}
         </div>
 
-        <div className="mt-4 flex justify-end">
-          <Button color="default" variant="solid" onClick={handleSubmit}>
-            Đăng
-          </Button>
+        <div className="mt-4 flex justify-center">
+          {loading ? (
+            <Spin />
+          ) : (
+            <Button
+              className="w-full"
+              color="default"
+              variant="solid"
+              type="default"
+              onClick={handleSubmit}
+              disabled={!content.trim() || loading}
+            >
+              {t("home.post")}
+            </Button>
+          )}
         </div>
       </div>
     </ModalCustomize>

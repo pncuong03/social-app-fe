@@ -1,25 +1,29 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { FaUserFriends } from "react-icons/fa";
-import routesName from "src/routes/enum.routes";
+import { useTranslation } from "react-i18next";
 import { useColorScheme } from "@mui/material";
+import routesName from "src/routes/enum.routes";
 import MenuCustomzie from "src/components/atoms/Menu";
+import IconCustomize from "src/components/atoms/Icons";
 
-const items = [
-  {
-    key: routesName.FRIEND,
-    label: "Trang chủ",
-  },
-  {
-    key: routesName.FRIENDLIST,
-    label: "Tất cả bạn bè",
-    icon: <FaUserFriends size={30} />,
-  },
-];
+
 
 const FriendsPage: React.FC = () => {
   const { mode } = useColorScheme();
+  const {t} = useTranslation();
 
+  const items = [
+    {
+      key: routesName.FRIEND,
+      label: t('friend.home'),
+    },
+    {
+      key: routesName.FRIENDLIST,
+      label: t('friend.allfriends'),
+      icon: <IconCustomize name="friend" size={30} color="#00FF7F" />,
+    },
+  ];
+  
   return (
     <div className="flex flex-col">
       <div

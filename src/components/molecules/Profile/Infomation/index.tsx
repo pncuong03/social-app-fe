@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useColorScheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Avatar, Button, Image, Upload } from "antd";
-import { CameraOutlined } from "@ant-design/icons";
+import IconCustomize from "src/components/atoms/Icons";
+import EditProfile from "../Edit";
 
 interface Props {
   user: {
@@ -15,6 +17,10 @@ interface Props {
 }
 const Information = (props: Props) => {
   const { mode } = useColorScheme();
+  const { t } = useTranslation();
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+
+
   const uploadProps = {
     showUploadList: false,
     beforeUpload: (file: any) => {
@@ -38,9 +44,9 @@ const Information = (props: Props) => {
           <div className="absolute bottom-[10px] right-[30px]">
             <Upload {...uploadProps}>
               <Button className="rounded-md bg-neutral-400 px-1 text-neutral-100">
-                <CameraOutlined />
+                <IconCustomize name="camera" />
 
-                <p className="hidden md:flex">Sua anh bia</p>
+                <p className="hidden md:flex">{t('profile.editcover')}</p>
               </Button>
             </Upload>
           </div>
@@ -62,7 +68,7 @@ const Information = (props: Props) => {
 
             <Upload {...uploadProps}>
               <Button className="absolute bottom-2 right-1 w-[2rem] cursor-pointer rounded-full bg-gray-200 p-1">
-                <CameraOutlined />
+                <IconCustomize name="camera" />
               </Button>
             </Upload>
           </div>
@@ -70,7 +76,7 @@ const Information = (props: Props) => {
           <div className="mt-4 ml-2 flex flex-col items-center lg:mt-10 lg:items-start">
             <p className="text-[2rem] font-bold ">{props.user?.fullName}</p>
 
-            <button className="cursor-pointer text-sm font-semibold text-gray-400 ">222 ban be</button>
+            <button className="cursor-pointer text-sm font-semibold text-gray-400 ">222 {t('home.friends')}</button>
 
             <Avatar.Group
               max={{
@@ -92,12 +98,18 @@ const Information = (props: Props) => {
           <Button
             className={`w-full rounded-md px-3 font-semibold ${
               mode === "light" ? "bg-neutral-400 " : "bg-neutral-700"
-            }`}
+            }`}  onClick={() => setIsOpenEdit(true)}
+
           >
-            <p className="text-lg">Sửa </p>
+            <p className="text-lg">{t('profile.editprofile')} </p>
           </Button>
         </div>
       </div>
+
+      <EditProfile
+        open={isOpenEdit}
+        onCancel={() => setIsOpenEdit(false)}
+      />
     </div>
   );
 };

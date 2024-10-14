@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "antd";
-import { AiOutlineEllipsis } from "react-icons/ai";
-import { BsSend } from "react-icons/bs";
-import Loading from "src/components/atoms/Loading";
-import ModalCustomize from "src/components/atoms/Modal";
+import { Button, Spin } from "antd";
+import PopconfirmCustomize from "src/components/atoms/Popconfirm";
+import IconCustomize from "src/components/atoms/Icons";
 
 interface Props {
   comments: {
@@ -17,21 +15,6 @@ interface Props {
 const Comments = (props: Props) => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-    // setLoading(true);
-    // Simulate loading time, e.g., fetching data
-    // setTimeout(() => {
-    //   // setLoading(false);
-    //   setIsModalOpen(true);
-    // }, 1000);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -48,7 +31,7 @@ const Comments = (props: Props) => {
   };
 
   return (
-    <div className="max-h-96 overflow-y-auto md:max-h-[450px] xl:max-h-[600px]">
+    <div className="max-h-96 overflow-y-auto  md:max-h-[450px] xl:max-h-[600px]">
       <div className="mt-4 flex flex-col gap-2">
         {props.comments?.map((comment) => (
           <div key={comment.id} className="pb-2">
@@ -61,9 +44,11 @@ const Comments = (props: Props) => {
                 <p className="text-sm">{comment.comment}</p>
               </div>
 
-              <button className=" p-3 hover:visible group-hover:block" onClick={showModal}>
-                <AiOutlineEllipsis />
-              </button>
+              <PopconfirmCustomize title="Bạn muốn xóa bình luận này không?" icon={null} okText="Xoa" cancelText="Huy">
+                <Button className="border-none p-3 shadow-none">
+                  <IconCustomize name="ellipsis" size={20} />
+                </Button>
+              </PopconfirmCustomize>
             </div>
           </div>
         ))}
@@ -79,21 +64,9 @@ const Comments = (props: Props) => {
         />
 
         <button className="border-none bg-white shadow-none" onClick={handleAddComment} disabled={loading}>
-          {loading ? <Loading /> : <BsSend size={30} />}
+          {loading ? <Spin /> : <IconCustomize name="send" size={25} />}
         </button>
       </div>
-
-      <ModalCustomize title="Ban có muốn xóa bình luận này không?" open={isModalOpen} closable={false} size={400}>
-        <div className="flex items-center justify-end gap-3">
-          <Button color="danger" variant="solid">
-            Xác nhận
-          </Button>
-
-          <Button color="default" variant="solid" onClick={handleCancel}>
-            Hủy
-          </Button>
-        </div>
-      </ModalCustomize>
     </div>
   );
 };

@@ -1,0 +1,32 @@
+{
+  "home": {
+    "friends": "Friends",
+    "groups": "Groups",
+    "contact": "Contact",
+    "images": "Images",
+    "feelings": "Feelings",
+    "whatmind": "what's on your mind?",
+    "postarticle": "Post articles",
+    "shareartice": "Share articles",
+    "public": "Public",
+    "private": "Private",
+    "post": "Post",
+    "share": "Share",
+    "like": "Like",
+    "comment": "Comment",
+    "addimage": "Add image",
+    "logout": "Logout"
+  },
+  "friend": {
+    "home": "Home",
+    "allfriends": "All friends",
+    "friendrequest": "Friend invitation",
+    "listfriend": "List of friends"
+  },
+  "profile": {
+    "editprofile": "Edit profile",
+    "editcover" : "Edit cover",
+    "intro": "Introduction"
+  }
+  
+}

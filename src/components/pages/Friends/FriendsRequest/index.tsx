@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import FriendCard from "src/components/molecules/Friend/FriendCard";
 
 const FriendsRequest = () => {
+  const {t} = useTranslation();
   const friendsRequest = [
     {
       id: 1,
@@ -87,7 +89,7 @@ const FriendsRequest = () => {
 
   return (
     <div className="">
-      <h2 className="p-6 text-xl font-medium md:p-2 lg:px-10 xl:px-2">Lời mời kết bạn</h2>
+      <h2 className="p-6 text-xl font-medium md:p-2 lg:px-10 xl:px-2">{t('friend.friendrequest')}</h2>
 
       <div className="flex flex-wrap justify-center gap-4 xl:justify-start">
         {friendsRequest.map((friend) => {
