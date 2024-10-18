@@ -79,7 +79,7 @@ const CreateBox = (props: Props) => {
 
   return (
     <ModalCustomize title={t("home.postarticle")} open={props.open} onCancel={props.onCancel}>
-      <div className="mb-2 border-t-2">
+      <div className="mb-2">
         <div className="my-4 flex items-center gap-3">
           <div className="rounded-full ">
             <img src={props?.imageUrl} className="h-14 w-14 rounded-full" />

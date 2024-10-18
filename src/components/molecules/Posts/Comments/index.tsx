@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Spin } from "antd";
+import { useTranslation } from "react-i18next";
 import PopconfirmCustomize from "src/components/atoms/Popconfirm";
 import IconCustomize from "src/components/atoms/Icons";
 
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const Comments = (props: Props) => {
+  const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +46,12 @@ const Comments = (props: Props) => {
                 <p className="text-sm">{comment.comment}</p>
               </div>
 
-              <PopconfirmCustomize title="Bạn muốn xóa bình luận này không?" icon={null} okText="Xoa" cancelText="Huy">
+              <PopconfirmCustomize
+                title={t("home.deletecomment")}
+                icon={null}
+                okText={t("friend.delete")}
+                cancelText={t("friend.cancel")}
+              >
                 <Button className="border-none p-3 shadow-none">
                   <IconCustomize name="ellipsis" size={20} />
                 </Button>

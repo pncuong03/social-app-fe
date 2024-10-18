@@ -27,3 +27,8 @@ export interface IComment {
   createdAt: string;
   canDelete: boolean;
 }
+
+export enum State {
+  PUBLIC = "PUBLIC",
+  PRIVATE = "PRIVATE",
+}

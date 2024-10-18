@@ -4,7 +4,7 @@ import { Spin } from "antd";
 const SpinCustomize = () => {
   return (
     <div className="flex h-screen items-center justify-center">
-      <Spin size="large" delay={300} />
+      <Spin size="large" />
     </div>
   );
 };

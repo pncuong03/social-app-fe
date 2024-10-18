@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Dropdown, Menu, Spin } from "antd";
+import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
+import PopoverCustomize from "../Popover";
 
 interface DropdownItem {
   key: string;
@@ -8,6 +9,7 @@ interface DropdownItem {
   onClick?: () => void;
   path?: string;
   icon?: React.ReactNode;
+  image?: string;
 }
 
 interface Props {
@@ -22,8 +24,6 @@ const CustomDropdown: React.FC<Props> = (props) => {
   const navigate = useNavigate();
 
   const handleMenuClick = (item: DropdownItem) => {
-    setVisible(false);
-
     if (item.path) {
       navigate(item.path);
     }
@@ -31,18 +31,28 @@ const CustomDropdown: React.FC<Props> = (props) => {
     if (item.onClick) {
       item.onClick();
     }
+
+    setVisible(false);
+  };
+
+  const handleVisibleChange = (flag: boolean) => {
+    setVisible(flag);
   };
 
   const menu = (
     <Menu className="h-auto w-80">
       {props.items.map((item) => (
         <Menu.Item
-          style={{ fontSize: "30px" }}
-          className="flex items-center text-lg"
+          style={{ fontSize: "25px" }}
+          className="flex items-center"
           key={item.key}
           onClick={() => handleMenuClick(item)}
         >
-          {item.icon && <span className="mr-2">{item.icon}</span>}
+          {item.image ? (
+            <img src={item.image} className="mr-4 h-10 w-10 rounded-full object-cover" />
+          ) : (
+            <span className="mr-3">{item.icon}</span>
+          )}
 
           {item.label}
         </Menu.Item>
@@ -51,17 +61,9 @@ const CustomDropdown: React.FC<Props> = (props) => {
   );
 
   return (
-    <>
-      <Dropdown overlay={menu} visible={visible} onVisibleChange={(flag) => setVisible(flag)} trigger={["click"]}>
-        {props.children}
-      </Dropdown>
-
-      {props.loading && (
-        <div className="loading-overlay">
-          <Spin />
-        </div>
-      )}
-    </>
+    <PopoverCustomize content={menu} title="Menu" visible={visible} onVisibleChange={handleVisibleChange}>
+      {props.children}
+    </PopoverCustomize>
   );
 };
 

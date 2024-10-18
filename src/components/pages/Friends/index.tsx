@@ -6,24 +6,22 @@ import routesName from "src/routes/enum.routes";
 import MenuCustomzie from "src/components/atoms/Menu";
 import IconCustomize from "src/components/atoms/Icons";
 
-
-
-const FriendsPage: React.FC = () => {
+const FriendsPage = () => {
   const { mode } = useColorScheme();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const items = [
     {
-      key: routesName.FRIEND,
-      label: t('friend.home'),
+      key: routesName.FRIENDS,
+      label: t("friend.home"),
     },
     {
       key: routesName.FRIENDLIST,
-      label: t('friend.allfriends'),
+      label: t("friend.allfriends"),
       icon: <IconCustomize name="friend" size={30} color="#00FF7F" />,
     },
   ];
-  
+
   return (
     <div className="flex flex-col">
       <div
@@ -31,10 +29,12 @@ const FriendsPage: React.FC = () => {
           mode === "light" ? "bg-white" : "bg-black-300"
         }`}
       >
-        <MenuCustomzie items={items} defaultSelectedKey={routesName.FRIEND} />
+        <h2 className="ml-4 text-3xl font-medium">{t("home.friends")}</h2>
+
+        <MenuCustomzie items={items} defaultSelectedKey={routesName.FRIENDS} />
       </div>
 
-      <div className="pt-32 lg:pt-0 lg:pl-96 xl:mx-16">
+      <div className="pt-40 lg:pt-0 lg:pl-96 xl:mx-16">
         <Outlet />
       </div>
     </div>

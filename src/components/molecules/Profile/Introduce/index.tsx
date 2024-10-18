@@ -12,23 +12,23 @@ const Introduce = () => {
       <div
         className={`flex flex-col gap-4 rounded-lg  p-3 shadow-md ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}
       >
-        <p className="text-xl font-bold ">{t('profile.intro')}</p>
+        <p className="text-xl font-medium">{t("profile.intro")}</p>
 
         <div className="flex justify-center">
-          <p className="text-md">Dang cap</p>
+          <p className="text-lg font-light">Dang cap</p>
         </div>
 
         <div className="text-md flex flex-col space-y-4">
           <div className="flex items-center space-x-2">
-            <IconCustomize name="work" />
+            <IconCustomize name="work" size={25} />
 
-            <p>Software Engineer</p>
+            <p className="text-lg font-light">Software Engineer</p>
           </div>
 
           <div className="flex items-center space-x-2">
-            <IconCustomize name="male" />
+            <IconCustomize name="male" size={25} />
 
-            <p>Nam</p>
+            <p className="text-lg font-light">Nam</p>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@ const Introduce = () => {
         className={`flex flex-col gap-4 rounded-lg p-3 shadow-md  ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}
       >
         <div className="flex items-center justify-between">
-          <p className="text-xl font-bold ">{t('home.images')}</p>
+          <p className="text-xl font-medium">{t("home.images")}</p>
         </div>
 
         <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md">
@@ -54,9 +54,9 @@ const Introduce = () => {
       >
         <div className="flex justify-between">
           <div>
-            <p className="text-xl font-bold ">{t('home.friends')}</p>
+            <p className="text-xl font-medium">{t("home.friends")}</p>
 
-            <p className="text-sm text-gray-400">100 {t('home.friends')}</p>
+            <p className="text-sm text-gray-400">100 {t("home.friends")}</p>
           </div>
         </div>
 

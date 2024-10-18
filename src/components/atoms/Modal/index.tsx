@@ -16,7 +16,7 @@ interface Props {
 const ModalCustomize = (props: Props) => {
   return (
     <Modal
-      title={props.title}
+      title={<h2 className="border-b-2 pb-2 text-2xl">{props.title}</h2>}
       open={props.open}
       onCancel={props.onCancel}
       centered

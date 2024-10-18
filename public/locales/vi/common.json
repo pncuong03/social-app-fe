@@ -15,18 +15,38 @@
     "like": "Thích",
     "comment": "Bình luận",
     "addimage": "Thêm ảnh",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "deletecomment": "Bạn có muốn xóa bình luận này không?",
+    "shortcut": "Lối tắt của bạn",
+    "personal": "Trang cá nhân",
+    "offinfo": "Tắt thông báo",
+    "search": "Tìm kiếm"
   },
   "friend": {
     "home": "Trang chủ",
     "allfriends": "Tất cả bạn bè",
     "friendrequest": "Lời mời kết bạn",
-    "listfriend": "Danh sách bạn bè"
+    "listfriend": "Danh sách bạn bè",
+    "accept":"Chấp nhận",
+    "delete": "Xóa",
+    "cancel": "Hủy",
+    "unfriend": "Hủy kết bạn",
+    "deletefriend": "Bạn có muốn hủy kết bạn này không?"
+
   },
   "profile": {
     "editprofile": "Chỉnh sửa trang cá nhân",
     "editcover" : "Sửa ảnh bìa",
     "intro": "Giới thiệu"
+  },
+  "message": {
+    
+    "message": "Tin nhắn",
+    "newmessage": "Tin nhắn mới",
+    "send": "Gửi",
+    "delete": "Xóa",
+    "deletechat": "Bạn có muốn xóa cuộc trò chuyện này không?"
+
   }
   
 }

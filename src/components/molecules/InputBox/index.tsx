@@ -37,22 +37,22 @@ const InputBox = () => {
       </div>
 
       <div className="mb-1 flex justify-between text-sm">
-        <Button className="gap-2 rounded-md border-none shadow-none">
+        <Button className="gap-2 rounded-md border-none shadow-none" onClick={() => setIsVisiable(true)}>
           <IconCustomize name="youtube" size={25} color="#DC143C" />
 
-          <p className="font-semibold">Youtube</p>
+          <p className="font-semibold text-gray-400">Youtube</p>
         </Button>
 
-        <Button className="gap-2 rounded-md border-none shadow-none">
+        <Button className="gap-2 rounded-md border-none shadow-none" onClick={() => setIsVisiable(true)}>
           <IconCustomize name="image" size={25} color="#90EE90" />
 
-          <p className="font-semibold">{t('home.images')}</p>
+          <p className="font-semibold text-gray-400">{t("home.images")}</p>
         </Button>
 
-        <Button className="hidden gap-2 rounded-md border-none shadow-none md:flex">
+        <Button className="hidden gap-2 rounded-md border-none shadow-none md:flex" onClick={() => setIsVisiable(true)}>
           <IconCustomize name="happy" size={25} color="#FFDEAD" />
 
-          <p className="font-semibold">{t('home.feelings')}</p>
+          <p className="font-semibold text-gray-400">{t("home.feelings")}</p>
         </Button>
       </div>
 

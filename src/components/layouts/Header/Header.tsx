@@ -8,17 +8,46 @@ import routesName from "src/routes/enum.routes";
 import CustomDropdown from "src/components/atoms/Dropdown";
 import IconCustomize from "src/components/atoms/Icons";
 import DrawerLanguage from "src/components/atoms/Drawer";
-import { changeLanguage } from "i18next";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { logOut } from "src/slices/login/loginSlice";
 import { toast } from "react-toastify";
+import NotificationList from "src/components/molecules/Notification";
+import SearchUser from "src/components/molecules/Search/SearchUser";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
 
-const languages = [
-  { text: "Vietnamese", onClick: () => changeLanguage("vi") },
-  { text: "English", onClick: () => changeLanguage("en") },
+const notifications = [
+  {
+    title: "Thông báo 1",
+    description: "Đây là nội dung thông báo số 1.",
+    avatar: "https://via.placeholder.com/40",
+  },
+  {
+    title: "Thông báo 2",
+    description: "Đây là nội dung thông báo số 2.",
+    avatar: "https://via.placeholder.com/40",
+  },
+  {
+    title: "Thông báo 3",
+    description: "Đây là nội dung thông báo số 1.",
+    avatar: "https://via.placeholder.com/40",
+  },
+  {
+    title: "Thông báo 4",
+    description: "Đây là nội dung thông báo số 2.",
+    avatar: "https://via.placeholder.com/40",
+  },
+  {
+    title: "Thông báo 5",
+    description: "Đây là nội dung thông báo số 1.",
+    avatar: "https://via.placeholder.com/40",
+  },
+  {
+    title: "Thông báo 6",
+    description: "Đây là nội dung thông báo số 2.",
+    avatar: "https://via.placeholder.com/40",
+  },
 ];
 
 const Header = () => {
@@ -30,24 +59,35 @@ const Header = () => {
 
   const handleLogout = () => {
     console.log("logout");
-    
+
     dispatch(logOut());
-    toast.success(t('home.logout'));
-    navigate('/login');
+    toast.success(t("home.logout"));
+    navigate(routesName.LOGIN);
   };
 
   const MENU_PROFILE = [
     {
+      key: "0",
+      label: "Pham Ngoc Cuong",
+      path: routesName.PROFILE,
+      image: "./img/avatar.png",
+    },
+    {
       key: "1",
       label: "Friends",
-      path: routesName.FRIEND,
+      path: routesName.FRIENDS,
       icon: <IconCustomize name="friend" size={30} color="#00FF7F" />,
     },
-    { key: "2", label: t('home.groups'), path: routesName.GROUP, icon: <IconCustomize name="group" size={30} color="#1E90FF" /> },
-    
+    {
+      key: "2",
+      label: t("home.groups"),
+      path: routesName.GROUPS,
+      icon: <IconCustomize name="group" size={30} color="#1E90FF" />,
+    },
+
     { key: "3", label: "Watch", path: routesName.WATCH, icon: <IconCustomize name="friend" size={30} /> },
-    
-    { key: "4", label: t('home.logout'), onClick: handleLogout },
+
+    { key: "4", label: t("home.logout"), onClick: handleLogout, icon: <IconCustomize name="logout" size={30} /> },
   ];
 
   return (
@@ -59,10 +99,12 @@ const Header = () => {
       <div className="col-span-2 flex items-center">
         <div className="ml-2 flex items-center gap-2">
           <div className="">
-            <Link to="/">
+            <Link to={routesName.HOME}>
               <img src="/img/logo.png" className="h-[50px] w-[50px] rounded-full" alt="dp" />
             </Link>
           </div>
+
+          <SearchUser />
         </div>
       </div>
 
@@ -89,15 +131,17 @@ const Header = () => {
       </nav>
 
       <div className="flex items-center justify-end gap-2">
-        <DrawerLanguage menuItems={languages} />
+        <DrawerLanguage />
 
-        <Button className="h-12 w-12 rounded-full bg-gray-200 !p-0">
+        <Button className="h-12 w-12 rounded-full bg-gray-200 !p-0" onClick={() => navigate(routesName.MESSAGES)}>
           <IconCustomize name="message" size={25} color="black" />
         </Button>
 
-        <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
-          <IconCustomize name="notification" size={25} color="black" />
-        </Button>
+        <NotificationList notifications={notifications}>
+          <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
+            <IconCustomize name="notification" size={25} color="black" />
+          </Button>
+        </NotificationList>
 
         <CustomDropdown items={MENU_PROFILE} loading={false}>
           <button className=" h-12 w-12 rounded-full">

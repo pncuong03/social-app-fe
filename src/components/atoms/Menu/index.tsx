@@ -3,6 +3,7 @@ import { Menu } from "antd";
 import type { GetProp, MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useColorScheme } from "@mui/material";
+import routesName from "src/routes/enum.routes";
 
 type MenuItem = GetProp<MenuProps, "items">[number];
 
@@ -16,7 +17,7 @@ const MenuCustomzie = (props: Props) => {
   const { mode } = useColorScheme();
 
   const handleMenuClick = (e: any) => {
-    if (e.key.startsWith("/")) {
+    if (e.key.startsWith(routesName.HOME)) {
       navigate(e.key);
     }
   };

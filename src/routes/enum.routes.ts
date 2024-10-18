@@ -3,12 +3,16 @@ const routesName = {
   LOGIN: "/login",
   REGISTER: "/register",
   PROFILE: "/profile",
-  FRIEND: "/friend",
+  FRIENDS: "/friends",
   WATCH: "/watch",
-  GROUP: "/group",
+  GROUPS: "/groups",
   GAMING: "/gaming",
-  FRIENDREQUEST: "/friend/request",
-  FRIENDLIST: "/friend/list",
+  FRIENDREQUEST: "/friends/request",
+  FRIENDLIST: "/friends/list",
+  MESSAGES: "/messages",
+  MESSAGEDETAIL: "/messages/:slug",
+  FRIENPROFILE: "/:slug",
+  GROUPDETAIL: "/groups/:slug",
 };
 
 export default routesName;
