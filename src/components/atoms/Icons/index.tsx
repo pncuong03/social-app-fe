@@ -8,9 +8,8 @@ import {
   AiOutlineClose,
   AiOutlineLike,
 } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
-import { IoNotifications } from "react-icons/io5";
-import { FaUserFriends } from "react-icons/fa";
+import { IoNotifications, IoSearch } from "react-icons/io5";
+import { FaUserFriends, FaUserCircle } from "react-icons/fa";
 import { RiGroup2Fill } from "react-icons/ri";
 import { PiImagesFill, PiVideoFill } from "react-icons/pi";
 import { IoIosHappy } from "react-icons/io";
@@ -18,9 +17,10 @@ import { BsSend } from "react-icons/bs";
 import { TfiShare } from "react-icons/tfi";
 import { MdPublic, MdOutlineModeComment, MdPrivateConnectivity } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
-import { CgWorkAlt } from "react-icons/cg";
+import { CgWorkAlt, CgDanger } from "react-icons/cg";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
-
+import { CiSearch } from "react-icons/ci";
+import { TbLogout } from "react-icons/tb";
 interface Props {
   name: string;
   size?: number;
@@ -32,7 +32,8 @@ const IconCustomize = (props: Props) => {
     home: <AiFillHome size={props.size} color={props.color} />,
     user: <AiOutlineUser size={props.size} color={props.color} />,
     heart: <AiFillHeart size={props.size} color={props.color} />,
-    search: <BiSearch size={props.size} color={props.color} />,
+    search: <CiSearch size={props.size} color={props.color} />,
+    search2: <IoSearch size={props.size} color={props.color} />,
     message: <AiFillMessage size={props.size} color={props.color} />,
     notification: <IoNotifications size={props.size} color={props.color} />,
     friend: <FaUserFriends size={props.size} color={props.color} />,
@@ -52,6 +53,9 @@ const IconCustomize = (props: Props) => {
     camera: <CameraOutlined size={props.size} color={props.color} />,
     male: <FiUser size={props.size} color={props.color} />,
     work: <CgWorkAlt size={props.size} color={props.color} />,
+    logout: <TbLogout size={props.size} color={props.color} />,
+    danger: <CgDanger size={props.size} color={props.color} />,
+    info: <FaUserCircle size={props.size} color={props.color} />,
   };
 
   return icons[props.name] || null;

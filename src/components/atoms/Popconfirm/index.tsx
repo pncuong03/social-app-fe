@@ -7,6 +7,7 @@ export interface Props {
   icon?: React.ReactNode;
   okText?: string;
   cancelText?: string;
+  className?: string;
 }
 
 const PopconfirmCustomize = (props: Props) => {
@@ -18,6 +19,7 @@ const PopconfirmCustomize = (props: Props) => {
       cancelText={props.cancelText}
       okButtonProps={{ style: { backgroundColor: "red", color: "white" } }}
       cancelButtonProps={{ style: { backgroundColor: "gray", color: "white" } }}
+      className={props.className}
     >
       {props.children}
     </Popconfirm>

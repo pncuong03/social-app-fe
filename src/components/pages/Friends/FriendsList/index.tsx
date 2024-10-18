@@ -89,7 +89,7 @@ const FriendsList = () => {
 
   return (
     <div className="">
-      <h2 className="p-6 text-xl font-medium md:p-2 lg:px-10 xl:px-2">{t('friend.listfriend')}</h2>
+      <h2 className="p-6 text-2xl font-medium md:p-2 lg:px-10 xl:px-2">{t("friend.listfriend")}</h2>
 
       <div className="flex flex-wrap justify-center gap-4 xl:justify-start">
         {friendsRequest.map((friend) => {

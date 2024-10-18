@@ -1,20 +1,21 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Menu, Dropdown, Button } from "antd";
 import { useTranslation } from "react-i18next";
 
-interface CustomDrawerProps {
-  menuItems: Array<{ text: string; onClick: () => void }>;
-  children?: ReactNode;
-}
-
-const DrawerLanguage: React.FC<CustomDrawerProps> = ({ menuItems, children }) => {
+const DrawerLanguage: React.FC = () => {
   const { i18n } = useTranslation();
+
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("i18nextLng", lang);
+  };
+
   const getLanguageIcon = () => {
     switch (i18n.language) {
       case "en":
-        return <img src="./svg/america.svg" alt="English Logo" />;
+        return <img src="./svg/america.svg" />;
       case "vi":
-        return <img src="./svg/vietnamese.svg" alt="Vietnamese Logo" />;
+        return <img src="./svg/vietnamese.svg" />;
       default:
         return null;
     }
@@ -22,15 +23,13 @@ const DrawerLanguage: React.FC<CustomDrawerProps> = ({ menuItems, children }) =>
 
   const menu = (
     <Menu>
-      {menuItems.map((item, index) => (
-        <Menu.Item key={index} onClick={item.onClick}>
-          {item.text}
-        </Menu.Item>
-      ))}
+      <Menu.Item key="vi" onClick={() => changeLanguage("vi")}>
+        Vietnamese
+      </Menu.Item>
 
-      {children && <Menu.Divider />}
-
-      {children && <Menu.Item>{children}</Menu.Item>}
+      <Menu.Item key="en" onClick={() => changeLanguage("en")}>
+        English
+      </Menu.Item>
     </Menu>
   );
 

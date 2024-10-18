@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import CarouselCustomize from "src/components/atoms/Carousel";
@@ -7,6 +7,7 @@ import { Collapse, useColorScheme } from "@mui/material";
 import Comments from "../Comments";
 import IconCustomize from "src/components/atoms/Icons";
 import ShareBox from "../Share";
+import ShareCard from "./ShareCard";
 
 interface Props {
   fullName: string;
@@ -17,11 +18,13 @@ interface Props {
   likeCount: string;
   commentCount: string;
   shareCount: string;
+  isShare?: object;
 }
 
 const PostCard = (props: Props) => {
   const { mode } = useColorScheme();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [isOpenComment, setIsOpenComment] = useState(false);
   const [isOpenShare, setIsOpenShare] = useState(false);
 
@@ -54,21 +57,21 @@ const PostCard = (props: Props) => {
   return (
     <div className={`flex h-max flex-col rounded-lg ${mode === "light" ? "bg-white" : "bg-black-300"} shadow-md`}>
       <div className="flex justify-between px-4 pt-4">
-        <Link to="/" className="flex items-center space-x-4">
-          <div className="h-11 w-12">
+        <div onClick={() => navigate(`/${props.fullName}`)} className="flex items-center space-x-4">
+          <div className="h-12 w-12">
             <img src={props?.imgUrl} className="h-full w-full rounded-full" alt="dp" />
           </div>
 
           <div className="flex flex-grow flex-col">
-            <p className="text-black text-lg font-semibold">{props.fullName}</p>
+            <p className="text-black text-lg font-medium">{props.fullName}</p>
 
             <div className="flex gap-3">
-              <span className="text-xs text-gray-400">{props.createdAt}</span>
+              <span className="text-xs font-medium text-gray-400">{props.createdAt}</span>
 
               <IconCustomize name="pubic" />
             </div>
           </div>
-        </Link>
+        </div>
 
         <div className="flex p-2">
           <Button className="border-none shadow-none">
@@ -81,11 +84,15 @@ const PostCard = (props: Props) => {
         </div>
       </div>
 
-      <div className="my-2 flex flex-col gap-2">
-        <p className="text-md max-h-24 overflow-hidden text-ellipsis break-words px-4 font-normal">{props.content}</p>
+      <p className="text-md my-2 max-h-24 overflow-hidden text-ellipsis break-words px-4 font-light">{props.content}</p>
 
+      {props.isShare ? (
+        <div className="px-4">
+          <ShareCard isShare={props.isShare} />
+        </div>
+      ) : (
         <CarouselCustomize images={props.imgUrls} />
-      </div>
+      )}
 
       <div className="flex w-full flex-col space-y-2 p-3">
         <div className={`flex items-center justify-between border-b-[1px] border-gray-200 pb-2 text-sm`}>
@@ -108,20 +115,20 @@ const PostCard = (props: Props) => {
 
         <div className="flex justify-between pt-2 text-sm font-semibold ">
           <Button className="border-none shadow-none">
-            <IconCustomize name="like" size={20} /> 
-            
+            <IconCustomize name="like" size={20} />
+
             {t("home.like")}
           </Button>
 
           <Button className="border-none shadow-none" onClick={() => setIsOpenComment((prev) => !prev)}>
-            <IconCustomize name="comment" size={20} /> 
-            
+            <IconCustomize name="comment" size={20} />
+
             {t("home.comment")}
           </Button>
 
           <Button className="border-none shadow-none" onClick={() => setIsOpenShare(true)}>
-            <IconCustomize name="share" size={20} /> 
-            
+            <IconCustomize name="share" size={20} />
+
             {t("home.share")}
           </Button>
         </div>

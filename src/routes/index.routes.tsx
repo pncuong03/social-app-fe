@@ -1,24 +1,29 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "src/components/layouts/MainLayout";
-import Loading from "src/components/atoms/Spin";
 import LoginPage from "src/components/pages/Login";
 import RegisterPage from "src/components/pages/Register";
 import PrivateRoute from "./privateRoute";
 import routesName from "./enum.routes";
 import NotFound from "src/components/atoms/NotFound";
+import MessageDetail from "src/components/molecules/Messages/MessageDetail";
+import SpinCustomize from "src/components/atoms/Spin";
+import GroupDetail from "src/components/molecules/Groups/GroupDetail";
 
 const HomePage = React.lazy(() => import("src/components/pages/Home"));
 const ProfilePage = React.lazy(() => import("src/components/pages/Profile"));
 const WatchPage = React.lazy(() => import("src/components/pages/Watch"));
+const GroupPage = React.lazy(() => import("src/components/pages/Groups"));
 const FriendsPage = React.lazy(() => import("src/components/pages/Friends"));
 const FriendsList = React.lazy(() => import("src/components/pages/Friends/FriendsList"));
 const FriendRequest = React.lazy(() => import("src/components/pages/Friends/FriendsRequest"));
+const MessagePage = React.lazy(() => import("src/components/pages/Messages"));
+const FriendProfile = React.lazy(() => import("src/components/pages/Friends/FriendProfile"));
 
 function RoutesApp() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<SpinCustomize />}>
         <Routes>
           <Route path="/404" element={<NotFound />} />
 
@@ -37,7 +42,7 @@ function RoutesApp() {
             />
 
             <Route
-              path={routesName.FRIEND}
+              path={routesName.FRIENDS}
               element={
                 <PrivateRoute>
                   <FriendsPage />
@@ -66,6 +71,37 @@ function RoutesApp() {
                 </PrivateRoute>
               }
             />
+
+            <Route
+              path={routesName.GROUPS}
+              element={
+                <PrivateRoute>
+                  <GroupPage />
+                </PrivateRoute>
+              }
+            >
+              <Route path={routesName.GROUPDETAIL} element={<GroupDetail />} />
+            </Route>
+
+            <Route
+              path={routesName.FRIENPROFILE}
+              element={
+                <PrivateRoute>
+                  <FriendProfile />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path={routesName.MESSAGES}
+              element={
+                <PrivateRoute>
+                  <MessagePage />
+                </PrivateRoute>
+              }
+            >
+              <Route path={routesName.MESSAGEDETAIL} element={<MessageDetail />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<Navigate to="/404" />} />

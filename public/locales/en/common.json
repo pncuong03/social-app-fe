@@ -15,18 +15,35 @@
     "like": "Like",
     "comment": "Comment",
     "addimage": "Add image",
-    "logout": "Logout"
+    "logout": "Logout",
+    "deletecomment": "Do you want to delete this comment?",
+    "shortcut": "Your shortcut",
+    "personal": "Personal page",
+    "offinfo": "Turn off notifications",
+    "search": "Search"
   },
   "friend": {
     "home": "Home",
     "allfriends": "All friends",
     "friendrequest": "Friend invitation",
-    "listfriend": "List of friends"
+    "listfriend": "List of friends",
+    "accept": "Accept",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "unfriend": "Unfriend",
+    "deletefriend": "Do you want to unfriend this person?"
   },
   "profile": {
     "editprofile": "Edit profile",
     "editcover" : "Edit cover",
     "intro": "Introduction"
+  },
+  "message": {
+    "message": "Message",
+    "newmessage": "New message",
+    "send": "Send",
+    "delete": "Delete",
+    "deletechat": "Do you want to delete this conversation?"
   }
   
 }

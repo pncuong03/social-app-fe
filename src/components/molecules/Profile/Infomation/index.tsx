@@ -20,7 +20,6 @@ const Information = (props: Props) => {
   const { t } = useTranslation();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
-
   const uploadProps = {
     showUploadList: false,
     beforeUpload: (file: any) => {
@@ -46,7 +45,7 @@ const Information = (props: Props) => {
               <Button className="rounded-md bg-neutral-400 px-1 text-neutral-100">
                 <IconCustomize name="camera" />
 
-                <p className="hidden md:flex">{t('profile.editcover')}</p>
+                <p className="hidden md:flex">{t("profile.editcover")}</p>
               </Button>
             </Upload>
           </div>
@@ -76,7 +75,7 @@ const Information = (props: Props) => {
           <div className="mt-4 ml-2 flex flex-col items-center lg:mt-10 lg:items-start">
             <p className="text-[2rem] font-bold ">{props.user?.fullName}</p>
 
-            <button className="cursor-pointer text-sm font-semibold text-gray-400 ">222 {t('home.friends')}</button>
+            <button className="cursor-pointer text-sm font-semibold text-gray-400 ">222 {t("home.friends")}</button>
 
             <Avatar.Group
               max={{
@@ -96,20 +95,15 @@ const Information = (props: Props) => {
 
         <div className="p-3 md:mx-auto lg:mx-6">
           <Button
-            className={`w-full rounded-md px-3 font-semibold ${
-              mode === "light" ? "bg-neutral-400 " : "bg-neutral-700"
-            }`}  onClick={() => setIsOpenEdit(true)}
-
+            className={`w-full rounded-md px-3 ${mode === "light" ? "bg-gray-100 " : "bg-neutral-700"}`}
+            onClick={() => setIsOpenEdit(true)}
           >
-            <p className="text-lg">{t('profile.editprofile')} </p>
+            <p className="text-lg font-normal">{t("profile.editprofile")} </p>
           </Button>
         </div>
       </div>
 
-      <EditProfile
-        open={isOpenEdit}
-        onCancel={() => setIsOpenEdit(false)}
-      />
+      <EditProfile open={isOpenEdit} onCancel={() => setIsOpenEdit(false)} />
     </div>
   );
 };
