@@ -4,16 +4,20 @@ import { useTranslation } from "react-i18next";
 import IconCustomize from "src/components/atoms/Icons";
 import SidebarRow from "src/components/molecules/SidebarRow";
 import routesName from "src/routes/enum.routes";
+import { useAppSelector } from "src/app/appHooks";
+import { selectUserInfo } from "src/slices/login/selector";
 
 const Sidebar = () => {
   const { mode } = useColorScheme();
   const { t } = useTranslation();
 
+  const userInfo = useAppSelector(selectUserInfo.getUserInfo);
+
   const MENU_ITEMS = [
     {
-      name: "Pham Ngoc Cuong",
+      name: userInfo?.fullName,
       path: routesName.PROFILE,
-      image: "./img/avatar.png",
+      image: userInfo?.imageUrl,
     },
     {
       name: t("home.friends"),

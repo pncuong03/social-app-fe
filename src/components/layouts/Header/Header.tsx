@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { Button } from "antd";
 import { useTranslation } from "react-i18next";
@@ -10,10 +10,12 @@ import IconCustomize from "src/components/atoms/Icons";
 import DrawerLanguage from "src/components/atoms/Drawer";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
-import { logOut } from "src/slices/login/loginSlice";
+import { fetchInfoUser, logOut } from "src/slices/login/loginSlice";
 import { toast } from "react-toastify";
 import NotificationList from "src/components/molecules/Notification";
 import SearchUser from "src/components/molecules/Search/SearchUser";
+import { useAppSelector } from "src/app/appHooks";
+import { selectUserInfo } from "src/slices/login/selector";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
 
@@ -57,9 +59,13 @@ const Header = () => {
   const { pathname } = useLocation();
   const { t } = useTranslation();
 
-  const handleLogout = () => {
-    console.log("logout");
+  const userInfo = useAppSelector(selectUserInfo.getUserInfo);
 
+  useEffect(() => {
+    dispatch(fetchInfoUser());
+  }, [dispatch]);
+
+  const handleLogout = () => {
     dispatch(logOut());
     toast.success(t("home.logout"));
     navigate(routesName.LOGIN);
@@ -68,9 +74,9 @@ const Header = () => {
   const MENU_PROFILE = [
     {
       key: "0",
-      label: "Pham Ngoc Cuong",
+      label: userInfo?.fullName,
       path: routesName.PROFILE,
-      image: "./img/avatar.png",
+      image: userInfo?.imageUrl,
     },
     {
       key: "1",
@@ -145,7 +151,7 @@ const Header = () => {
 
         <CustomDropdown items={MENU_PROFILE} loading={false}>
           <button className=" h-12 w-12 rounded-full">
-            <img src="https://picsum.photos/200/300" className="h-12 w-12 rounded-full" />
+            <img src={userInfo?.imageUrl} className="h-12 w-12 rounded-full" />
           </button>
         </CustomDropdown>
       </div>

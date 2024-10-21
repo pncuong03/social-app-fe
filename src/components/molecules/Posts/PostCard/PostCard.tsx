@@ -1,63 +1,65 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { Button } from "antd";
+import { AppDispatch } from "src/app/store";
 import CarouselCustomize from "src/components/atoms/Carousel";
+import IconCustomize from "src/components/atoms/Icons";
 import { Collapse, useColorScheme } from "@mui/material";
 import Comments from "../Comments";
-import IconCustomize from "src/components/atoms/Icons";
 import ShareBox from "../Share";
 import ShareCard from "./ShareCard";
+import TimeComparison from "src/const/dateFormat";
+import { deletePost, likePost, unLikePost } from "src/slices/posts/postSlice";
+import clsx from "clsx";
+import { useAppSelector } from "src/app/appHooks";
+import { selectUserInfo } from "src/slices/login/selector";
+import PopconfirmCustomize from "src/components/atoms/Popconfirm";
 
 interface Props {
+  id: string;
   fullName: string;
   createdAt: string;
   imgUrl: string;
   content: string;
   imgUrls: string[];
-  likeCount: string;
-  commentCount: string;
-  shareCount: string;
-  isShare?: object;
+  likeCount: number;
+  commentCount: number;
+  shareCount: number;
+  hasLike: boolean;
+  sharePost?: object;
 }
 
 const PostCard = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { mode } = useColorScheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isOpenComment, setIsOpenComment] = useState(false);
   const [isOpenShare, setIsOpenShare] = useState(false);
 
-  const user = {
-    fullName: "Cường",
-    imageUrl: "./img/avatar.png",
+  const userInfo = useAppSelector(selectUserInfo.getUserInfo);
+
+  const handleLike = () => {
+    if (props.hasLike) {
+      dispatch(unLikePost(props.id));
+    } else {
+      dispatch(likePost(props.id));
+    }
   };
 
-  const comments = [
-    {
-      id: "1",
-      imageUrl: "https://picsum.photos/200/300",
-      fullName: "John Doe",
-      comment: "Lorem ipsum dolor sit amet, sd adipiscing elit",
-    },
-    {
-      id: "2",
-      imageUrl: "https://picsum.photos/200/300",
-      fullName: "John Doe",
-      comment: "Lorem ipsum dolor sit amet, sds adipiscing elit",
-    },
-    {
-      id: "3",
-      imageUrl: "https://picsum.photos/200/300",
-      fullName: "John Doe",
-      comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    },
-  ];
+  const handleDeletePost = () => {
+    dispatch(deletePost(props.id));
+  };
 
   return (
     <div className={`flex h-max flex-col rounded-lg ${mode === "light" ? "bg-white" : "bg-black-300"} shadow-md`}>
       <div className="flex justify-between px-4 pt-4">
-        <div onClick={() => navigate(`/${props.fullName}`)} className="flex items-center space-x-4">
+        <button
+          onClick={() => navigate(`/${props.fullName}`, { state: { id: props.id } })}
+          className="flex items-center space-x-4"
+        >
           <div className="h-12 w-12">
             <img src={props?.imgUrl} className="h-full w-full rounded-full" alt="dp" />
           </div>
@@ -66,29 +68,39 @@ const PostCard = (props: Props) => {
             <p className="text-black text-lg font-medium">{props.fullName}</p>
 
             <div className="flex gap-3">
-              <span className="text-xs font-medium text-gray-400">{props.createdAt}</span>
+              <span className="text-xs font-medium text-gray-400">
+                <TimeComparison t={t} time={props.createdAt} />
+              </span>
 
-              <IconCustomize name="pubic" />
+              <IconCustomize name="public" color="text-gray-400" />
             </div>
           </div>
-        </div>
+        </button>
 
         <div className="flex p-2">
           <Button className="border-none shadow-none">
             <IconCustomize name="ellipsis" />
           </Button>
 
-          <Button className="border-none shadow-none">
-            <IconCustomize name="close" />
-          </Button>
+          <PopconfirmCustomize
+            title={t("home.deletepost")}
+            icon={null}
+            okText={t("friend.delete")}
+            cancelText={t("friend.cancel")}
+            onConfirm={handleDeletePost}
+          >
+            <Button className="border-none shadow-none">
+              <IconCustomize name="close" />
+            </Button>
+          </PopconfirmCustomize>
         </div>
       </div>
 
       <p className="text-md my-2 max-h-24 overflow-hidden text-ellipsis break-words px-4 font-light">{props.content}</p>
 
-      {props.isShare ? (
+      {props.sharePost ? (
         <div className="px-4">
-          <ShareCard isShare={props.isShare} />
+          <ShareCard isShare={props.sharePost} />
         </div>
       ) : (
         <CarouselCustomize images={props.imgUrls} />
@@ -114,7 +126,13 @@ const PostCard = (props: Props) => {
         </div>
 
         <div className="flex justify-between pt-2 text-sm font-semibold ">
-          <Button className="border-none shadow-none">
+          <Button
+            className={clsx("border-none shadow-none", {
+              "text-primary": props.hasLike,
+              "text-black-100": !props.hasLike,
+            })}
+            onClick={handleLike}
+          >
             <IconCustomize name="like" size={20} />
 
             {t("home.like")}
@@ -135,14 +153,15 @@ const PostCard = (props: Props) => {
       </div>
 
       <Collapse in={isOpenComment} timeout="auto">
-        <Comments comments={comments} />
+        <Comments isOpen={isOpenComment} postId={props.id} />
       </Collapse>
 
       <ShareBox
         open={isOpenShare}
         onCancel={() => setIsOpenShare(false)}
-        fullName={user.fullName}
-        imageUrl={user.imageUrl}
+        postId={props.id}
+        fullName={userInfo.fullName}
+        imageUrl={userInfo.imageUrl}
       />
     </div>
   );

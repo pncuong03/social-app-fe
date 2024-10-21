@@ -5,7 +5,7 @@
     "contact": "Liên hệ",
     "images": "Ảnh",
     "feelings": "Cảm thấy",
-    "whatmind": "bạn đang nghĩ gì thế?",
+    "whatmind": ", bạn đang nghĩ gì thế?",
     "postarticle": "Đăng bài viết",
     "shareartice": "Chia sẻ bài viết",
     "public": "Công khai",
@@ -17,10 +17,19 @@
     "addimage": "Thêm ảnh",
     "logout": "Đăng xuất",
     "deletecomment": "Bạn có muốn xóa bình luận này không?",
+    "deletepost": "Bạn có muốn xóa bài viết này không?",
     "shortcut": "Lối tắt của bạn",
     "personal": "Trang cá nhân",
     "offinfo": "Tắt thông báo",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "postsucces": "Đăng bài viết thành công",
+    "postfail": "Đăng bài viết thất bại",
+    "sharesucces": "Chia sẻ thành công",
+    "sharefail": "Chia sẻ thất bại",
+    "justnow":"Vừa xong",
+    "minute":"phút trước",
+    "hour":"giờ trước",
+    "day":"ngày trước"
   },
   "friend": {
     "home": "Trang chủ",
@@ -31,8 +40,8 @@
     "delete": "Xóa",
     "cancel": "Hủy",
     "unfriend": "Hủy kết bạn",
-    "deletefriend": "Bạn có muốn hủy kết bạn này không?"
-
+    "deletefriend": "Bạn có muốn hủy kết bạn này không?",
+    "deleterequest": "Ban có muốn xóa lời mời kết bạn này không?"
   },
   "profile": {
     "editprofile": "Chỉnh sửa trang cá nhân",

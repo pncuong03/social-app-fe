@@ -1,42 +1,57 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Select } from "antd";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import ModalCustomize from "src/components/atoms/Modal";
 import IconCustomize from "src/components/atoms/Icons";
+import { AppDispatch } from "src/app/store";
+import { sharePost } from "src/slices/posts/postSlice";
+import { getName } from "src/const";
 
 interface Props {
   fullName: string;
   imageUrl: string;
+  postId: string;
   open?: boolean;
   onCancel?: () => void;
 }
 
 const ShareBox = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const [content, setContent] = useState("");
-  const [privacy, setPrivacy] = useState("PUBLIC");
+  const [state, setState] = useState("PUBLIC");
+  const [loading, setLoading] = useState(false);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
   const handleChange = (value: { value: string; label: React.ReactNode }) => {
-    setPrivacy(value.value);
+    setState(value.value);
   };
 
-  const handleSubmit = async () => {
-    const payload = {
-      fullName: props.fullName,
-      content,
+  const handleShare = async () => {
+    const postId = props.postId;
 
-      privacy,
-    };
+    setLoading(true);
+    dispatch(sharePost({ content, state, postId }));
 
-    console.log(payload);
+    setTimeout(() => {
+      toast.success(t("home.shareSuccess"));
+      setLoading(false);
+      setContent("");
+      setState("PUBLIC");
+
+      if (props.onCancel) {
+        props.onCancel();
+      }
+    }, 3000);
   };
 
   return (
-    <ModalCustomize title={t("home.shareartice")} open={props.open} onCancel={props.onCancel}>
+    <ModalCustomize title={t("home.shareartice")} open={props.open} onCancel={props.onCancel} loading={loading}>
       <div className="mb-2">
         <div className="my-4 flex items-center gap-3">
           <div className="rounded-full ">
@@ -90,12 +105,12 @@ const ShareBox = (props: Props) => {
         <textarea
           value={content}
           onChange={handleContentChange}
-          placeholder={t("home.whatmind")}
+          placeholder={getName(props.fullName) + t("home.whatmind")}
           className="mt-2 w-full resize-none rounded-md border-none p-2 shadow-none outline-none"
         />
 
         <div className="mt-4 flex justify-end">
-          <Button color="default" variant="solid" onClick={handleSubmit}>
+          <Button color="default" variant="solid" onClick={handleShare}>
             {t("home.share")}
           </Button>
         </div>

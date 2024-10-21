@@ -1,13 +1,24 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { authLogin, logout } from "src/apis/auth";
+import { authLogin, logout, userInfo } from "src/apis/auth";
+import { IUser } from "src/types/user";
 
 export interface AuthState {
   accessToken: string;
+  user: IUser;
 }
 
 const initialState: AuthState = {
   accessToken: "",
+  user: {
+    id: "",
+    fullName: "",
+    imageUrl: "",
+    backgroundUrl: "",
+    birthday: "",
+    gender: "",
+    description: "",
+  },
 };
 
 export const userLogin = createAsyncThunk<string, { username: string; password: string }>(
@@ -16,12 +27,24 @@ export const userLogin = createAsyncThunk<string, { username: string; password: 
     try {
       const response = await authLogin(params);
 
-      return response.accessToken;
+      return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
+
+export const fetchInfoUser = createAsyncThunk("auth/fetchInfoUser", async (_, thunkAPI) => {
+  try {
+    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
+
+    const data = await userInfo(accessToken);
+
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -42,6 +65,10 @@ export const authSlice = createSlice({
       .addCase(userLogin.rejected, (state) => {
         toast.error("Username or password is incorrect");
         state.accessToken = "";
+      })
+
+      .addCase(fetchInfoUser.fulfilled, (state, action: PayloadAction<IUser>) => {
+        state.user = action.payload;
       });
   },
 });
