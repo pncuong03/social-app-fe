@@ -4,16 +4,16 @@ import { Button } from "antd";
 import { useColorScheme } from "@mui/material";
 import CreateBox from "./CreateBox/CreateBox";
 import IconCustomize from "src/components/atoms/Icons";
+import { getName } from "src/const";
+import { useAppSelector } from "src/app/appHooks";
+import { selectUserInfo } from "src/slices/login/selector";
 
 const InputBox = () => {
   const { mode } = useColorScheme();
   const { t } = useTranslation();
   const [isVisiable, setIsVisiable] = useState(false);
 
-  const user = {
-    fullName: "Cường",
-    imageUrl: "./img/avatar.png",
-  };
+  const userInfo = useAppSelector(selectUserInfo.getUserInfo);
 
   return (
     <div
@@ -23,7 +23,7 @@ const InputBox = () => {
     >
       <div className={`mb-2 flex items-center space-x-2 border-b pb-3 ${"border-gray-200"}`}>
         <div className="h-12 w-12">
-          <img src="./img/avatar.png" className="h-full w-full rounded-full" alt="dp" />
+          <img src={userInfo?.imageUrl} className="h-full w-full rounded-full" alt="dp" />
         </div>
 
         <button
@@ -32,7 +32,7 @@ const InputBox = () => {
           } pl-5 text-left font-normal text-gray-400 `}
           onClick={() => setIsVisiable(true)}
         >
-          Cường, {t("home.whatmind")}
+          <p>{getName(userInfo?.fullName) + t("home.whatmind")}</p>
         </button>
       </div>
 
@@ -59,8 +59,8 @@ const InputBox = () => {
       <CreateBox
         open={isVisiable}
         onCancel={() => setIsVisiable(false)}
-        fullName={user.fullName}
-        imageUrl={user.imageUrl}
+        fullName={userInfo.fullName}
+        imageUrl={userInfo.imageUrl}
       />
     </div>
   );

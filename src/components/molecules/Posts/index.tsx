@@ -1,74 +1,33 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PostCard from "./PostCard/PostCard";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "src/app/store";
-import { fetchPostPublic } from "src/slices/posts/postSlice";
+import { IPost } from "src/types/post";
 
-const Posts = () => {
-  const posts = [
-    {
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      imgUrl: "https://picsum.photos/200/300",
-      likeCount: "100",
-      commentCount: "200",
-      shareCount: "300",
-      username: "John Doe",
-      time: "1h",
-      imgUrls: ["https://picsum.photos/200/300"],
-    },
-    {
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      imgUrl: "https://picsum.photos/200/300",
-      likeCount: "100",
-      commentCount: "200",
-      shareCount: "300",
-      username: "John Doe",
-      time: "1h",
-      imgUrls: ["https://picsum.photos/200/300"],
-    },
-    {
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-      imgUrl: "https://picsum.photos/200/300",
-      likeCount: "100",
-      commentCount: "200",
-      shareCount: "300",
-      username: "John Doe",
-      time: "1h",
-      imgUrls: ["https://picsum.photos/200/300", "https://picsum.photos/200/300", "https://picsum.photos/200/300"],
-      isShare: {
-        content: "asdasdasdasdasas",
-        imgUrl: "https://picsum.photos/200/300",
-        username: "Cuong",
-        time: "1h",
-        imgUrls: ["https://picsum.photos/200/300"],
-      },
-    },
-  ];
+interface Props {
+  posts: IPost[];
+}
 
-  const dispatch = useDispatch<AppDispatch>();
-  const postPublic = useSelector((state: RootState) => state.post.postOfPublic);
-
-  console.log(postPublic);
-
-  useEffect(() => {
-    dispatch(fetchPostPublic());
-  }, [dispatch]);
+const Posts = (props: Props) => {
+  const sortedPosts = props.posts.slice().sort((a, b) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
 
   return (
     <div className="flex flex-col gap-3">
-      {posts.map((post, index) => {
+      {sortedPosts.map((post) => {
         return (
           <PostCard
-            key={index}
+            key={post.id}
+            id={post.id}
             content={post.content}
-            fullName={post.username}
-            imgUrl={post.imgUrl}
-            createdAt={post.time}
-            imgUrls={post.imgUrls}
-            shareCount={post.shareCount}
+            fullName={post.fullName}
+            imgUrl={post.imageUrl}
+            createdAt={post.createdAt}
+            imgUrls={post?.imageUrls}
+            shareCount={post?.shareCount}
             likeCount={post.likeCount}
             commentCount={post.commentCount}
-            isShare={post.isShare}
+            hasLike={post.hasLike}
+            sharePost={post.sharePost}
           />
         );
       })}

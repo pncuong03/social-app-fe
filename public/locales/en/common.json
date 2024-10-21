@@ -5,7 +5,7 @@
     "contact": "Contact",
     "images": "Images",
     "feelings": "Feelings",
-    "whatmind": "what's on your mind?",
+    "whatmind": ", what's on your mind?",
     "postarticle": "Post articles",
     "shareartice": "Share articles",
     "public": "Public",
@@ -17,10 +17,19 @@
     "addimage": "Add image",
     "logout": "Logout",
     "deletecomment": "Do you want to delete this comment?",
+    "deletepost": "Do you want to delete this post?",
     "shortcut": "Your shortcut",
     "personal": "Personal page",
     "offinfo": "Turn off notifications",
-    "search": "Search"
+    "search": "Search",
+    "postsucces": "Post successfully",
+    "postfail": "Post failed",
+    "sharesucces": "Share successfully",
+    "sharefail": "Share failed",
+    "justnow":"Just now",
+    "minute":"minutes ago",
+    "hour":"hours ago",
+    "day":"days ago"
   },
   "friend": {
     "home": "Home",
@@ -31,7 +40,8 @@
     "delete": "Delete",
     "cancel": "Cancel",
     "unfriend": "Unfriend",
-    "deletefriend": "Do you want to unfriend this person?"
+    "deletefriend": "Do you want to unfriend this person?",
+    "deleterequest": "Do you want to delete this friend request?" 
   },
   "profile": {
     "editprofile": "Edit profile",

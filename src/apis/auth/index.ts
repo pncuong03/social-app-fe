@@ -20,3 +20,15 @@ export function authRegister(params: { fullName: string; username: string; passw
 export const logout = () => {
   LocalStorage.remove(LocalStorageKey.ACCESS_TOKEN);
 };
+
+export function userInfo(accessToken: string) {
+  const auth = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  return httpRequest.get("/user", auth).then((data: any) => {
+    return data;
+  });
+}

@@ -6,7 +6,8 @@ import IconCustomize from "src/components/atoms/Icons";
 import EditProfile from "../Edit";
 
 interface Props {
-  user: {
+  friends?: any;
+  user?: {
     fullName: string;
     imageUrl: string;
     backgroundUrl: string;
@@ -75,7 +76,9 @@ const Information = (props: Props) => {
           <div className="mt-4 ml-2 flex flex-col items-center lg:mt-10 lg:items-start">
             <p className="text-[2rem] font-bold ">{props.user?.fullName}</p>
 
-            <button className="cursor-pointer text-sm font-semibold text-gray-400 ">222 {t("home.friends")}</button>
+            <button className="cursor-pointer text-sm font-semibold text-gray-400 ">
+              {props.friends.length + " " + t("home.friends")}
+            </button>
 
             <Avatar.Group
               max={{
@@ -84,11 +87,9 @@ const Information = (props: Props) => {
               }}
               className="mt-2 flex items-center"
             >
-              <Avatar>K</Avatar>
-
-              <Avatar>K</Avatar>
-
-              <Avatar>K</Avatar>
+              {props.friends.map((friend: any) => {
+                return <Avatar key={friend.id} src={friend.imageUrl} alt={friend.fullName} />;
+              })}
             </Avatar.Group>
           </div>
         </div>

@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, GetProp, Image, Select, Spin, Upload, UploadFile, UploadProps } from "antd";
+import { useDispatch } from "react-redux";
+import { Button, GetProp, Image, Select, Upload, UploadFile, UploadProps } from "antd";
+import { toast } from "react-toastify";
 import ModalCustomize from "src/components/atoms/Modal";
 import IconCustomize from "src/components/atoms/Icons";
+import { getName } from "src/const";
+import { AppDispatch } from "src/app/store";
+import { createPosts } from "src/slices/posts/postSlice";
 
 interface Props {
   fullName: string;
@@ -23,9 +28,10 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 
 const CreateBox = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const [content, setContent] = useState("");
-  const [privacy, setPrivacy] = useState(t("PUBLIC"));
+  const [state, setState] = useState("PUBLIC");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -36,7 +42,7 @@ const CreateBox = (props: Props) => {
   };
 
   const handleChange = (value: { value: string; label: React.ReactNode }) => {
-    setPrivacy(value.value);
+    setState(value.value);
   };
 
   const handlePreview = async (file: UploadFile) => {
@@ -48,25 +54,39 @@ const CreateBox = (props: Props) => {
     setPreviewOpen(true);
   };
 
-  const handleChanges: UploadProps["onChange"] = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => {
+    setFileList(fileList);
+  };
 
-  const handleSubmit = async () => {
+  const handleCreate = async () => {
     if (content.trim()) {
       setLoading(true);
+
+      const formData = new FormData();
+      const createPostInputString = JSON.stringify({ content, state });
+
+      formData.append("createPostInputString", createPostInputString);
+
+      fileList.forEach((file) => {
+        if (file.originFileObj) {
+          formData.append("images", file.originFileObj);
+        }
+      });
+
+      dispatch(createPosts(formData));
+
       setTimeout(() => {
+        toast.success(t("home.postsucces"));
         setLoading(false);
         setContent("");
-      }, 2000);
+        setState("PUBLIC");
+        setFileList([]);
+
+        if (props.onCancel) {
+          props.onCancel();
+        }
+      }, 3000);
     }
-
-    const payload = {
-      fullName: props.fullName,
-      content,
-      privacy,
-      images: fileList.map((file) => file.url || file.response?.url || ""),
-    };
-
-    console.log(payload);
   };
 
   const uploadButton = (
@@ -78,7 +98,7 @@ const CreateBox = (props: Props) => {
   );
 
   return (
-    <ModalCustomize title={t("home.postarticle")} open={props.open} onCancel={props.onCancel}>
+    <ModalCustomize title={t("home.postarticle")} open={props.open} onCancel={props.onCancel} loading={loading}>
       <div className="mb-2">
         <div className="my-4 flex items-center gap-3">
           <div className="rounded-full ">
@@ -132,18 +152,12 @@ const CreateBox = (props: Props) => {
         <textarea
           value={content}
           onChange={handleContentChange}
-          placeholder={t("home.whatmind")}
+          placeholder={getName(props.fullName) + t("home.whatmind")}
           className="mt-2 w-full resize-none rounded-md border-none p-2 shadow-none outline-none"
         />
 
         <div className="mt-4 flex flex-col items-center">
-          <Upload
-            action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChanges}
-          >
+          <Upload listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleFileChange}>
             {fileList.length >= 8 ? null : uploadButton}
           </Upload>
 
@@ -161,20 +175,16 @@ const CreateBox = (props: Props) => {
         </div>
 
         <div className="mt-4 flex justify-center">
-          {loading ? (
-            <Spin />
-          ) : (
-            <Button
-              className="w-full"
-              color="default"
-              variant="solid"
-              type="default"
-              onClick={handleSubmit}
-              disabled={!content.trim() || loading}
-            >
-              {t("home.post")}
-            </Button>
-          )}
+          <Button
+            className="w-full"
+            color="default"
+            variant="solid"
+            type="default"
+            onClick={handleCreate}
+            disabled={!content.trim() || loading}
+          >
+            {t("home.post")}
+          </Button>
         </div>
       </div>
     </ModalCustomize>
