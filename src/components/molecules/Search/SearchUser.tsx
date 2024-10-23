@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { List } from "antd"; // Import List from Ant Design
+import { useDispatch } from "react-redux";
+import { List } from "antd";
 import IconCustomize from "src/components/atoms/Icons";
 import InputCustomize from "src/components/atoms/Input";
 import { useDebounce } from "src/utilities/hooks";
+import { AppDispatch } from "src/app/store";
+import { useAppSelector } from "src/app/appHooks";
+import { selectUser } from "src/slices/user/seletor";
+import { fetchUser } from "src/slices/user/userSlice";
 
 const SearchUser = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchUser, setSearchUser] = useState("");
-  const [searchResults, setSearchResults] = useState<string[]>([]); // Mocked search results
-
+  const [searchResults, setSearchResults] = useState<[]>([]);
   const searchUserDebounce = useDebounce(searchUser, 500);
+
+  const listUser = useAppSelector(selectUser.getUser);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchUser(e.target.value);
@@ -17,28 +24,15 @@ const SearchUser = () => {
 
   useEffect(() => {
     if (searchUserDebounce) {
-      const results = mockSearchUsers(searchUserDebounce);
-
-      setSearchResults(results);
+      dispatch(fetchUser(searchUserDebounce));
+      setSearchResults(listUser);
     } else {
       setSearchResults([]);
     }
-  }, [searchUserDebounce]);
+  }, [searchUserDebounce, dispatch]);
 
   const toggleSearch = () => {
     setIsSearchVisible(true);
-  };
-
-  const closeSearch = () => {
-    setIsSearchVisible(false);
-    setSearchUser("");
-    setSearchResults([]);
-  };
-
-  const mockSearchUsers = (query: string) => {
-    const mockData = ["John Doe", "Jane Smith", "Alice Johnson", "Bob Brown"];
-
-    return mockData.filter((user) => user.toLowerCase().includes(query.toLowerCase()));
   };
 
   return (
@@ -49,27 +43,43 @@ const SearchUser = () => {
         </button>
       )}
 
-      <div className={`${isSearchVisible ? "flex" : "hidden"} items-center space-x-2 md:flex`}>
+      <div className={`${isSearchVisible ? "flex" : "hidden"} z-10 items-center md:flex`}>
         <InputCustomize
           placeholder="Tìm kiếm người dùng"
-          className="relative h-11 w-full rounded-full bg-gray-200 hover:bg-gray-200 md:w-56"
+          className="relative h-11 w-full rounded-full bg-gray-200 hover:bg-gray-200 md:w-64"
           value={searchUser}
           ocChange={handleSearch}
         />
-
-        {isSearchVisible && (
-          <button className="md:hidden" onClick={closeSearch}>
-            <IconCustomize name="close" size={35} color="gray" />
-          </button>
-        )}
       </div>
 
-      {searchResults.length > 0 && (
+      {searchResults && (
         <List
-          className="absolute mt-12 ml-16 w-full rounded-xl rounded-t-md bg-white shadow-lg md:w-72"
+          className="absolute z-0 -mt-4 -ml-14 w-[180px] rounded-xl bg-white pt-16 shadow-lg md:w-96"
           bordered
           dataSource={searchResults}
-          renderItem={(item) => <List.Item className="cursor-pointer hover:bg-gray-100">{item}</List.Item>}
+          renderItem={(item: any) => (
+            <List.Item className="cursor-pointer hover:bg-gray-100">
+              <div className="flex items-center gap-2 md:ml-4 md:gap-3">
+                <img src={item.imageUrl} className="h-7 w-7 rounded-full md:h-12 md:w-12" />
+
+                <div className="">
+                  <p className="text-sm md:text-lg">{item.fullName}</p>
+
+                  <button className="text-xs font-medium text-gray-400">{item.isFriend ? "Bạn bè" : "Kết bạn"}</button>
+                </div>
+              </div>
+
+              <div>
+                {item.hadSendFriendRequest && (
+                  <button className="text-xs font-medium text-gray-400">Đã gửi lời mời</button>
+                )}
+
+                {item.hadReceiverFriendRequest && (
+                  <button className="text-xs font-medium text-gray-400">Đã nhận lời mời</button>
+                )}
+              </div>
+            </List.Item>
+          )}
         />
       )}
     </div>
