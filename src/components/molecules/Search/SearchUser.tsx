@@ -52,7 +52,7 @@ const SearchUser = () => {
         />
       </div>
 
-      {searchResults && (
+      {searchResults.length > 0 && (
         <List
           className="absolute z-0 -mt-4 -ml-14 w-[180px] rounded-xl bg-white pt-16 shadow-lg md:w-96"
           bordered
