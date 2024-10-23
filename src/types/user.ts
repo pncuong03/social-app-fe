@@ -14,3 +14,12 @@ export interface IFriend {
   fullName: string;
   imageUrl: string;
 }
+
+export interface ISearchUser {
+  id: string;
+  fullName: string;
+  imageUrl: string;
+  isFriend: boolean;
+  hadSendFriendRequest: boolean;
+  hadReceiverFriendRequest: boolean;
+}
