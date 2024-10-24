@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useColorScheme } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
@@ -15,7 +14,6 @@ import { fetchListFriend } from "src/slices/friend/friendSlice";
 
 const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { mode } = useColorScheme();
 
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const postsMe = useAppSelector(selectPost.getPostsMe);
@@ -28,7 +26,7 @@ const ProfilePage = () => {
 
   return (
     <div className="">
-      <div className={`h-full w-full shadow ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}>
+      <div className="h-full w-full bg-white shadow">
         <Information user={userInfo} friends={friendList} />
       </div>
 

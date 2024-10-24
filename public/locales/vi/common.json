@@ -49,13 +49,15 @@
     "intro": "Giới thiệu"
   },
   "message": {
-    
     "message": "Tin nhắn",
     "newmessage": "Tin nhắn mới",
     "send": "Gửi",
     "delete": "Xóa",
     "deletechat": "Bạn có muốn xóa cuộc trò chuyện này không?"
-
+  },
+  "groups": {
+    "myfeed": "Bảng feed của bạn",
+    "mygroup" : "Nhóm của bạn"
   }
   
 }

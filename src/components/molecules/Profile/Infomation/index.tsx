@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useColorScheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Avatar, Button, Image, Upload } from "antd";
 import IconCustomize from "src/components/atoms/Icons";
@@ -17,7 +16,6 @@ interface Props {
   };
 }
 const Information = (props: Props) => {
-  const { mode } = useColorScheme();
   const { t } = useTranslation();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
@@ -31,7 +29,7 @@ const Information = (props: Props) => {
   };
 
   return (
-    <div className={`mx-auto -mt-2 max-w-6xl rounded-md ${mode === "light" ? "bg-white " : "bg-neutral-800"}`}>
+    <div className="mx-auto -mt-2 max-w-6xl rounded-md bg-white">
       <div
         className="relative h-[15rem] max-h-[28.75rem] w-full rounded-lg bg-cover bg-center bg-no-repeat xl:h-[30rem]"
         style={{
@@ -95,10 +93,7 @@ const Information = (props: Props) => {
         </div>
 
         <div className="p-3 md:mx-auto lg:mx-6">
-          <Button
-            className={`w-full rounded-md px-3 ${mode === "light" ? "bg-gray-100 " : "bg-neutral-700"}`}
-            onClick={() => setIsOpenEdit(true)}
-          >
+          <Button className="w-full rounded-md bg-gray-100 px-3" onClick={() => setIsOpenEdit(true)}>
             <p className="text-lg font-normal">{t("profile.editprofile")} </p>
           </Button>
         </div>

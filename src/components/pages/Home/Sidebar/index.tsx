@@ -1,5 +1,4 @@
 import React from "react";
-import { useColorScheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import IconCustomize from "src/components/atoms/Icons";
 import SidebarRow from "src/components/molecules/SidebarRow";
@@ -8,7 +7,6 @@ import { useAppSelector } from "src/app/appHooks";
 import { selectUserInfo } from "src/slices/login/selector";
 
 const Sidebar = () => {
-  const { mode } = useColorScheme();
   const { t } = useTranslation();
 
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
@@ -57,11 +55,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
-      className={` hidden h-[calc(120vh-56px)] w-[25rem] flex-col overflow-y-auto rounded-xl  ${
-        mode === "light" ? "bg-white" : "bg-black-300"
-      } p-3 shadow-sm hover:overflow-y-auto lg:flex `}
-    >
+    <div className="hidden h-[calc(120vh-56px)] w-[25rem] flex-col overflow-y-auto rounded-xl bg-white p-3 shadow-sm hover:overflow-y-auto lg:flex">
       {MENU_ITEMS.map((item, index) => (
         <SidebarRow key={index} image={item.image} title={item.name} path={item.path} icon={item.icon} />
       ))}

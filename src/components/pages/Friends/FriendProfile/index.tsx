@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useColorScheme } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
@@ -13,7 +12,6 @@ import Posts from "src/components/molecules/Posts";
 
 const FriendProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { mode } = useColorScheme();
   const location = useLocation();
   const { id } = location.state || {};
 
@@ -27,7 +25,7 @@ const FriendProfile = () => {
 
   return (
     <div className="">
-      <div className={`h-full w-full shadow ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}>
+      <div className="h-full w-full bg-white shadow">
         <Information user={friendInfo} friends={friendList} />
       </div>
 
