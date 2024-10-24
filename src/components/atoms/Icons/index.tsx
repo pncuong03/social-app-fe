@@ -7,6 +7,7 @@ import {
   AiOutlineEllipsis,
   AiOutlineClose,
   AiOutlineLike,
+  AiOutlineHdd,
 } from "react-icons/ai";
 import { IoNotifications, IoSearch } from "react-icons/io5";
 import { FaUserFriends, FaUserCircle } from "react-icons/fa";
@@ -21,6 +22,7 @@ import { CgWorkAlt, CgDanger } from "react-icons/cg";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
 import { CiSearch } from "react-icons/ci";
 import { TbLogout } from "react-icons/tb";
+
 interface Props {
   name: string;
   size?: number;
@@ -56,6 +58,7 @@ const IconCustomize = (props: Props) => {
     logout: <TbLogout size={props.size} color={props.color} />,
     danger: <CgDanger size={props.size} color={props.color} />,
     info: <FaUserCircle size={props.size} color={props.color} />,
+    feed: <AiOutlineHdd size={props.size} color={props.color} />,
   };
 
   return icons[props.name] || null;

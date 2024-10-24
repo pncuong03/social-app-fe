@@ -6,7 +6,7 @@ import { Button } from "antd";
 import { AppDispatch } from "src/app/store";
 import CarouselCustomize from "src/components/atoms/Carousel";
 import IconCustomize from "src/components/atoms/Icons";
-import { Collapse, useColorScheme } from "@mui/material";
+import { Collapse } from "@mui/material";
 import Comments from "../Comments";
 import ShareBox from "../Share";
 import ShareCard from "./ShareCard";
@@ -33,7 +33,6 @@ interface Props {
 
 const PostCard = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { mode } = useColorScheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isOpenComment, setIsOpenComment] = useState(false);
@@ -54,7 +53,7 @@ const PostCard = (props: Props) => {
   };
 
   return (
-    <div className={`flex h-max flex-col rounded-lg ${mode === "light" ? "bg-white" : "bg-black-300"} shadow-md`}>
+    <div className="flex h-max flex-col rounded-lg bg-white">
       <div className="flex justify-between px-4 pt-4">
         <button
           onClick={() => navigate(`/${props.fullName}`, { state: { id: props.id } })}

@@ -1,11 +1,9 @@
 import React from "react";
-import { useColorScheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 
 const Contact = () => {
-  const { mode } = useColorScheme();
   const { t } = useTranslation();
 
   const friends = [
@@ -27,11 +25,7 @@ const Contact = () => {
   ];
 
   return (
-    <div
-      className={`hidden h-[calc(120vh-56px)] w-[25rem] flex-col rounded-xl ${
-        mode === "light" ? "bg-white" : "bg-black-300"
-      } p-3 shadow-sm hover:overflow-y-auto xl:flex `}
-    >
+    <div className="hidden h-[calc(120vh-56px)] w-[25rem] flex-col rounded-xl bg-white p-3 shadow-sm hover:overflow-y-auto xl:flex">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-2xl font-normal ">{t("home.contact")}</p>
 
@@ -48,9 +42,7 @@ const Contact = () => {
           <Link
             to={`/${friend.id}`}
             key={friend.id}
-            className={`flex h-16 cursor-pointer items-center gap-3 space-x-2 rounded-md p-2  ${
-              mode === "light" ? "hover:bg-gray-100" : "hover:bg-neutral-800"
-            }`}
+            className="flex h-16 cursor-pointer items-center gap-3 space-x-2 rounded-md p-2 hover:bg-gray-100"
           >
             <img className="h-12 w-12 rounded-full" src={friend.imageUrl} alt="user" />
 

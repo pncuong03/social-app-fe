@@ -1,13 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useColorScheme } from "@mui/material";
 import routesName from "src/routes/enum.routes";
 import MenuCustomzie from "src/components/atoms/Menu";
 import IconCustomize from "src/components/atoms/Icons";
 
 const FriendsPage = () => {
-  const { mode } = useColorScheme();
   const { t } = useTranslation();
 
   const items = [
@@ -24,11 +22,7 @@ const FriendsPage = () => {
 
   return (
     <div className="flex flex-col">
-      <div
-        className={`fixed top-0 left-0 w-full pt-24 shadow-md transition-transform duration-300 lg:h-screen lg:w-96 ${
-          mode === "light" ? "bg-white" : "bg-black-300"
-        }`}
-      >
+      <div className="fixed top-0 left-0 w-full bg-white pt-24 shadow-md transition-transform duration-300 lg:h-screen lg:w-96">
         <h2 className="ml-4 text-3xl font-medium">{t("home.friends")}</h2>
 
         <MenuCustomzie items={items} defaultSelectedKey={routesName.FRIENDS} />

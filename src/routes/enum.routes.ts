@@ -9,10 +9,12 @@ const routesName = {
   GAMING: "/gaming",
   FRIENDREQUEST: "/friends/request",
   FRIENDLIST: "/friends/list",
+  FRIENPROFILE: "/:slug",
   MESSAGES: "/messages",
   MESSAGEDETAIL: "/messages/:slug",
-  FRIENPROFILE: "/:slug",
   GROUPDETAIL: "/groups/:slug",
+  GROUPSFEED: "/groups/feed",
+  GROUPSJOINS: "/groups/joins",
 };
 
 export default routesName;

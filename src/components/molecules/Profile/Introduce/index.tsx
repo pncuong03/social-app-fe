@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useColorScheme } from "@mui/material";
 import IconCustomize from "src/components/atoms/Icons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
@@ -18,15 +17,12 @@ interface Props {
 }
 
 const Introduce = (props: Props) => {
-  const { mode } = useColorScheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <div className="col-span-1 mb-4 grid h-fit gap-4 ">
-      <div
-        className={`flex flex-col gap-4 rounded-lg  p-3 shadow-md ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}
-      >
+      <div className="flex flex-col gap-4 rounded-lg  bg-white p-3 shadow-md">
         <p className="text-xl font-medium">{t("profile.intro")}</p>
 
         <div className="flex justify-center">
@@ -48,9 +44,7 @@ const Introduce = (props: Props) => {
         </div>
       </div>
 
-      <div
-        className={`flex flex-col gap-4 rounded-lg p-3 shadow-md  ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}
-      >
+      <div className="flex flex-col gap-4 rounded-lg bg-white p-3 shadow-md">
         <div className="flex items-center justify-between">
           <p className="text-xl font-medium">{t("home.images")}</p>
         </div>
@@ -64,9 +58,7 @@ const Introduce = (props: Props) => {
         </div>
       </div>
 
-      <div
-        className={`flex flex-col gap-4 rounded-lg p-3 shadow-md ${mode === "light" ? "bg-white" : "bg-neutral-800"}`}
-      >
+      <div className="flex flex-col gap-4 rounded-lg bg-white p-3 shadow-md">
         <div className="flex justify-between">
           <div>
             <p className="text-xl font-medium">{t("home.friends")}</p>

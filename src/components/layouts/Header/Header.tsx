@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 import { Button } from "antd";
 import { useTranslation } from "react-i18next";
-import { useColorScheme } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import routesName from "src/routes/enum.routes";
 import CustomDropdown from "src/components/atoms/Dropdown";
@@ -55,7 +54,6 @@ const notifications = [
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { mode } = useColorScheme();
   const { pathname } = useLocation();
   const { t } = useTranslation();
 
@@ -97,11 +95,7 @@ const Header = () => {
   ];
 
   return (
-    <header
-      className={`fixed z-10 mx-auto flex h-[75px] w-full items-center justify-between gap-2 px-2 ${
-        mode === "light" ? "bg-white" : "bg-black-300"
-      } shadow-md`}
-    >
+    <header className="fixed z-10 mx-auto flex h-[75px] w-full items-center justify-between gap-2 bg-white px-2 shadow-md">
       <div className="col-span-2 flex items-center">
         <div className="ml-2 flex items-center gap-2">
           <div className="">
@@ -124,11 +118,7 @@ const Header = () => {
               })}
               to={item.path}
             >
-              <div
-                className={`flex h-16 w-24 cursor-pointer items-center justify-center rounded-lg ${
-                  mode === "light" ? "hover:bg-gray-100" : " hover:bg-neutral-600"
-                }`}
-              >
+              <div className="flex h-16 w-24 cursor-pointer items-center justify-center rounded-lg hover:bg-gray-100">
                 <div className="relative flex h-auto w-14 items-center justify-center">{item.icon}</div>
               </div>
             </Link>

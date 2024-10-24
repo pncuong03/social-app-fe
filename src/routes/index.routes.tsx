@@ -13,12 +13,14 @@ import GroupDetail from "src/components/molecules/Groups/GroupDetail";
 const HomePage = React.lazy(() => import("src/components/pages/Home"));
 const ProfilePage = React.lazy(() => import("src/components/pages/Profile"));
 const WatchPage = React.lazy(() => import("src/components/pages/Watch"));
-const GroupPage = React.lazy(() => import("src/components/pages/Groups"));
+const GroupsPage = React.lazy(() => import("src/components/pages/Groups"));
 const FriendsPage = React.lazy(() => import("src/components/pages/Friends"));
 const FriendsList = React.lazy(() => import("src/components/pages/Friends/FriendsList"));
 const FriendRequest = React.lazy(() => import("src/components/pages/Friends/FriendsRequest"));
 const MessagePage = React.lazy(() => import("src/components/pages/Messages"));
 const FriendProfile = React.lazy(() => import("src/components/pages/Friends/FriendProfile"));
+const GroupsFeed = React.lazy(() => import("src/components/pages/Groups/GroupsFeed"));
+const GroupsJoins = React.lazy(() => import("src/components/pages/Groups/GroupsJoins"));
 
 function RoutesApp() {
   return (
@@ -76,10 +78,14 @@ function RoutesApp() {
               path={routesName.GROUPS}
               element={
                 <PrivateRoute>
-                  <GroupPage />
+                  <GroupsPage />
                 </PrivateRoute>
               }
             >
+              <Route index element={<GroupsFeed />} />
+
+              <Route path={routesName.GROUPSJOINS} element={<GroupsJoins />} />
+
               <Route path={routesName.GROUPDETAIL} element={<GroupDetail />} />
             </Route>
 
