@@ -13,9 +13,10 @@ import ShareCard from "./ShareCard";
 import TimeComparison from "src/const/dateFormat";
 import { deletePost, likePost, unLikePost } from "src/slices/posts/postSlice";
 import clsx from "clsx";
-import { useAppSelector } from "src/app/appHooks";
 import { selectUserInfo } from "src/slices/login/selector";
+import { useAppSelector } from "src/app/appHooks";
 import PopconfirmCustomize from "src/components/atoms/Popconfirm";
+// import PostDetail from "../PostDetail";
 
 interface Props {
   id: string;
@@ -154,6 +155,8 @@ const PostCard = (props: Props) => {
       <Collapse in={isOpenComment} timeout="auto">
         <Comments isOpen={isOpenComment} postId={props.id} />
       </Collapse>
+
+      {/* <PostDetail open={isOpenShare} onCancel={() => setIsOpenShare(false)} postId={props.id} /> */}
 
       <ShareBox
         open={isOpenShare}

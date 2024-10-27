@@ -21,18 +21,20 @@ const ModalCustomize = (props: Props) => {
       onCancel={props.onCancel}
       centered
       footer={null}
-      style={{ borderRadius: "1rem", overflow: "auto" }}
+      style={{ borderRadius: "1rem", overflowY: "hidden" }}
       width={props.size}
       closable={props.closable}
     >
-      <div className="w-full">
+      <div className="relative w-full">
         {props.loading && (
           <div className="absolute inset-0 z-10 flex items-center justify-center rounded-3xl bg-white bg-opacity-75">
             <SpinCustomize />
           </div>
         )}
 
-        <div className={`modal-body ${props.loading ? "opacity-50" : ""} mt-4 transition-opacity`}>
+        <div
+          className={`modal-body ${props.loading ? "opacity-50" : ""} max-h-[70vh] overflow-y-auto transition-opacity`}
+        >
           {props.children}
         </div>
       </div>
