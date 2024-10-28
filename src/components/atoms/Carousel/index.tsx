@@ -6,8 +6,6 @@ interface Props {
 }
 
 const CarouselCustomize = (props: Props) => {
-  console.log("images", props.images);
-
   return (
     <div className="container mx-auto">
       {props.images && (
