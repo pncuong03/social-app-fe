@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Dropdown, Button } from "antd";
+import { Dropdown, Button, MenuProps } from "antd";
 import { useTranslation } from "react-i18next";
 
 const DrawerLanguage: React.FC = () => {
@@ -21,20 +21,21 @@ const DrawerLanguage: React.FC = () => {
     }
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="vi" onClick={() => changeLanguage("vi")}>
-        Vietnamese
-      </Menu.Item>
-
-      <Menu.Item key="en" onClick={() => changeLanguage("en")}>
-        English
-      </Menu.Item>
-    </Menu>
-  );
+  const items: MenuProps["items"] = [
+    {
+      label: "Vietnamese",
+      key: "0",
+      onClick: () => changeLanguage("vi"),
+    },
+    {
+      label: "English",
+      key: "1",
+      onClick: () => changeLanguage("en"),
+    },
+  ];
 
   return (
-    <Dropdown overlay={menu} trigger={["click"]} placement="bottomCenter" arrow>
+    <Dropdown menu={{ items }} trigger={["click"]} placement="bottom" arrow>
       <Button className="border-none shadow-none " icon={getLanguageIcon()} />
     </Dropdown>
   );

@@ -19,7 +19,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const CustomDropdown: React.FC<Props> = (props) => {
+const CustomDropdown = (props: Props) => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -39,29 +39,25 @@ const CustomDropdown: React.FC<Props> = (props) => {
     setVisible(flag);
   };
 
-  const menu = (
-    <Menu className="h-auto w-80">
-      {props.items.map((item) => (
-        <Menu.Item
-          style={{ fontSize: "25px" }}
-          className="flex items-center"
-          key={item.key}
-          onClick={() => handleMenuClick(item)}
-        >
-          {item.image ? (
-            <img src={item.image} className="mr-4 h-10 w-10 rounded-full object-cover" />
-          ) : (
-            <span className="mr-3">{item.icon}</span>
-          )}
+  const menuItems = props.items.map((item) => ({
+    key: item.key,
+    label: (
+      <div className="flex items-center" style={{ fontSize: "25px" }} onClick={() => handleMenuClick(item)}>
+        {item.image ? (
+          <img src={item.image} className="mr-4 h-10 w-10 rounded-full object-cover" />
+        ) : (
+          <span className="mr-3">{item.icon}</span>
+        )}
 
-          {item.label}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
+        {item.label}
+      </div>
+    ),
+  }));
+
+  const menu = <Menu className="h-auto w-80" items={menuItems} />;
 
   return (
-    <PopoverCustomize content={menu} title="Menu" visible={visible} onVisibleChange={handleVisibleChange}>
+    <PopoverCustomize content={menu} title="Menu" open={visible} onOpenChange={handleVisibleChange}>
       {props.children}
     </PopoverCustomize>
   );
