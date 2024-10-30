@@ -6,8 +6,8 @@ interface Props {
   children: React.ReactNode;
   title?: string;
   color?: string;
-  visible?: boolean;
-  onVisibleChange?: (visible: boolean) => void;
+  open?: boolean;
+  onOpenChange?: (visible: boolean) => void;
 }
 
 const PopoverCustomize = (props: Props) => {
@@ -17,8 +17,8 @@ const PopoverCustomize = (props: Props) => {
       arrow={false}
       title={<h2 className="text-3xl">{props.title}</h2>}
       color={props.color}
-      visible={props.visible}
-      onVisibleChange={props.onVisibleChange}
+      open={props.open}
+      onOpenChange={props.onOpenChange}
       trigger="click"
     >
       {props.children}

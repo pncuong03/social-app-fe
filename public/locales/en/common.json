@@ -29,7 +29,8 @@
     "justnow":"Just now",
     "minute":"minutes ago",
     "hour":"hours ago",
-    "day":"days ago"
+    "day":"days ago",
+    "articleby": "Article by "
   },
   "friend": {
     "home": "Home",

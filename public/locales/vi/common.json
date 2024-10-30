@@ -29,7 +29,8 @@
     "justnow":"Vừa xong",
     "minute":"phút trước",
     "hour":"giờ trước",
-    "day":"ngày trước"
+    "day":"ngày trước",
+    "articleby": "Bài viết của "
   },
   "friend": {
     "home": "Trang chủ",
