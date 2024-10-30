@@ -13,9 +13,10 @@
   width: 100%;
 } */
 
-body {
+/* body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
+} */
+ 
 ::-webkit-scrollbar {
   width: 2px; /* Độ rộng của thanh cuộn */
 }
