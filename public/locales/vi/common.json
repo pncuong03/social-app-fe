@@ -58,7 +58,10 @@
   },
   "groups": {
     "myfeed": "Bảng feed của bạn",
-    "mygroup" : "Nhóm của bạn"
+    "mygroup" : "Nhóm của bạn",
+    "creategroup": "Tạo nhóm",
+    "groupname": "Tên nhóm",
+    "invitefriend": "Mời bạn bè"
   }
   
 }

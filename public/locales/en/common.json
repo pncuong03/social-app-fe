@@ -58,7 +58,10 @@
   },
   "groups": {
     "myfeed": "Your feed",
-    "mygroup" : "Your group"
+    "mygroup" : "Your group",
+    "creategroup": "Create group",
+    "groupname": "Group name",
+    "invitefriend": "Invite friends"
   }
   
 }

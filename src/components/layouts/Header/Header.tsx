@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import routesName from "src/routes/enum.routes";
 import CustomDropdown from "src/components/atoms/Dropdown";
 import IconCustomize from "src/components/atoms/Icons";
-import DrawerLanguage from "src/components/atoms/Drawer";
+import CustomLanguage from "src/components/atoms/Language";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { fetchInfoUser, logOut } from "src/slices/login/loginSlice";
@@ -127,7 +127,7 @@ const Header = () => {
       </nav>
 
       <div className="flex items-center justify-end gap-2">
-        <DrawerLanguage />
+        <CustomLanguage />
 
         <Button className="h-12 w-12 rounded-full bg-gray-200 !p-0" onClick={() => navigate(routesName.MESSAGES)}>
           <IconCustomize name="message" size={25} color="black" />
