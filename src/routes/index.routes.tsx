@@ -1,7 +1,7 @@
-import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "src/components/layouts/MainLayout";
 import LoginPage from "src/components/pages/Login";
+import React, { Suspense } from "react";
 import RegisterPage from "src/components/pages/Register";
 import PrivateRoute from "./privateRoute";
 import routesName from "./enum.routes";
@@ -37,18 +37,18 @@ function RoutesApp() {
             <Route
               index
               element={
-                <PrivateRoute>
-                  <HomePage />
-                </PrivateRoute>
+                //<PrivateRoute>
+                <HomePage />
+                //</PrivateRoute>
               }
             />
 
             <Route
               path={routesName.FRIENDS}
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <FriendsPage />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             >
               <Route index element={<FriendRequest />} />
@@ -77,9 +77,9 @@ function RoutesApp() {
             <Route
               path={routesName.GROUPS}
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <GroupsPage />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             >
               <Route index element={<GroupsFeed />} />
@@ -92,9 +92,9 @@ function RoutesApp() {
             <Route
               path={routesName.FRIENPROFILE}
               element={
-                <PrivateRoute>
+                //<PrivateRoute>
                   <FriendProfile />
-                </PrivateRoute>
+                //</PrivateRoute>
               }
             />
 

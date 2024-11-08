@@ -1,7 +1,7 @@
 import React from "react";
-import GroupCard from "src/components/molecules/Groups/GroupsJoins/GroupCard";
+import GroupCardCol from "./GroupCardCol";
 
-const GroupsJoins = () => {
+const GroupsListCol = () => {
   const groups = [
     {
       id: 1,
@@ -22,19 +22,19 @@ const GroupsJoins = () => {
       img: "https://via.placeholder.com/150",
     },
     {
-      id: 4,
+      id: 1,
       name: "Group 1",
       description: "Description 1",
       img: "https://via.placeholder.com/150",
     },
     {
-      id: 5,
+      id: 2,
       name: "Group 2",
       description: "Description 2",
       img: "https://via.placeholder.com/150",
     },
     {
-      id: 6,
+      id: 3,
       name: "Group 3",
       description: "Description 3",
       img: "https://via.placeholder.com/150",
@@ -58,37 +58,19 @@ const GroupsJoins = () => {
       img: "https://via.placeholder.com/150",
     },
     {
-      id: 4,
+      id: 1,
       name: "Group 1",
       description: "Description 1",
       img: "https://via.placeholder.com/150",
     },
     {
-      id: 5,
+      id: 2,
       name: "Group 2",
       description: "Description 2",
       img: "https://via.placeholder.com/150",
     },
     {
-      id: 6,
-      name: "Group 3",
-      description: "Description 3",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 4,
-      name: "Group 1",
-      description: "Description 1",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 5,
-      name: "Group 2",
-      description: "Description 2",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 6,
+      id: 3,
       name: "Group 3",
       description: "Description 3",
       img: "https://via.placeholder.com/150",
@@ -96,16 +78,16 @@ const GroupsJoins = () => {
   ];
 
   return (
-    <div className="p-4 lg:mx-0">
-      <h2 className="mb-4 text-xl font-medium">Nhóm bạn tham gia</h2>
+    <div className="mt-10 hidden flex-col border-t-2 p-4 lg:flex">
+      <h2 className="mb-2 text-xl font-medium">Nhóm bạn tham gia</h2>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-col gap-1">
         {groups.map((group) => {
-          return <GroupCard key={group.id} name={group.name} img={group.img} description={group.description} />;
+          return <GroupCardCol key={group.id} name={group.name} img={group.img} description={group.description} />;
         })}
       </div>
     </div>
   );
 };
 
-export default GroupsJoins;
+export default GroupsListCol;
