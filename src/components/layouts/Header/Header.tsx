@@ -15,6 +15,7 @@ import NotificationList from "src/components/molecules/Notification";
 import SearchUser from "src/components/molecules/Search/SearchUser";
 import { useAppSelector } from "src/app/appHooks";
 import { selectUserInfo } from "src/slices/login/selector";
+import { useSocket } from "src/utilities/hooks/useSocket";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
 
@@ -68,6 +69,8 @@ const Header = () => {
     toast.success(t("home.logout"));
     navigate(routesName.LOGIN);
   };
+
+  useSocket();
 
   const MENU_PROFILE = [
     {

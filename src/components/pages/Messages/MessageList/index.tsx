@@ -2,43 +2,32 @@ import React from "react";
 import { List } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const MessageList = () => {
+interface Props {
+  listMessage: any[];
+}
+
+const MessageList = (props: Props) => {
   const navigate = useNavigate();
 
-  const messages = [
-    {
-      fullname: "John Doe",
-      message: "Hello, how are you?",
-      time: "2 hours ago",
-      image: "./img/avatar.png",
-      slug: "john-doe",
-    },
-    {
-      fullname: "Jane Doe",
-      message: "Good morning!",
-      time: "3 hours ago",
-      image: "./img/avatar2.png",
-      slug: "jane-doe",
-    },
-  ];
+  console.log(props.listMessage);
 
   return (
     <List
       itemLayout="horizontal"
-      dataSource={messages}
+      dataSource={props.listMessage}
       className="overflow-y-auto px-4"
-      renderItem={(item, index) => (
-        <List.Item key={index} onClick={() => navigate(`/messages/${item.slug}`)}>
+      renderItem={(item: any, index) => (
+        <List.Item key={index} onClick={() => navigate(`/messages/${item.name}`, { state: { chatId: item.id } })}>
           <div className="flex cursor-pointer gap-3">
-            <img src={item.image} className="h-12 w-12 rounded-full object-cover" alt="avatar" />
+            <img src={item.imageUrl} className="h-12 w-12 rounded-full object-cover" alt="avatar" />
 
             <div className="">
-              <h1 className="text-xl font-normal">{item.fullname}</h1>
+              <h1 className="text-xl font-normal">{item.name}</h1>
 
               <div className="text-md flex gap-1 text-gray-400">
-                <p>{item.message}.</p>
+                <p>{item.newestMessage}.</p>
 
-                <p className="">{item.time}</p>
+                <p className="">{item.newestChatTime}</p>
               </div>
             </div>
           </div>

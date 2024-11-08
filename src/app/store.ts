@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import friendSlice from "src/slices/friend/friendSlice";
 import authReducer from "src/slices/login/loginSlice";
+import messageSlice from "src/slices/messages/messageSlice";
 import postSlice from "src/slices/posts/postSlice";
 import userSlice from "src/slices/user/userSlice";
 
@@ -10,6 +11,7 @@ export const store = configureStore({
     post: postSlice,
     friend: friendSlice,
     user: userSlice,
+    message: messageSlice,
   },
 });
 
