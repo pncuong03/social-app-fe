@@ -16,7 +16,7 @@
 /* body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 } */
- 
+
 ::-webkit-scrollbar {
   width: 2px; /* Độ rộng của thanh cuộn */
 }
@@ -33,7 +33,6 @@
   border-radius: 10px; /* Bo tròn */
 }
 
-
 .ant-image-mask {
   border-radius: 50% !important; /* Bo tròn lớp mask */
 }
@@ -41,4 +40,33 @@
 .ant-popover-content {
   margin-right: 8px;
   margin-top: 6px;
+}
+
+.ant-popconfirm-inner-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none; /* Ẩn scrollbar trên Firefox */
+  -ms-overflow-style: none; /* Ẩn scrollbar trên IE 10+ */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Ẩn scrollbar trên Chrome, Safari, Edge */
 }

@@ -1,14 +1,14 @@
-import React, { Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "src/components/layouts/MainLayout";
 import LoginPage from "src/components/pages/Login";
+import React, { Suspense } from "react";
 import RegisterPage from "src/components/pages/Register";
 import PrivateRoute from "./privateRoute";
 import routesName from "./enum.routes";
 import NotFound from "src/components/atoms/NotFound";
-import MessageDetail from "src/components/molecules/Messages/MessageDetail";
+import MessageDetail from "src/components/molecules/messages/MessageDetail";
 import SpinCustomize from "src/components/atoms/Spin";
-import GroupDetail from "src/components/molecules/Groups/GroupDetail";
+import GroupDetail from "src/components/molecules/groups/GroupDetail";
 
 const HomePage = React.lazy(() => import("src/components/pages/Home"));
 const ProfilePage = React.lazy(() => import("src/components/pages/Profile"));

@@ -1,77 +1,41 @@
 import httpRequest from "src/utilities/services/httpRequest";
 
-export function friendInfo(accessToken: string, friendId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get(`/friend/friend-information?checkId=${friendId}`, auth).then((data: any) => {
+export function friendInfo(friendId: string) {
+  return httpRequest.get(`/post-service/api/v1/friend/friend-information?checkId=${friendId}`).then((data: any) => {
     return data;
   });
 }
 
-export function getListFriend(accessToken: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get("/friend/list", auth).then((data: any) => {
+export function getSearchListFriend(search: string) {
+  return httpRequest.get(`/post-service/api/v1/friend/list-search?search=${search}`).then((data: any) => {
     return data;
   });
 }
 
-export function getListRequest(accessToken: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get("/friend/request/list", auth).then((data: any) => {
+export function getListFriend() {
+  return httpRequest.get("/post-service/api/v1/friend/list").then((data: any) => {
     return data;
   });
 }
 
-export function onDeleteFriend(accessToken: string, friendId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.delete(`/friend/delete?friendId=${friendId}`, auth);
+export function getListRequest() {
+  return httpRequest.get("/post-service/api/v1/friend/request/list").then((data: any) => {
+    return data;
+  });
 }
 
-export function onAcceptRequestFriend(accessToken: string, id: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.post(`/friend/accept?id=${id}`, {}, auth);
+export function onDeleteFriend(friendId: string) {
+  return httpRequest.delete(`/post-service/api/v1/friend/delete?friendId=${friendId}`);
 }
 
-export function onRejectRequestFriend(accessToken: string, senderId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.delete(`/friend/reject?senderId=${senderId}`, auth);
+export function onAcceptRequestFriend(id: string) {
+  return httpRequest.post(`/post-service/api/v1/friend/accept?id=${id}`, {});
 }
 
-export function onDeleteRequestSend(accessToken: string, receiverId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
+export function onRejectRequestFriend(senderId: string) {
+  return httpRequest.delete(`/post-service/api/v1/friend/reject?senderId=${senderId}`);
+}
 
-  return httpRequest.delete(`/friend/delete-request/user?receiverId=${receiverId}`, auth);
+export function onDeleteRequestSend(receiverId: string) {
+  return httpRequest.delete(`/post-service/api/v1/friend/delete-request/user?receiverId=${receiverId}`);
 }

@@ -2,15 +2,15 @@ import LocalStorage, { LocalStorageKey } from "src/utilities/local-storage/local
 import httpRequest from "src/utilities/services/httpRequest";
 
 export function authLogin(params: { username: string; password: string }) {
-  return httpRequest.post("/user/log-in", params).then((data: any) => {
+  return httpRequest.post("/uaa-service/api/v1/user/log-in", params).then((data: any) => {
     LocalStorage.set(LocalStorageKey.ACCESS_TOKEN, data.accessToken);
 
     return data;
   });
 }
 
-export function authRegister(params: { fullName: string; username: string; password: string }) {
-  return httpRequest.post("/user/sign-up", params).then((data: any) => {
+export function authRegister(params: { fullName: string; username: string; password: string; birthday: string }) {
+  return httpRequest.post("/uaa-service/api/v1/user/sign-up", params).then((data: any) => {
     LocalStorage.set(LocalStorageKey.ACCESS_TOKEN, data.accessToken);
 
     return data;
@@ -21,14 +21,8 @@ export const logout = () => {
   LocalStorage.remove(LocalStorageKey.ACCESS_TOKEN);
 };
 
-export function userInfo(accessToken: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get("/user", auth).then((data: any) => {
+export function userInfo() {
+  return httpRequest.get("/uaa-service/api/v1/user").then((data: any) => {
     return data;
   });
 }

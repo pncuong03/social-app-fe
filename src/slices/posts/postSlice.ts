@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  createPost,
+  onCreatePost,
   getDetailPost,
   getPostofMe,
   getPostPublic,
   onComment,
+  onCreateImage,
   onDeleteComment,
   onDeletePost,
   onLike,
@@ -21,7 +22,7 @@ export interface PostState {
 }
 
 const initialPost: IPost = {
-  id: "",
+  id: 0,
   userId: "",
   state: "",
   fullName: "",
@@ -46,11 +47,9 @@ const initialState: PostState = {
   detailPost: initialPost,
 };
 
-export const fetchPostMe = createAsyncThunk("post/fetchPostMe", async (_, thunkAPI) => {
+export const fetchPostMe = createAsyncThunk("post/fetchPostMe", async (page: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await getPostofMe(accessToken);
+    const data = await getPostofMe(page);
 
     return data.content;
   } catch (error) {
@@ -58,11 +57,9 @@ export const fetchPostMe = createAsyncThunk("post/fetchPostMe", async (_, thunkA
   }
 });
 
-export const fetchPostPublic = createAsyncThunk("post/fetchPostPublic", async (_, thunkAPI) => {
+export const fetchPostPublic = createAsyncThunk("post/fetchPostPublic", async (page: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await getPostPublic(accessToken);
+    const data = await getPostPublic(page);
 
     return data.content;
   } catch (error) {
@@ -70,11 +67,9 @@ export const fetchPostPublic = createAsyncThunk("post/fetchPostPublic", async (_
   }
 });
 
-export const fetchDetailPost = createAsyncThunk("post/fetchDetailPost", async (postId: string, thunkAPI) => {
+export const fetchDetailPost = createAsyncThunk("post/fetchDetailPost", async (postId: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await getDetailPost(accessToken, postId);
+    const data = await getDetailPost(postId);
 
     return data;
   } catch (error) {
@@ -82,22 +77,21 @@ export const fetchDetailPost = createAsyncThunk("post/fetchDetailPost", async (p
   }
 });
 
-export const createPosts = createAsyncThunk("post/createPost", async (postData: FormData, thunkAPI) => {
-  try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await createPost(postData, accessToken);
-    thunkAPI.dispatch(fetchPostMe());
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+export const createPosts = createAsyncThunk(
+  "post/createPost",
+  async (params: { content: string; state: string; imageUrls: string[] }, thunkAPI) => {
+    try {
+      await onCreatePost(params);
+      thunkAPI.dispatch(fetchPostMe(0));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
-export const likePost = createAsyncThunk("post/likePost", async (postId: string, thunkAPI) => {
+export const likePost = createAsyncThunk("post/likePost", async (postId: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onLike(accessToken, postId);
+    await onLike(postId);
 
     thunkAPI.dispatch(increaseLike(postId));
   } catch (error) {
@@ -105,11 +99,9 @@ export const likePost = createAsyncThunk("post/likePost", async (postId: string,
   }
 });
 
-export const unLikePost = createAsyncThunk("post/unLikePost", async (postId: string, thunkAPI) => {
+export const unLikePost = createAsyncThunk("post/unLikePost", async (postId: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onUnLike(accessToken, postId);
+    await onUnLike(postId);
 
     thunkAPI.dispatch(decreaseLike(postId));
   } catch (error) {
@@ -119,11 +111,9 @@ export const unLikePost = createAsyncThunk("post/unLikePost", async (postId: str
 
 export const sharePost = createAsyncThunk(
   "post/sharePost",
-  async ({ content, state, postId }: { content: string; state: string; postId: string }, thunkAPI) => {
+  async ({ postId, params }: { postId: number; params: { content: string; state: string } }, thunkAPI) => {
     try {
-      const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-      await onShare(accessToken, { content, state, postId });
+      await onShare(postId, params);
       thunkAPI.dispatch(increaseShare(postId));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -133,11 +123,9 @@ export const sharePost = createAsyncThunk(
 
 export const commentPost = createAsyncThunk(
   "post/commentPost",
-  async ({ postId, comment }: { postId: string; comment: string }, thunkAPI) => {
+  async ({ postId, comment }: { postId: number; comment: string }, thunkAPI) => {
     try {
-      const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-      await onComment(accessToken, postId, comment);
+      await onComment(postId, comment);
       thunkAPI.dispatch(fetchDetailPost(postId));
       thunkAPI.dispatch(increaseComment(postId));
     } catch (error) {
@@ -146,22 +134,28 @@ export const commentPost = createAsyncThunk(
   }
 );
 
-export const deleteComment = createAsyncThunk("post/deleteComment", async (commentId: string, thunkAPI) => {
+export const deleteComment = createAsyncThunk("post/deleteComment", async (commentId: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onDeleteComment(accessToken, commentId);
+    await onDeleteComment(commentId);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
 });
 
-export const deletePost = createAsyncThunk("post/deletePost", async (postId: string, thunkAPI) => {
+export const deletePost = createAsyncThunk("post/deletePost", async (postId: number, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onDeletePost(accessToken, postId);
+    await onDeletePost(postId);
     thunkAPI.dispatch(deletePostofMe(postId));
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const createImage = createAsyncThunk("post/createImage", async (image: FormData, thunkAPI) => {
+  try {
+    const data = await onCreateImage(image);
+
+    return data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -171,7 +165,7 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    increaseLike: (state, action: PayloadAction<string>) => {
+    increaseLike: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
       const postPublic = state.postOfPublic.find((post) => post.id === postId);
       const postOfMe = state.postOfMe.find((post) => post.id === postId);
@@ -193,11 +187,11 @@ const postSlice = createSlice({
       }
     },
 
-    decreaseLike: (state, action: PayloadAction<string>) => {
+    decreaseLike: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post) => post.id === postId);
-      const postOfMe = state.postOfMe.find((post) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post) => post.id === postId);
+      const postPublic = state.postOfPublic.find((post: any) => post.id === postId);
+      const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfFriend.find((post: any) => post.id === postId);
 
       if (postPublic) {
         postPublic.hasLike = false;
@@ -215,11 +209,11 @@ const postSlice = createSlice({
       }
     },
 
-    increaseShare: (state, action: PayloadAction<string>) => {
+    increaseShare: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post) => post.id === postId);
-      const postOfMe = state.postOfMe.find((post) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post) => post.id === postId);
+      const postPublic = state.postOfPublic.find((post: any) => post.id === postId);
+      const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfFriend.find((post: any) => post.id === postId);
 
       if (postPublic) {
         postPublic.shareCount += 1;
@@ -234,11 +228,11 @@ const postSlice = createSlice({
       }
     },
 
-    increaseComment: (state, action: PayloadAction<string>) => {
+    increaseComment: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post) => post.id === postId);
-      const postOfMe = state.postOfMe.find((post) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post) => post.id === postId);
+      const postPublic = state.postOfPublic.find((post: any) => post.id === postId);
+      const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfFriend.find((post: any) => post.id === postId);
 
       if (postPublic) {
         postPublic.commentCount += 1;
@@ -253,21 +247,29 @@ const postSlice = createSlice({
       }
     },
 
-    deletePostofMe: (state, action: PayloadAction<string>) => {
+    deletePostofMe: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
 
-      state.postOfMe = state.postOfMe.filter((post) => post.id !== postId);
+      state.postOfMe = state.postOfMe.filter((post: any) => post.id !== postId);
     },
   },
   extraReducers: (builder) => {
     builder
 
       .addCase(fetchPostMe.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-        state.postOfMe = action.payload;
+        // const sortedPosts = action.payload.slice().sort((a, b) => {
+        //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        // });
+
+        state.postOfMe = [...state.postOfMe, ...action.payload];
       })
 
       .addCase(fetchPostPublic.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-        state.postOfPublic = action.payload;
+        // const sortedPosts = action.payload.slice().sort((a, b) => {
+        //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        // });
+
+        state.postOfPublic = [...state.postOfPublic, ...action.payload];
       })
 
       .addCase(fetchDetailPost.fulfilled, (state, action: PayloadAction<IPost>) => {

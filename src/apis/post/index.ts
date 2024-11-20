@@ -1,111 +1,53 @@
 import httpRequest from "src/utilities/services/httpRequest";
 
-export function getPostPublic(accessToken: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get("/post/list/friends", auth).then((data: any) => {
+export function getPostPublic(page: number) {
+  return httpRequest.get(`/post-service/api/v1/post/list/friends?page=${page}&size=5`).then((data: any) => {
     return data;
   });
 }
 
-export function getPostofMe(accessToken: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get("/post/list/me", auth).then((data: any) => {
+export function getPostofMe(page: number) {
+  return httpRequest.get(`/post-service/api/v1/post/list/me?page=${page}&size=5`).then((data: any) => {
     return data;
   });
 }
 
-export function getDetailPost(accessToken: string, postId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.get(`/user/post/interaction?postId=${postId}`, auth).then((data: any) => {
+export function getDetailPost(postId: number) {
+  return httpRequest.get(`/post-service/api/v1/user/post/interaction?postId=${postId}`).then((data: any) => {
     return data;
   });
 }
 
-export function createPost(postData: FormData, accessToken: string) {
-  const auth = {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.post("/post/post", postData, auth);
+export function onCreatePost(params: { content: string; state: string; imageUrls: string[] }) {
+  return httpRequest.post("/post-service/api/v1/post/post", params);
 }
 
-export function onLike(accessToken: string, postId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.post(`/user/post/interaction/like?postId=${postId}`, {}, auth);
+export function onLike(postId: number) {
+  return httpRequest.post(`/post-service/api/v1/user/post/interaction/like?postId=${postId}`, {});
 }
 
-export function onUnLike(accessToken: string, postId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.delete(`/user/post/interaction/remove-like?postId=${postId}`, auth);
+export function onUnLike(postId: number) {
+  return httpRequest.delete(`/post-service/api/v1/user/post/interaction/remove-like?postId=${postId}`);
 }
 
-export function onShare(
-  accessToken: string,
-  { content, state, postId }: { content: string; state: string; postId: string }
-) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.post(`/post/share?shareId=${postId}`, { content, state }, auth);
+export function onShare(postId: number, params: { content: string; state: string }) {
+  return httpRequest.post(`/post-service/api/v1/post/share?shareId=${postId}`, params);
 }
 
-export function onComment(accessToken: string, postId: string, comment: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.post(`/user/post/interaction/comment?postId=${postId}&comment=${comment}`, {}, auth);
+export function onComment(postId: number, comment: string) {
+  return httpRequest.post(`/post-service/api/v1/user/post/interaction/comment?postId=${postId}&comment=${comment}`, {});
 }
 
-export function onDeleteComment(accessToken: string, commentId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  return httpRequest.delete(`/user/post/interaction/comment/delete?commentId=${commentId}`, auth);
+export function onDeleteComment(commentId: number) {
+  return httpRequest.delete(`/post-service/api/v1/user/post/interaction/comment/delete?commentId=${commentId}`);
 }
 
-export function onDeletePost(accessToken: string, postId: string) {
-  const auth = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
+export function onDeletePost(postId: number) {
+  return httpRequest.delete(`/post-service/api/v1/post/delete?postId=${postId}`);
+}
 
-  return httpRequest.delete(`/post/delete?postId=${postId}`, auth);
+export function onCreateImage(data: FormData) {
+  return httpRequest.post(`/post-service/api/v1/post/upload-image`, data).then((data: any) => {
+    return data;
+  });
 }

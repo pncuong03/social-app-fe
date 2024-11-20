@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import FriendCard from "src/components/molecules/Friend/FriendCard";
+import FriendCard from "src/components/molecules/friend/FriendCard";
 import { fetchListRequest } from "src/slices/friend/friendSlice";
 import { selectListRequest } from "src/slices/friend/selector";
 
@@ -22,7 +22,7 @@ const FriendsRequest = () => {
       <h2 className="p-6 text-2xl font-medium md:p-2 lg:px-10 xl:px-2">{t("friend.friendrequest")}</h2>
 
       <div className="flex flex-wrap justify-center gap-4 xl:justify-start">
-        {friendsRequest.map((friend: any) => {
+        {friendsRequest?.map((friend: any) => {
           return (
             <FriendCard
               key={friend.id}

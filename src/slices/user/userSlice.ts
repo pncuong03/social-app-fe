@@ -12,9 +12,7 @@ const initialState: UserState = {
 
 export const fetchUser = createAsyncThunk("post/fetchPostMe", async (search: string, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await getUser(accessToken, search);
+    const data = await getUser(search);
 
     return data.content;
   } catch (error) {

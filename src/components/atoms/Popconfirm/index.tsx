@@ -14,7 +14,7 @@ export interface Props {
 const PopconfirmCustomize = (props: Props) => {
   return (
     <Popconfirm
-      title={props.title}
+      title={<h2 className="w-44 text-center">{props.title}</h2>}
       icon={null}
       okText={props.okText}
       cancelText={props.cancelText}

@@ -30,7 +30,15 @@
     "minute":"phút trước",
     "hour":"giờ trước",
     "day":"ngày trước",
-    "articleby": "Bài viết của "
+    "articleby": "Bài viết của ",
+    "searchuser":"Tìm kiếm người dùng",
+    "noti": "Thông báo",
+    "acceptfriend":"đã chấp nhận lời mời kết bạn",
+    "friendrequest":"đã gửi cho bạn một lời mời kết bạn",
+    "commentactivity":"bình luận về bài viết của bạn",
+    "likeactivity":"thích bài viết của bạn",
+    "shareactivity":"chia sẻ bài viết của bạn",
+    "nonoti":"Không có thông báo nào"
   },
   "friend": {
     "home": "Trang chủ",
@@ -42,7 +50,8 @@
     "cancel": "Hủy",
     "unfriend": "Hủy kết bạn",
     "deletefriend": "Bạn có muốn hủy kết bạn này không?",
-    "deleterequest": "Ban có muốn xóa lời mời kết bạn này không?"
+    "deleterequest": "Ban có muốn xóa lời mời kết bạn này không?",
+    "nofriend": "Không có bạn bè nào"
   },
   "profile": {
     "editprofile": "Chỉnh sửa trang cá nhân",
@@ -54,11 +63,32 @@
     "newmessage": "Tin nhắn mới",
     "send": "Gửi",
     "delete": "Xóa",
-    "deletechat": "Bạn có muốn xóa cuộc trò chuyện này không?"
+    "deletechat": "Bạn có muốn xóa cuộc trò chuyện này không?",
+    "you" : "Bạn: ",
+    "chatsection" : "Đoạn chat",
+    "leavegroup": "Bạn có muốn rời nhóm chat này không?",
+    "leave": " Rời nhóm", 
+    "creategroup": "Tạo nhóm chat",
+    "groupname": "Tên nhóm",
+    "invitefriend": "Mời bạn bè",
+    "searchchat": "Tìm kiếm cuộc trò chuyện",
+    "addperson": "Thêm người",
+    "texting": "Nhắn tin",
+    "privacy": "Quyền riêng tư & bảo mật",
+    "meminchat": "Thành viên trong cuộc trò chuyện",
+    "createsuccesschat": "Tạo nhóm chat thành công",
+    "addmember": "Thêm thành viên vào ",
+    "addmembersuccess": "Thêm thành viên vào nhóm chat thành công",
+    "validnamegroup" : "Tên nhóm không được bỏ trống"
+
   },
   "groups": {
     "myfeed": "Bảng feed của bạn",
-    "mygroup" : "Nhóm của bạn"
+    "mygroup" : "Nhóm của bạn",
+    "creategroup": "Tạo nhóm",
+    "groupname": "Tên nhóm",
+    "invitefriend": "Mời bạn bè",
+    "createsuccessgroup": "Tạo nhóm thành công"
   }
   
 }
