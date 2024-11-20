@@ -9,20 +9,21 @@ import {
   AiOutlineLike,
   AiOutlineHdd,
 } from "react-icons/ai";
-import { IoNotifications, IoSearch } from "react-icons/io5";
-import { FaUserFriends, FaUserCircle } from "react-icons/fa";
+import { IoNotifications, IoSearch, IoCreateOutline } from "react-icons/io5";
+import { FaUserFriends, FaUserCircle, FaLock } from "react-icons/fa";
 import { RiGroup2Fill } from "react-icons/ri";
 import { PiImagesFill, PiVideoFill } from "react-icons/pi";
 import { IoIosHappy } from "react-icons/io";
 import { BsSend } from "react-icons/bs";
 import { TfiShare } from "react-icons/tfi";
-import { MdPublic, MdOutlineModeComment, MdPrivateConnectivity } from "react-icons/md";
+import { MdPublic, MdOutlineModeComment } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { CgWorkAlt, CgDanger } from "react-icons/cg";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
 import { CiSearch } from "react-icons/ci";
 import { TbLogout } from "react-icons/tb";
-
+import { FaUserPlus, FaUserMinus } from "react-icons/fa6";
+import { LuUserX } from "react-icons/lu";
 interface Props {
   name: string;
   size?: number;
@@ -50,7 +51,7 @@ const IconCustomize = (props: Props) => {
     comment: <MdOutlineModeComment size={props.size} color={props.color} />,
     share: <TfiShare size={props.size} color={props.color} />,
     public: <MdPublic size={props.size} color={props.color} />,
-    private: <MdPrivateConnectivity size={props.size} color={props.color} />,
+    private: <FaLock size={props.size} color={props.color} />,
     plus: <PlusOutlined size={props.size} color={props.color} />,
     camera: <CameraOutlined size={props.size} color={props.color} />,
     male: <FiUser size={props.size} color={props.color} />,
@@ -59,6 +60,10 @@ const IconCustomize = (props: Props) => {
     danger: <CgDanger size={props.size} color={props.color} />,
     info: <FaUserCircle size={props.size} color={props.color} />,
     feed: <AiOutlineHdd size={props.size} color={props.color} />,
+    useradd: <FaUserPlus size={props.size} color={props.color} />,
+    userminus: <FaUserMinus size={props.size} color={props.color} />,
+    userkick: <LuUserX size={props.size} color={props.color} />,
+    create: <IoCreateOutline size={props.size} color={props.color} />,
   };
 
   return icons[props.name] || null;

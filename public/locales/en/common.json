@@ -30,7 +30,15 @@
     "minute":"minutes ago",
     "hour":"hours ago",
     "day":"days ago",
-    "articleby": "Article by "
+    "articleby": "Article by ",
+    "searchuser":"Search user",
+    "noti": "Notification",
+    "acceptfriend":"accepted the friend request",
+    "friendrequest":"has sent you a friend request",
+    "commentactivity":"commented on your post",
+    "likeactivity":"liked on your post",
+    "shareactivity":"shared your post",
+    "nonoti":"No more notifications"
   },
   "friend": {
     "home": "Home",
@@ -42,7 +50,8 @@
     "cancel": "Cancel",
     "unfriend": "Unfriend",
     "deletefriend": "Do you want to unfriend this person?",
-    "deleterequest": "Do you want to delete this friend request?" 
+    "deleterequest": "Do you want to delete this friend request?",
+    "nofriend": "No friends"
   },
   "profile": {
     "editprofile": "Edit profile",
@@ -54,14 +63,32 @@
     "newmessage": "New message",
     "send": "Send",
     "delete": "Delete",
-    "deletechat": "Do you want to delete this conversation?"
+    "deletechat": "Do you want to delete this conversation?",
+    "you" : "You: ",
+    "chatsection" : "Chat section",
+    "leavegroup": "Do you want to leave this chat group?",
+    "leave": " Leave group",
+    "creategroup": "Create chat group",
+    "groupname": "Group name",
+    "invitefriend": "Invite friends",
+    "searchchat": "Search chat",
+    "addperson" : "Add person",
+    "texting": "Texting",
+    "privacy": "Privacy & Security",
+    "meminchat": "Members in chat",
+    "createsuccesschat": "Create chat group successfully",
+    "addmember": "Add members to the ",
+    "addmembersuccess": "Add members to the chat group successfully",
+    "validnamegroup": "Group name cannot be left blank"
+
   },
   "groups": {
     "myfeed": "Your feed",
     "mygroup" : "Your group",
     "creategroup": "Create group",
     "groupname": "Group name",
-    "invitefriend": "Invite friends"
+    "invitefriend": "Invite friends",
+    "createsuccessgroup": "Create group successfully"
   }
   
 }

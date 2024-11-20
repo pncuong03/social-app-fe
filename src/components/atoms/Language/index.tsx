@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dropdown, Button, MenuProps } from "antd";
 import { useTranslation } from "react-i18next";
 
@@ -20,6 +20,14 @@ const CustomLanguage: React.FC = () => {
         return null;
     }
   };
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem("i18nextLng");
+
+    if (storedLanguage) {
+      i18n.changeLanguage(storedLanguage);
+    }
+  }, [i18n]);
 
   const items: MenuProps["items"] = [
     {

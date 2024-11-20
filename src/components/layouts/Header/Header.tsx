@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import { Button } from "antd";
+import { Badge, Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import routesName from "src/routes/enum.routes";
@@ -11,52 +11,19 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { fetchInfoUser, logOut } from "src/slices/login/loginSlice";
 import { toast } from "react-toastify";
-import NotificationList from "src/components/molecules/Notification";
-import SearchUser from "src/components/molecules/Search/SearchUser";
+import NotificationList from "src/components/molecules/notification";
 import { useAppSelector } from "src/app/appHooks";
 import { selectUserInfo } from "src/slices/login/selector";
+import { useSocket } from "src/utilities/hooks/useSocket";
+import SearchUser from "src/components/molecules/search/SearchUser";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
-
-const notifications = [
-  {
-    title: "Thông báo 1",
-    description: "Đây là nội dung thông báo số 1.",
-    avatar: "https://via.placeholder.com/40",
-  },
-  {
-    title: "Thông báo 2",
-    description: "Đây là nội dung thông báo số 2.",
-    avatar: "https://via.placeholder.com/40",
-  },
-  {
-    title: "Thông báo 3",
-    description: "Đây là nội dung thông báo số 1.",
-    avatar: "https://via.placeholder.com/40",
-  },
-  {
-    title: "Thông báo 4",
-    description: "Đây là nội dung thông báo số 2.",
-    avatar: "https://via.placeholder.com/40",
-  },
-  {
-    title: "Thông báo 5",
-    description: "Đây là nội dung thông báo số 1.",
-    avatar: "https://via.placeholder.com/40",
-  },
-  {
-    title: "Thông báo 6",
-    description: "Đây là nội dung thông báo số 2.",
-    avatar: "https://via.placeholder.com/40",
-  },
-];
 
 const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
-
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
 
   useEffect(() => {
@@ -68,6 +35,8 @@ const Header = () => {
     toast.success(t("home.logout"));
     navigate(routesName.LOGIN);
   };
+
+  useSocket();
 
   const MENU_PROFILE = [
     {
@@ -129,15 +98,19 @@ const Header = () => {
       <div className="flex items-center justify-end gap-2">
         <CustomLanguage />
 
-        <Button className="h-12 w-12 rounded-full bg-gray-200 !p-0" onClick={() => navigate(routesName.MESSAGES)}>
-          <IconCustomize name="message" size={25} color="black" />
-        </Button>
-
-        <NotificationList notifications={notifications}>
-          <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
-            <IconCustomize name="notification" size={25} color="black" />
+        <Badge count={1} offset={[-2, 4]}>
+          <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0" onClick={() => navigate(routesName.MESSAGES)}>
+            <IconCustomize name="message" size={25} color="black" />
           </Button>
-        </NotificationList>
+        </Badge>
+
+        <Badge count={1} offset={[-2, 4]}>
+          <NotificationList>
+            <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
+              <IconCustomize name="notification" size={25} color="black" />
+            </Button>
+          </NotificationList>
+        </Badge>
 
         <CustomDropdown items={MENU_PROFILE} loading={false}>
           <button className=" h-12 w-12 rounded-full">

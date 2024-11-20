@@ -3,6 +3,7 @@ import {
   friendInfo,
   getListFriend,
   getListRequest,
+  getSearchListFriend,
   onAcceptRequestFriend,
   onDeleteFriend,
   onDeleteRequestSend,
@@ -12,13 +13,15 @@ import { IFriend, IUser } from "src/types/user";
 
 export interface FriendState {
   listRequest: IFriend[];
-  infoFriend: IUser;
   listFriend: IFriend[];
+  searchListFriend: IFriend[];
+  infoFriend: IUser;
 }
 
 const initialState: FriendState = {
   listRequest: [],
   listFriend: [],
+  searchListFriend: [],
   infoFriend: {
     id: "",
     fullName: "",
@@ -33,9 +36,7 @@ const initialState: FriendState = {
 
 export const fetchInfoFriend = createAsyncThunk("auth/fetchInfoFriend", async (friendId: string, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await friendInfo(accessToken, friendId);
+    const data = await friendInfo(friendId);
 
     return data;
   } catch (error) {
@@ -43,11 +44,22 @@ export const fetchInfoFriend = createAsyncThunk("auth/fetchInfoFriend", async (f
   }
 });
 
+export const fetchSearchListFriend = createAsyncThunk(
+  "post/fetchSearchListFriend",
+  async (search: string, thunkAPI) => {
+    try {
+      const data = await getSearchListFriend(search);
+
+      return data.content;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const fetchListFriend = createAsyncThunk("post/fetchListFriend", async (_, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await getListFriend(accessToken);
+    const data = await getListFriend();
 
     return data.content;
   } catch (error) {
@@ -57,9 +69,7 @@ export const fetchListFriend = createAsyncThunk("post/fetchListFriend", async (_
 
 export const fetchListRequest = createAsyncThunk("post/fetchListRequest", async (_, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await getListRequest(accessToken);
+    const data = await getListRequest();
 
     return data.content;
   } catch (error) {
@@ -69,9 +79,7 @@ export const fetchListRequest = createAsyncThunk("post/fetchListRequest", async 
 
 export const deleteFriend = createAsyncThunk("friend/deleteFriend", async (friendId: string, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onDeleteFriend(accessToken, friendId);
+    await onDeleteFriend(friendId);
 
     thunkAPI.dispatch(unFriend(friendId));
   } catch (error) {
@@ -81,9 +89,7 @@ export const deleteFriend = createAsyncThunk("friend/deleteFriend", async (frien
 
 export const acceptFriend = createAsyncThunk("friend/acceptFriend", async (id: string, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onAcceptRequestFriend(accessToken, id);
+    await onAcceptRequestFriend(id);
 
     thunkAPI.dispatch(acceptFriendRequest(id));
   } catch (error) {
@@ -93,9 +99,7 @@ export const acceptFriend = createAsyncThunk("friend/acceptFriend", async (id: s
 
 export const rejectFriend = createAsyncThunk("friend/rejectFriend", async (id: string, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onRejectRequestFriend(accessToken, id);
+    await onRejectRequestFriend(id);
 
     thunkAPI.dispatch(rejectFriendRequest(id));
   } catch (error) {
@@ -105,9 +109,7 @@ export const rejectFriend = createAsyncThunk("friend/rejectFriend", async (id: s
 
 export const deleteRequestSend = createAsyncThunk("friend/deleteRequestSend", async (receiverId: string, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    await onDeleteRequestSend(accessToken, receiverId);
+    await onDeleteRequestSend(receiverId);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -132,6 +134,10 @@ export const friendSlice = createSlice({
 
       .addCase(fetchInfoFriend.fulfilled, (state, action: PayloadAction<IUser>) => {
         state.infoFriend = action.payload;
+      })
+
+      .addCase(fetchSearchListFriend.fulfilled, (state, action: PayloadAction<IFriend[]>) => {
+        state.searchListFriend = action.payload;
       })
 
       .addCase(fetchListFriend.fulfilled, (state, action: PayloadAction<IFriend[]>) => {

@@ -6,11 +6,12 @@ interface Props {
   open: boolean;
   onClose: () => void;
   title: string;
+  placement?: "top" | "right" | "bottom" | "left";
 }
 
 const DrawerCustomize = (props: Props) => {
   return (
-    <Drawer title={props.title} onClose={props.onClose} open={props.open}>
+    <Drawer title={props.title} placement={props.placement} onClose={props.onClose} open={props.open}>
       {props.children}
     </Drawer>
   );

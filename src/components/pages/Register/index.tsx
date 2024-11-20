@@ -4,10 +4,11 @@ import { useFormik } from "formik";
 import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 import LocalStorage, { LocalStorageKey } from "src/utilities/local-storage/localStorage";
+import { useRegister } from "src/utilities/hooks/useRegister";
 
 interface FormValues {
-  fullname: string;
-  date: string;
+  fullName: string;
+  birthday: string;
   username: string;
   password: string;
 }
@@ -15,23 +16,24 @@ interface FormValues {
 const validationSchema = Yup.object({
   username: Yup.string().required("Username is required"),
   password: Yup.string().min(6, "Password must be at least 6 characters").max(20).required("Password is required"),
-  fullname: Yup.string().required("Fullname is required"),
-  date: Yup.string().required("Date is required"),
+  fullName: Yup.string().required("Fullname is required"),
+  birthday: Yup.string().required("Birthday is required"),
 });
 
 const RegisterPage = () => {
+  const { onRegister } = useRegister();
   const accessToken = LocalStorage.get(LocalStorageKey.ACCESS_TOKEN);
 
   const { values, errors, touched, handleSubmit, handleChange, handleBlur, setFieldValue } = useFormik<FormValues>({
     initialValues: {
-      fullname: "",
-      date: "",
+      fullName: "",
+      birthday: "",
       username: "",
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log("🚀 ~ onSubmit ~ values:", values);
+    onSubmit: async (values) => {
+      await onRegister(values.fullName, values.username, values.password, values.birthday);
     },
   });
 
@@ -52,31 +54,31 @@ const RegisterPage = () => {
           <Form.Item>
             <Input
               placeholder="Fullname"
-              name="fullname"
-              value={values.fullname}
+              name="fullName"
+              value={values.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
               className="h-12"
             />
 
-            {errors.fullname && touched.fullname && <p className="text-[red]">{errors.fullname}</p>}
+            {errors.fullName && touched.fullName && <p className="text-[red]">{errors.fullName}</p>}
           </Form.Item>
 
-          <Form.Item name="date" required>
+          <Form.Item name="birthday" required>
             <DatePicker
               size="middle"
               placeholder="Ngày/Tháng/Năm"
               format={"DD/MM/YYYY"}
               onChange={(date) => {
-                setFieldValue("date", date ? date.toISOString() : "");
+                setFieldValue("birthday", date ? date.toISOString() : "");
               }}
               className="h-12 w-full"
             />
 
-            {errors.date && touched.date && <p className="text-[red]">{errors.date}</p>}
+            {errors.birthday && touched.birthday && <p className="text-[red]">{errors.birthday}</p>}
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item name="username">
             <Input
               placeholder="Username"
               name="username"

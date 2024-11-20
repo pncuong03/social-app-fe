@@ -1,28 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import InputBox from "src/components/molecules/InputBox";
-import Posts from "src/components/molecules/Posts";
-import Information from "src/components/molecules/Profile/Infomation";
-import Introduce from "src/components/molecules/Profile/Introduce";
+import InputBox from "src/components/molecules/inputbox";
+import Posts from "src/components/molecules/posts";
+import Information from "src/components/molecules/profile/Infomation";
+import Introduce from "src/components/molecules/profile/Introduce";
 import { selectUserInfo } from "src/slices/login/selector";
 import { fetchPostMe } from "src/slices/posts/postSlice";
 import { selectPost } from "src/slices/posts/selector";
 import { selectListFriend } from "src/slices/friend/selector";
 import { fetchListFriend } from "src/slices/friend/friendSlice";
+import { Skeleton } from "antd";
 
 const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
 
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const postsMe = useAppSelector(selectPost.getPostsMe);
   const friendList = useAppSelector(selectListFriend.getListFriend);
 
+  const loadMessages = () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      dispatch(fetchPostMe(page))
+        .then((response) => {
+          if (response.payload.length < 5) {
+            setHasMore(false);
+          } else {
+            setHasMore(true);
+            setPage((prevPage) => prevPage + 1);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, 1000);
+  };
+
   useEffect(() => {
-    dispatch(fetchPostMe());
+    loadMessages();
     dispatch(fetchListFriend());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="">
@@ -35,10 +61,21 @@ const ProfilePage = () => {
           <Introduce user={userInfo} friends={friendList} />
         </div>
 
-        <div className="col-span-2 flex w-full flex-col gap-4 ">
+        <div
+          className="no-scrollbar col-span-2 flex h-[100vh] w-full flex-col gap-4 overflow-y-auto"
+          onScroll={(e: any) => {
+            const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
+
+            if (bottom && !loading && hasMore) {
+              loadMessages();
+            }
+          }}
+        >
           <InputBox />
 
           <Posts posts={postsMe} />
+
+          {loading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
         </div>
       </div>
     </div>

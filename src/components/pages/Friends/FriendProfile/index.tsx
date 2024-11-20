@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import Information from "src/components/molecules/Profile/Infomation";
+import Information from "src/components/molecules/profile/Infomation";
 import { selectInfoFriend, selectListFriend } from "src/slices/friend/selector";
 import { useLocation } from "react-router-dom";
 import { fetchInfoFriend } from "src/slices/friend/friendSlice";
 import { selectPost } from "src/slices/posts/selector";
-import Introduce from "src/components/molecules/Profile/Introduce";
-import Posts from "src/components/molecules/Posts";
+import Introduce from "src/components/molecules/profile/Introduce";
+import Posts from "src/components/molecules/posts";
 
 const FriendProfile = () => {
   const dispatch = useDispatch<AppDispatch>();

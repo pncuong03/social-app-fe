@@ -6,9 +6,9 @@ import RegisterPage from "src/components/pages/Register";
 import PrivateRoute from "./privateRoute";
 import routesName from "./enum.routes";
 import NotFound from "src/components/atoms/NotFound";
-import MessageDetail from "src/components/molecules/Messages/MessageDetail";
+import MessageDetail from "src/components/molecules/messages/MessageDetail";
 import SpinCustomize from "src/components/atoms/Spin";
-import GroupDetail from "src/components/molecules/Groups/GroupDetail";
+import GroupDetail from "src/components/molecules/groups/GroupDetail";
 
 const HomePage = React.lazy(() => import("src/components/pages/Home"));
 const ProfilePage = React.lazy(() => import("src/components/pages/Profile"));
@@ -37,18 +37,18 @@ function RoutesApp() {
             <Route
               index
               element={
-                //<PrivateRoute>
-                <HomePage />
-                //</PrivateRoute>
+                <PrivateRoute>
+                  <HomePage />
+                </PrivateRoute>
               }
             />
 
             <Route
               path={routesName.FRIENDS}
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <FriendsPage />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             >
               <Route index element={<FriendRequest />} />
@@ -77,9 +77,9 @@ function RoutesApp() {
             <Route
               path={routesName.GROUPS}
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <GroupsPage />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             >
               <Route index element={<GroupsFeed />} />
@@ -92,9 +92,9 @@ function RoutesApp() {
             <Route
               path={routesName.FRIENPROFILE}
               element={
-                //<PrivateRoute>
+                <PrivateRoute>
                   <FriendProfile />
-                //</PrivateRoute>
+                </PrivateRoute>
               }
             />
 

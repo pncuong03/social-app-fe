@@ -3,8 +3,18 @@ export const LANGUAGES = {
   ENGLISH: "en",
 };
 
-export const getName = (fullName: string) => {
+export function getName(fullName: string) {
   const nameParts = fullName.split(" ");
 
   return nameParts[nameParts.length - 1];
-};
+}
+
+export function truncateString(text: string): string {
+  const words = text?.split(" ");
+
+  if (words.length > 5) {
+    return words.slice(0, 5).join(" ") + "...";
+  }
+
+  return text;
+}

@@ -1,5 +1,5 @@
 import React from "react";
-import GroupCard from "src/components/molecules/Groups/GroupsJoins/GroupCard";
+import GroupCard from "src/components/molecules/groups/GroupsJoins/GroupCard";
 
 const GroupsJoins = () => {
   const groups = [
@@ -101,7 +101,9 @@ const GroupsJoins = () => {
 
       <div className="flex flex-wrap gap-3">
         {groups.map((group) => {
-          return <GroupCard key={group.id} name={group.name} img={group.img} description={group.description} />;
+          return (
+            <GroupCard key={group.id} id={group.id} name={group.name} img={group.img} description={group.description} />
+          );
         })}
       </div>
     </div>

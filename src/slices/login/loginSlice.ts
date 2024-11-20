@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { authLogin, logout, userInfo } from "src/apis/auth";
+import { authLogin, authRegister, logout, userInfo } from "src/apis/auth";
 import { IUser } from "src/types/user";
 
 export interface AuthState {
@@ -34,11 +34,22 @@ export const userLogin = createAsyncThunk<string, { username: string; password: 
   }
 );
 
+export const userRegister = createAsyncThunk<
+  string,
+  { fullName: string; username: string; password: string; birthday: string }
+>("auth/register", async (params, thunkAPI) => {
+  try {
+    const response = await authRegister(params);
+
+    return response;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const fetchInfoUser = createAsyncThunk("auth/fetchInfoUser", async (_, thunkAPI) => {
   try {
-    const accessToken = localStorage.getItem("ACCESS_TOKEN") || "";
-
-    const data = await userInfo(accessToken);
+    const data = await userInfo();
 
     return data;
   } catch (error) {
@@ -64,6 +75,16 @@ export const authSlice = createSlice({
 
       .addCase(userLogin.rejected, (state) => {
         toast.error("Username or password is incorrect");
+        state.accessToken = "";
+      })
+
+      .addCase(userRegister.fulfilled, (state, action: PayloadAction<string>) => {
+        toast.success("Register successful");
+        state.accessToken = action.payload;
+      })
+
+      .addCase(userRegister.rejected, (state) => {
+        toast.error("Username already exists");
         state.accessToken = "";
       })
 

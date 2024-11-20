@@ -5,7 +5,7 @@ interface Props {
   placeholder: string;
   prefix?: React.ReactNode;
   value?: string;
-  ocChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 }
 
@@ -16,7 +16,7 @@ const InputCustomize = (props: Props) => {
       className={props.className}
       prefix={props.prefix}
       value={props.value}
-      onChange={props.ocChange}
+      onChange={props.onChange}
     />
   );
 };
