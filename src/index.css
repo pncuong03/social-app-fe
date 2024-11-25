@@ -1,24 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans:wght@300;400;500;700&display=swap");
 
-/* html, body {
-  height: 100%;
-  width: 100%;
+body {
+  font-family: PT Sans;
 }
 
-#root {
-  height: 100%;
-  width: 100%;
-} */
-
-/* body {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-} */
-
 ::-webkit-scrollbar {
-  width: 2px; /* Độ rộng của thanh cuộn */
+  width: 8px; /* Độ rộng của thanh cuộn */
 }
 
 /* Màu nền của thanh cuộn */
@@ -40,6 +30,7 @@
 .ant-popover-content {
   margin-right: 8px;
   margin-top: 6px;
+  border-radius: 80px;
 }
 
 .ant-popconfirm-inner-content {
@@ -69,4 +60,8 @@
 
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Ẩn scrollbar trên Chrome, Safari, Edge */
+}
+
+.no-scroll {
+  overflow: hidden;
 }

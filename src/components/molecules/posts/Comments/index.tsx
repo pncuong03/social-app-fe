@@ -82,7 +82,7 @@ const Comments = (props: Props) => {
 
       <div className="flex items-center gap-2 p-3">
         <textarea
-          className="h-14 w-full resize-none rounded-2xl border bg-[#F8F8F8] p-3 outline-none focus:border-none"
+          className="h-[50px] w-full resize-none rounded-2xl border bg-[#F8F8F8] p-3 outline-none focus:border-none"
           placeholder={"Write a comment..."}
           value={comment}
           onChange={handleCommentChange}
@@ -90,7 +90,7 @@ const Comments = (props: Props) => {
         />
 
         <button className="border-none bg-white shadow-none" onClick={handleAddComment} disabled={loading}>
-          {loading ? <Spin /> : <IconCustomize name="send" size={25} />}
+          {loading ? <Spin /> : <IconCustomize name="send" size={30} />}
         </button>
       </div>
     </div>

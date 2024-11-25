@@ -49,6 +49,7 @@ const PostDetail = (props: Props) => {
           commentCount={postDetail.commentCount}
           hasLike={postDetail.hasLike}
           sharePost={postDetail.sharePost}
+          type={postDetail.type}
         />
       </div>
     </ModalCustomize>

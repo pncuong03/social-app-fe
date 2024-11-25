@@ -9,6 +9,7 @@ import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectUser } from "src/slices/user/seletor";
 import { fetchUser } from "src/slices/user/userSlice";
+import { sendRequestFriend } from "src/slices/friend/friendSlice";
 
 const SearchUser = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,6 +36,10 @@ const SearchUser = () => {
 
   const toggleSearch = () => {
     setIsSearchVisible(true);
+  };
+
+  const handleSendFriendRequest = (id: string) => {
+    dispatch(sendRequestFriend(id));
   };
 
   return (
@@ -67,7 +72,12 @@ const SearchUser = () => {
                 <div className="">
                   <p className="text-sm md:text-lg">{item.fullName}</p>
 
-                  <button className="text-xs font-medium text-gray-400">{item.isFriend ? "Bạn bè" : "Kết bạn"}</button>
+                  <button
+                    onClick={() => handleSendFriendRequest(item.id)}
+                    className="text-xs font-medium text-gray-400"
+                  >
+                    {item.isFriend ? "Bạn bè" : "Kết bạn"}
+                  </button>
                 </div>
               </div>
 

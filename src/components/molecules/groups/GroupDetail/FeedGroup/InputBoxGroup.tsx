@@ -53,6 +53,7 @@ const InputBoxGroup = () => {
         onCancel={() => setIsVisiable(false)}
         fullName={userInfo.fullName}
         imageUrl={userInfo.imageUrl}
+        type="GROUP"
       />
     </div>
   );

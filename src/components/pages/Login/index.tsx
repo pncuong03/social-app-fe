@@ -36,7 +36,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center gap-32 bg-gray-100 p-2 ">
+    <div className="flex min-h-screen items-center justify-center gap-32 bg-gray-100 p-2 ">
       <div className="w-full max-w-lg rounded-3xl bg-white p-8 shadow-md">
         <div className="mb-8 flex flex-col gap-5 text-center text-3xl font-medium">
           <img src="./img/logo.png" alt="Facebook" className="mx-auto w-32" />

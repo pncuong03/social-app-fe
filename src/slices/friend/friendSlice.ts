@@ -8,6 +8,7 @@ import {
   onDeleteFriend,
   onDeleteRequestSend,
   onRejectRequestFriend,
+  onSendRequesFriend,
 } from "src/apis/friend";
 import { IFriend, IUser } from "src/types/user";
 
@@ -82,6 +83,14 @@ export const deleteFriend = createAsyncThunk("friend/deleteFriend", async (frien
     await onDeleteFriend(friendId);
 
     thunkAPI.dispatch(unFriend(friendId));
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const sendRequestFriend = createAsyncThunk("friend/sendRequestFriend", async (id: string, thunkAPI) => {
+  try {
+    await onSendRequesFriend(id);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }

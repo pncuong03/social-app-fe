@@ -161,7 +161,13 @@ export const messageSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchListMessage.fulfilled, (state, action: PayloadAction<IChat[]>) => {
-        state.messages = [...state.messages, ...action.payload];
+        const newMessages = action.payload;
+
+        const uniqueMessages = newMessages.filter(
+          (newMessage) => !state.messages.some((existingMessage) => existingMessage.id === newMessage.id)
+        );
+
+        state.messages = [...state.messages, ...uniqueMessages];
       })
 
       .addCase(fetchMessageDetail.fulfilled, (state, action: PayloadAction<IMessage[]>) => {

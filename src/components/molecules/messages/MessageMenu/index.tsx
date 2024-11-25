@@ -36,7 +36,7 @@ const MessageMenu = (props: Props) => {
   ];
 
   return (
-    <div className="mt-2">
+    <div className="mt-24">
       <div className="flex flex-col items-center gap-2">
         <img src={props.img} className="h-24 w-24 rounded-full" alt="User" />
 

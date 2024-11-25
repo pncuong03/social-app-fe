@@ -38,7 +38,7 @@ const MenuCustomzie = (props: Props) => {
 
   return (
     <Menu
-      className="flex w-full flex-col gap-1 bg-white shadow-md"
+      className="flex w-full  flex-col gap-1 bg-white shadow-md"
       items={menuItems}
       onClick={handleMenuClick}
       defaultSelectedKeys={[selectedKey]}

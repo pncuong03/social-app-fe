@@ -50,9 +50,26 @@ const ProfilePage = () => {
     dispatch(fetchListFriend());
   }, []);
 
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
+
   return (
-    <div className="">
-      <div className="h-full w-full bg-white shadow">
+    <div
+      className="h-[calc(100vh-60px)] overflow-y-auto"
+      onScroll={(e: any) => {
+        const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
+
+        if (bottom && !loading && hasMore) {
+          loadMessages();
+        }
+      }}
+    >
+      <div className=" w-full bg-white shadow">
         <Information user={userInfo} friends={friendList} />
       </div>
 
@@ -61,16 +78,7 @@ const ProfilePage = () => {
           <Introduce user={userInfo} friends={friendList} />
         </div>
 
-        <div
-          className="no-scrollbar col-span-2 flex h-[100vh] w-full flex-col gap-4 overflow-y-auto"
-          onScroll={(e: any) => {
-            const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
-
-            if (bottom && !loading && hasMore) {
-              loadMessages();
-            }
-          }}
-        >
+        <div className="no-scrollbar col-span-2 flex  w-full flex-col gap-4 ">
           <InputBox />
 
           <Posts posts={postsMe} />

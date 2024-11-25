@@ -1,13 +1,13 @@
 import httpRequest from "src/utilities/services/httpRequest";
 
 export function getListGroup(page: number) {
-  return httpRequest.get(`/post-service/api/v1/group/get-list-group?page=${page}&size=10`).then((data: any) => {
+  return httpRequest.get(`/post-service/api/v1/group/get-list-group?page=${page}&size=12`).then((data: any) => {
     return data;
   });
 }
 
 export function getInfoGroup(groupId: number) {
-  return httpRequest.get(`/post-service/api/v1/group/infor?groupId=${groupId}`).then((data: any) => {
+  return httpRequest.get(`/post-service/api/v1/group/group/infor?groupId=${groupId}`).then((data: any) => {
     return data;
   });
 }
@@ -20,15 +20,13 @@ export function getMemberGroup(groupId: number, page: number) {
     });
 }
 
-export function onSearchGroup(search: string, page: number) {
-  return httpRequest
-    .get(`/post-service/api/v1/group/search?search=${search}&page=${page}&size=10`)
-    .then((data: any) => {
-      return data;
-    });
+export function onSearchGroup(search: string) {
+  return httpRequest.get(`/post-service/api/v1/group/search?search=${search}`).then((data: any) => {
+    return data;
+  });
 }
 
-export function onCreateGroup(params: { name: string; userIds: number[] }) {
+export function onCreateGroup(params: { name: string; userIds: number[]; tagIds: number[] }) {
   return httpRequest.post("/post-service/api/v1/group/create-group", params);
 }
 

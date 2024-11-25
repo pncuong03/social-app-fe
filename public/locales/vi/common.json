@@ -88,7 +88,9 @@
     "creategroup": "Tạo nhóm",
     "groupname": "Tên nhóm",
     "invitefriend": "Mời bạn bè",
-    "createsuccessgroup": "Tạo nhóm thành công"
+    "createsuccessgroup": "Tạo nhóm thành công",
+    "seegroup": "Xem nhóm",
+    "searchgroup": "Tìm kiếm nhóm"
   }
   
 }

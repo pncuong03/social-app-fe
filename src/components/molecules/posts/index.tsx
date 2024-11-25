@@ -28,6 +28,7 @@ const Posts = (props: Props) => {
             commentCount={post.commentCount}
             hasLike={post.hasLike}
             sharePost={post.sharePost}
+            type={post.type}
           />
         );
       })}

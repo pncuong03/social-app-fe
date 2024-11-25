@@ -1,5 +1,3 @@
-const { keyframes } = require("@emotion/react");
-
 module.exports = {
   media: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -21,7 +19,6 @@ module.exports = {
           300: "#A5AAB0",
           400: "#F1F1F1",
         },
-
         gray: {
           500: "#D9D9D9",
         },

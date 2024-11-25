@@ -36,10 +36,10 @@ const MessageDetail = () => {
 
       const newSendMessage = {
         id: data.map((item) => item.id).reduce((a, b) => Math.max(a, b), 0) + 1,
-        userId: "1",
+        userId: "",
         message: content.trim(),
-        fullName: "Ha Anh",
-        imageUrl: "https://picsum.photos/200/300",
+        fullName: "",
+        imageUrl: "",
         isMe: true,
         createdAt: new Date().toISOString(),
       };
@@ -75,17 +75,9 @@ const MessageDetail = () => {
     }
   }, [data]);
 
-  // const scrollToBottom = () => {
-  //   setTimeout(() => {
-  //     if (scrollableDivRef.current) {
-  //       scrollableDivRef.current.scrollTop = 0;
-  //     }
-  //   }, 100); // Delay the scroll to ensure the message list is fully rendered
-  // };
-
   useEffect(() => {
     if (chatId) {
-      setData([]); // Reset message list
+      setData([]);
       setPage(0);
       setHasMore(true);
       loadMoreData();
@@ -94,8 +86,6 @@ const MessageDetail = () => {
 
   useEffect(() => {
     if (receivedMessages?.type === "CHAT" && receivedMessages?.chatId === chatId) {
-      console.log(receivedMessages);
-
       const newReceivedMessage = {
         ...receivedMessages,
         id: data.map((item) => item.id).reduce((a, b) => Math.max(a, b), 0) + 1,
@@ -108,7 +98,7 @@ const MessageDetail = () => {
   }, [receivedMessages, chatId]);
 
   return (
-    <div className={`${isMenuOpen ? "pr-96" : "pr-0"} flex flex-col`}>
+    <div className={`flex flex-col transition-all duration-300 ease-in-out ${isMenuOpen ? "pr-96" : "pr-0"}`}>
       <div className="flex w-full items-center justify-between border-b-2 px-4 py-2 shadow-md">
         <div className="flex gap-2">
           <img src={img} className="h-12 w-12 rounded-full" alt="User" />
@@ -116,7 +106,7 @@ const MessageDetail = () => {
           <div>
             <h2 className="text-lg font-normal">{info}</h2>
 
-            <p className="text-md font-normal text-neutral-200">Hoạt động gần đây</p>
+            <p className="text-md font-normal text-neutral-500">Hoạt động gần đây</p>
           </div>
         </div>
 
@@ -127,21 +117,15 @@ const MessageDetail = () => {
 
       <div
         ref={scrollableDivRef}
-        style={{
-          height: "77vh",
-          overflow: "auto",
-          padding: "0 16px",
-          border: "1px solid rgba(140, 140, 140, 0.35)",
-        }}
+        className="overflow-auto px-4 py-4"
+        style={{ height: "77vh", border: "1px solid rgba(140, 140, 140, 0.35)" }}
         onScroll={(e: any) => {
           const top = e.target.scrollTop === 0;
 
-          if (top && !loading && hasMore) {
-            loadMoreData(); // Trigger load more when the user reaches the top
-          }
+          if (top && !loading && hasMore) loadMoreData();
         }}
       >
-        {data.map((message: any, index: any) => (
+        {data.map((message, index) => (
           <MessageCard
             key={index}
             isMe={message.isMe}
@@ -153,24 +137,26 @@ const MessageDetail = () => {
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-3 border-t p-3">
+      <div className="flex items-center gap-3 border-t p-3">
         <TextArea
-          className="w-full resize-none rounded-2xl border p-3 outline-none"
+          className="w-full resize-none rounded-xl border border-gray-300 p-3 outline-none focus:border-gray-500"
           autoSize
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
 
-        <div onClick={handleSend}>
+        <div onClick={handleSend} className="cursor-pointer">
           <IconCustomize name="send" size={24} />
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div className="fixed top-0 right-0 w-full bg-white pt-24 shadow-md transition-transform duration-300 lg:h-screen lg:w-96">
-          <MessageMenu img={img} fullname={info} groupId={chatId} />
-        </div>
-      )}
+      <div
+        className={`fixed top-0 right-0 transform bg-white shadow-md transition-transform duration-300 ease-in-out lg:h-screen lg:w-96 ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <MessageMenu img={img} fullname={info} groupId={chatId} />
+      </div>
     </div>
   );
 };

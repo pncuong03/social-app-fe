@@ -6,45 +6,45 @@ import InputCustomize from "src/components/atoms/Input";
 import { useDebounce } from "src/utilities/hooks";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { fetchSearchChat } from "src/slices/messages/messageSlice";
-import { selectSearchChat } from "src/slices/messages/selector";
 import { useNavigate } from "react-router-dom";
+import { fetchSearchGroup } from "src/slices/groups/groupSlice";
+import { selectSearchGroup } from "src/slices/groups/selector";
 
-const SearchChat = () => {
+const SearchGroup = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [searchChat, setSearchChat] = useState("");
+  const [searchGroup, setSearchGroup] = useState("");
   const [searchResults, setSearchResults] = useState<[]>([]);
-  const searchUserDebounce = useDebounce(searchChat, 500);
+  const searchGroupDebounce = useDebounce(searchGroup, 500);
 
-  const listSearchChat = useAppSelector(selectSearchChat.getSearchChat);
+  const listSearchGroup = useAppSelector(selectSearchGroup.getSearchGroup);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchChat(e.target.value);
+    setSearchGroup(e.target.value);
   };
 
   useEffect(() => {
-    if (searchUserDebounce) {
-      dispatch(fetchSearchChat(searchUserDebounce));
-      setSearchResults(listSearchChat);
+    if (searchGroupDebounce) {
+      dispatch(fetchSearchGroup(searchGroupDebounce));
+      setSearchResults(listSearchGroup);
     } else {
       setSearchResults([]);
     }
-  }, [searchUserDebounce, dispatch]);
+  }, [searchGroupDebounce, dispatch]);
 
   const handleClick = (item: any) => {
-    navigate(`/messages/${item.name}`, { state: { chatId: item.id, info: item.name, img: item.img } });
-    setSearchChat("");
+    navigate(`/groups/${item.name}`, { state: { groupId: item.id } });
+    setSearchGroup("");
     setSearchResults([]);
   };
 
   return (
     <div className="m-4 flex flex-col items-center">
       <InputCustomize
-        placeholder={t("message.searchchat")}
+        placeholder={t("groups.searchgroup")}
         className="h-10 w-full rounded-2xl bg-gray-200 hover:bg-gray-300 "
-        value={searchChat}
+        value={searchGroup}
         onChange={handleSearch}
       />
 
@@ -70,4 +70,4 @@ const SearchChat = () => {
   );
 };
 
-export default SearchChat;
+export default SearchGroup;

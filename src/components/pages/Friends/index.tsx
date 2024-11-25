@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import routesName from "src/routes/enum.routes";
@@ -20,6 +20,14 @@ const FriendsPage = () => {
     },
   ];
 
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
+
   return (
     <div className="flex flex-col">
       <div className="fixed top-0 left-0 w-full bg-white pt-24 shadow-md transition-transform duration-300 lg:h-screen lg:w-96">
@@ -28,7 +36,7 @@ const FriendsPage = () => {
         <MenuCustomzie items={items} defaultSelectedKey={routesName.FRIENDS} />
       </div>
 
-      <div className="pt-40 lg:pt-0 lg:pl-96 xl:mx-16">
+      <div className="overflow-y-auto pt-40 lg:pt-0 lg:pl-96 xl:mx-16">
         <Outlet />
       </div>
     </div>

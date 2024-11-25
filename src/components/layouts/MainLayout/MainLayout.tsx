@@ -4,10 +4,10 @@ import Header from "../Header";
 
 const MainLayout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-light">
+    <div className="min-h-screen bg-light ">
       <Header />
 
-      <main className="w-full pt-20">
+      <main className="mt-[70px]">
         <Outlet />
       </main>
     </div>

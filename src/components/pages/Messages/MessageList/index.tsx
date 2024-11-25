@@ -18,6 +18,7 @@ const MessageList = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedMessageId, setSelectedMessageId] = useState<number | null>(null);
   const messages = useAppSelector(selectMessage.getListMessages);
 
   const loadMessages = () => {
@@ -28,7 +29,7 @@ const MessageList = () => {
     setTimeout(() => {
       dispatch(fetchListMessage(page))
         .then((response) => {
-          if (response.payload.length < 12) {
+          if (response.payload.length < 13) {
             setHasMore(false);
           } else {
             setHasMore(true);
@@ -46,13 +47,13 @@ const MessageList = () => {
   }, []);
 
   const handleClick = (item: any) => {
+    setSelectedMessageId(item.id);
     dispatch(clearMessageCount(item.id));
     navigate(`/messages/${item.name}`, { state: { chatId: item.id, info: item.name, img: item.imageUrl } });
   };
 
   return (
     <div
-      id="scrollableDiv"
       className="flex h-[80vh] flex-col overflow-y-auto px-2"
       onScroll={(e: any) => {
         const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
@@ -65,10 +66,13 @@ const MessageList = () => {
       <List
         itemLayout="horizontal"
         dataSource={messages}
-        className=" px-4"
+        className="px-1"
         renderItem={(item: any) => (
-          <List.Item onClick={() => handleClick(item)}>
-            <div className="flex cursor-pointer gap-3 font-medium text-black-100">
+          <List.Item
+            onClick={() => handleClick(item)}
+            className={`rounded-2xl ${selectedMessageId === item.id ? "bg-blue-100" : ""}`}
+          >
+            <div className="flex cursor-pointer gap-3 px-2 font-medium text-black-100">
               <img src={item.imageUrl} className="h-12 w-12 rounded-full object-cover" alt="avatar" />
 
               <div className={`${item.messageCount > 0 ? "font-medium text-black-100" : "font-normal text-gray-400"}`}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import routesName from "src/routes/enum.routes";
@@ -7,8 +7,8 @@ import IconCustomize from "src/components/atoms/Icons";
 import { Button } from "antd";
 import DrawerCustomize from "src/components/atoms/Drawer";
 import CreateGroup from "src/components/molecules/groups/CreateGroup";
-import SearchChat from "src/components/molecules/messages/SearchChat";
 import GroupsListCol from "src/components/molecules/groups/GroupsList";
+import SearchGroup from "src/components/molecules/groups/SearchGroup";
 
 const GroupsPage = () => {
   const { t } = useTranslation();
@@ -31,15 +31,23 @@ const GroupsPage = () => {
     },
   ];
 
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
+
   return (
     <div className="flex flex-col">
-      <div className="fixed top-0 left-0 w-full bg-white pt-24 shadow-md transition-transform duration-300 lg:h-screen lg:w-96">
+      <div className="fixed top-0 left-0  w-full bg-white pt-24 shadow-md transition-transform duration-300 lg:h-screen lg:w-96">
         <h2 className="ml-4 text-3xl font-medium">{t("home.groups")}</h2>
 
-        <SearchChat />
+        <SearchGroup />
 
         <Button
-          className="mx-4 flex h-10 w-11/12 items-center justify-center rounded-md bg-blue-200 text-lg font-medium "
+          className="mx-4 flex h-10 w-11/12 items-center justify-center rounded-2xl bg-blue-200 text-lg font-medium "
           onClick={() => setOpen(true)}
         >
           {t("groups.creategroup")}
@@ -51,10 +59,14 @@ const GroupsPage = () => {
 
         <MenuCustomzie items={items} defaultSelectedKey={routesName.GROUPS} />
 
-        <GroupsListCol />
+        <div className="hidden border-t-2 p-4 lg:block">
+          <h2 className="mb-2 text-xl font-medium">Nhóm bạn tham gia</h2>
+
+          <GroupsListCol />
+        </div>
       </div>
 
-      <div className="xl:4 pt-40 lg:pt-0 lg:pl-96">
+      <div className="pt-64 lg:pt-2 lg:pl-96">
         <Outlet />
       </div>
     </div>

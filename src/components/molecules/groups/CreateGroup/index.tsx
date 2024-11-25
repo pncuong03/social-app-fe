@@ -12,6 +12,7 @@ import { createGroup } from "src/slices/groups/groupSlice";
 interface FormValues {
   name: string;
   userIds: number[];
+  tagIds: number[];
 }
 
 interface Props {
@@ -30,6 +31,7 @@ const CreateGroup = (props: Props) => {
     initialValues: {
       name: "",
       userIds: [],
+      tagIds: [0],
     },
     validationSchema,
     onSubmit: (values) => {

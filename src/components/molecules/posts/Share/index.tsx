@@ -110,7 +110,10 @@ const ShareBox = (props: Props) => {
         />
 
         <div className="mt-4 flex justify-end">
-          <Button color="default" variant="solid" onClick={handleShare}>
+          <Button
+            className="rounded-full bg-gradient-to-r from-teal-400 to-blue-500 py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:from-teal-500 hover:to-blue-600 focus:outline-none"
+            onClick={handleShare}
+          >
             {t("home.share")}
           </Button>
         </div>

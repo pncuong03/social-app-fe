@@ -41,7 +41,7 @@ const Information = (props: Props) => {
         <div className="absolute -bottom-2 flex w-full items-center justify-center md:bottom-1">
           <div className="absolute bottom-[10px] right-[30px]">
             <Upload {...uploadProps}>
-              <Button className="rounded-md bg-neutral-400 px-1 text-neutral-100">
+              <Button className="rounded-xl bg-neutral-400 px-1 text-neutral-100">
                 <IconCustomize name="camera" />
 
                 <p className="hidden md:flex">{t("profile.editcover")}</p>
@@ -92,8 +92,18 @@ const Information = (props: Props) => {
           </div>
         </div>
 
-        <div className="p-3 md:mx-auto lg:mx-6">
-          <Button className="w-full rounded-md bg-gray-100 px-3" onClick={() => setIsOpenEdit(true)}>
+        <div className="flex flex-col gap-3 p-3 md:mx-auto lg:mx-6">
+          <div className="flex justify-between">
+            <Button className=" rounded-xl bg-gray-100 px-3">
+              <p className="text-lg font-normal">Bạn bè</p>
+            </Button>
+
+            <Button className=" rounded-xl bg-gray-100 px-3">
+              <p className="text-lg font-normal">Nhắn tin </p>
+            </Button>
+          </div>
+
+          <Button className="w-full rounded-xl bg-gray-100 px-3" onClick={() => setIsOpenEdit(true)}>
             <p className="text-lg font-normal">{t("profile.editprofile")} </p>
           </Button>
         </div>

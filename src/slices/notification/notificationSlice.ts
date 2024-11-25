@@ -1,13 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getListNotification } from "src/apis/notification";
-import { INotification } from "src/types/notification";
+import { INotiCount, INotification } from "src/types/notification";
 
 export interface NotificationState {
   notifications: INotification[];
+  notiCount: INotiCount;
 }
 
 const initialState: NotificationState = {
   notifications: [],
+  notiCount: {
+    messageCount: 0,
+    notificationCount: 0,
+  },
 };
 
 export const fetchListNotification = createAsyncThunk(
@@ -26,12 +31,23 @@ export const fetchListNotification = createAsyncThunk(
 export const notificationSlice = createSlice({
   name: "notification",
   initialState,
-  reducers: {},
+  reducers: {
+    increaseNoti: (state, action: PayloadAction<number>) => {
+      state.notiCount.notificationCount += action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchListNotification.fulfilled, (state, action: PayloadAction<INotification[]>) => {
-      state.notifications = [...state.notifications, ...action.payload];
+      const newNoti = action.payload;
+
+      const uniqueMessages = newNoti.filter(
+        (newMessage) => !state.notifications.some((existingNoti) => existingNoti.id === newMessage.id)
+      );
+
+      state.notifications = [...state.notifications, ...uniqueMessages];
     });
   },
 });
 
+export const { increaseNoti } = notificationSlice.actions;
 export default notificationSlice.reducer;

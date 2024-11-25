@@ -257,19 +257,26 @@ const postSlice = createSlice({
     builder
 
       .addCase(fetchPostMe.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-        // const sortedPosts = action.payload.slice().sort((a, b) => {
-        //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        // });
+        const newPosts = action.payload;
 
-        state.postOfMe = [...state.postOfMe, ...action.payload];
+        const uniquePosts = newPosts.filter(
+          (newPost) => !state.postOfMe.some((existingPost) => existingPost.id === newPost.id)
+        );
+
+        state.postOfMe = [...state.postOfMe, ...uniquePosts];
       })
 
       .addCase(fetchPostPublic.fulfilled, (state, action: PayloadAction<IPost[]>) => {
+        const newPosts = action.payload;
+
+        const uniquePosts = newPosts.filter(
+          (newPost) => !state.postOfMe.some((existingPost) => existingPost.id === newPost.id)
+        );
         // const sortedPosts = action.payload.slice().sort((a, b) => {
         //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         // });
 
-        state.postOfPublic = [...state.postOfPublic, ...action.payload];
+        state.postOfPublic = [...state.postOfPublic, ...uniquePosts];
       })
 
       .addCase(fetchDetailPost.fulfilled, (state, action: PayloadAction<IPost>) => {

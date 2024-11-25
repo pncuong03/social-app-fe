@@ -23,9 +23,17 @@ const FriendProfile = () => {
     dispatch(fetchInfoFriend(id));
   }, [dispatch]);
 
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
+
   return (
-    <div className="">
-      <div className="h-full w-full bg-white shadow">
+    <div className="h-[calc(100vh-60px)] overflow-y-auto">
+      <div className=" w-full bg-white shadow">
         <Information user={friendInfo} friends={friendList} />
       </div>
 

@@ -1,14 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Contact from "./Contact";
 import Feed from "./Feed";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "src/app/store";
+import { useAppSelector } from "src/app/appHooks";
+import { selectPost } from "src/slices/posts/selector";
+import { fetchPostPublic } from "src/slices/posts/postSlice";
 
 const HomePage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const postsPublic = useAppSelector(selectPost.getPostsPublic);
+
+  const loadPostPublic = () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      dispatch(fetchPostPublic(page))
+        .then((response) => {
+          if (response.payload.length < 5) {
+            setHasMore(false);
+          } else {
+            setHasMore(true);
+            setPage((prevPage) => prevPage + 1);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, 1000);
+  };
+
+  useEffect(() => {
+    loadPostPublic();
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
+
   return (
-    <div className="max-w-screen fixed top-0 bottom-0 left-0 right-0 mt-24 flex justify-between p-4 lg:gap-4">
+    <div
+      className="container mx-auto  flex h-[calc(100vh-60px)] max-w-[1920px] justify-between overflow-y-auto py-4 lg:flex lg:flex-row lg:gap-4"
+      onScroll={(e: any) => {
+        const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
+
+        if (bottom && !loading && hasMore) {
+          loadPostPublic();
+        }
+      }}
+    >
       <Sidebar />
 
-      <Feed />
+      <Feed postsPublic={postsPublic} loading={loading} />
 
       <Contact />
     </div>

@@ -16,6 +16,7 @@ import { useAppSelector } from "src/app/appHooks";
 import { selectUserInfo } from "src/slices/login/selector";
 import { useSocket } from "src/utilities/hooks/useSocket";
 import SearchUser from "src/components/molecules/search/SearchUser";
+import { selectNotificationCount } from "src/slices/notification/selector";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
 
@@ -25,6 +26,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
+  const notiCount = useAppSelector(selectNotificationCount.getNotificationCount);
 
   useEffect(() => {
     dispatch(fetchInfoUser());
@@ -37,6 +39,21 @@ const Header = () => {
   };
 
   useSocket();
+
+  // useEffect(() => {
+  //   if (receivedMessages?.type === "" ) {
+  //     console.log(receivedMessages);
+
+  //     const newReceivedMessage = {
+  //       ...receivedMessages,
+  //       id: data.map((item) => item.id).reduce((a, b) => Math.max(a, b), 0) + 1,
+  //     };
+
+  //     setTimeout(() => {
+  //       setData((prevData) => [...prevData, newReceivedMessage]);
+  //     }, 1000);
+  //   }
+  // }, [receivedMessages, chatId]);
 
   const MENU_PROFILE = [
     {
@@ -64,7 +81,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed z-10 mx-auto flex h-[75px] w-full items-center justify-between gap-2 bg-white px-2 shadow-md">
+    <header className="fixed top-0 z-10 mx-auto flex h-[75px] w-full items-center justify-between gap-2 bg-white px-2 shadow-md">
       <div className="col-span-2 flex items-center">
         <div className="ml-2 flex items-center gap-2">
           <div className="">
@@ -98,13 +115,13 @@ const Header = () => {
       <div className="flex items-center justify-end gap-2">
         <CustomLanguage />
 
-        <Badge count={1} offset={[-2, 4]}>
+        <Badge count={notiCount.messageCount} offset={[-2, 4]}>
           <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0" onClick={() => navigate(routesName.MESSAGES)}>
             <IconCustomize name="message" size={25} color="black" />
           </Button>
         </Badge>
 
-        <Badge count={1} offset={[-2, 4]}>
+        <Badge count={notiCount.notificationCount} offset={[-2, 4]}>
           <NotificationList>
             <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
               <IconCustomize name="notification" size={25} color="black" />

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
@@ -11,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 const GroupsListCol = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  // const { t } = useTranslation();
 
   const [page, setPage] = useState(0);
   const groups = useAppSelector(selectGroup.getListGroup);
@@ -45,56 +43,38 @@ const GroupsListCol = () => {
     }, 1000);
   }, []);
 
-  const handleOpenDetail = (item: any) => {
-    console.log("item", item);
-  };
-
   return (
-    <div className="mt-10 hidden flex-col border-t-2 p-4 lg:flex">
-      <h2 className="mb-2 text-xl font-medium">Nhóm bạn tham gia</h2>
+    <div
+      className="flex h-[60vh] flex-col px-1 hover:overflow-y-auto"
+      onScroll={(e: any) => {
+        const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
 
-      <div
-        id="scrollableDiv"
-        style={{
-          height: "45vh",
-          overflowY: "auto", // Vertical scrolling only
-          overflowX: "hidden", // Disable horizontal scrolling
-          display: "flex",
-          flexDirection: "column",
-          width: "100%", // Ensure it takes up the full width
-        }}
-        onScroll={(e: any) => {
-          const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
+        if (bottom && !loading && hasMore) {
+          loadGroups();
+        }
+      }}
+    >
+      <List
+        dataSource={groups}
+        renderItem={(item: any) => (
+          <List.Item
+            onClick={() => navigate(`/groups/${item.name}`, { state: { groupId: item.idGroup } })}
+            className="mb-2 flex h-16 !justify-start  rounded-2xl  hover:cursor-pointer hover:bg-gray-100"
+          >
+            <div className="flex items-center gap-3 px-2  ">
+              <img src={item.img} className="h-12 w-12 rounded-xl" />
 
-          if (bottom && !loading && hasMore) {
-            loadGroups();
-          }
-        }}
+              <p className="text-xl">{item.name}</p>
+            </div>
+          </List.Item>
+        )}
       >
-        <List
-          itemLayout="horizontal"
-          dataSource={groups}
-          className="w-80 md:w-96"
-          renderItem={(item: any) => (
-            <List.Item onClick={() => handleOpenDetail(item)} style={{ cursor: "pointer", width: "100%" }}>
-              <div
-                onClick={() => navigate(`/groups/${item.name}`, { state: { groupId: item.id } })}
-                className="flex items-center gap-3 rounded-md p-1 hover:cursor-pointer hover:bg-gray-100"
-              >
-                <img src={item.img} className="h-14 w-14 rounded-lg" />
-
-                <p className="text-lg">{item.name}</p>
-              </div>
-            </List.Item>
-          )}
-        >
-          {loading && (
-            <List.Item>
-              <Skeleton avatar paragraph={{ rows: 1 }} active />
-            </List.Item>
-          )}
-        </List>
-      </div>
+        {loading && (
+          <List.Item>
+            <Skeleton avatar paragraph={{ rows: 1 }} active />
+          </List.Item>
+        )}
+      </List>
     </div>
   );
 };

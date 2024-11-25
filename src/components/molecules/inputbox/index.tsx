@@ -14,7 +14,7 @@ const InputBox = () => {
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
 
   return (
-    <div className="flex h-max w-full flex-col rounded-lg bg-white p-4 shadow-md">
+    <div className="flex h-max w-full flex-col rounded-2xl bg-white p-4 shadow-lg">
       <div className={`mb-2 flex items-center space-x-2 border-b pb-3 ${"border-gray-200"}`}>
         <div className="h-12 w-12">
           <img src={userInfo?.imageUrl} className="h-full w-full rounded-full" alt="dp" />
@@ -53,6 +53,7 @@ const InputBox = () => {
         onCancel={() => setIsVisiable(false)}
         fullName={userInfo.fullName}
         imageUrl={userInfo.imageUrl}
+        type="USER"
       />
     </div>
   );

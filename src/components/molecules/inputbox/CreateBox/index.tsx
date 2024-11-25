@@ -8,12 +8,15 @@ import IconCustomize from "src/components/atoms/Icons";
 import { getName } from "src/const";
 import { AppDispatch } from "src/app/store";
 import { createImage, createPosts } from "src/slices/posts/postSlice";
+import { createPostGroup } from "src/slices/groups/groupSlice";
+import { useLocation } from "react-router-dom";
 
 interface Props {
   fullName: string;
   imageUrl: string;
   open?: boolean;
   onCancel?: () => void;
+  type: string;
 }
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
@@ -29,6 +32,7 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 const CreateBox = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
   const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [state, setState] = useState("PUBLIC");
@@ -37,6 +41,7 @@ const CreateBox = (props: Props) => {
   const [previewImage, setPreviewImage] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageUrls, seImageUrls] = useState<string[]>([]);
+  const { groupId } = location.state || {};
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -69,7 +74,11 @@ const CreateBox = (props: Props) => {
     if (content.trim()) {
       setLoading(true);
 
-      await dispatch(createPosts({ content, state, imageUrls }));
+      if (props.type === "USER") {
+        await dispatch(createPosts({ content, state, imageUrls }));
+      } else {
+        await dispatch(createPostGroup({ content, groupId, imageUrls }));
+      }
 
       setTimeout(() => {
         toast.success(t("home.postsucces"));
@@ -197,10 +206,8 @@ const CreateBox = (props: Props) => {
 
         <div className="mt-4 flex justify-center">
           <Button
-            className="w-full"
-            color="default"
-            variant="solid"
-            type="default"
+            className="w-full rounded-full bg-gradient-to-r from-teal-400 to-blue-500 py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:from-teal-500 hover:to-blue-600 focus:outline-none"
+            size="large"
             onClick={handleCreate}
             disabled={!content.trim() || loading}
           >

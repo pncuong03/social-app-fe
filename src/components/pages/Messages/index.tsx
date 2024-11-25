@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import MessageList from "./MessageList";
 import DrawerCustomize from "src/components/atoms/Drawer";
@@ -14,6 +14,14 @@ const MessagePage = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    document.body.classList.add("no-scroll");
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -38,7 +46,7 @@ const MessagePage = () => {
         <MessageList />
       </div>
 
-      <div className="pt-40 lg:pl-96 lg:pt-0">
+      <div className="pt-40 lg:pl-96 lg:pt-2">
         <Outlet />
       </div>
     </div>

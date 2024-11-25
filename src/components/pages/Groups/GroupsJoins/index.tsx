@@ -1,110 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Skeleton } from "antd";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "src/app/appHooks";
+import { AppDispatch } from "src/app/store";
 import GroupCard from "src/components/molecules/groups/GroupsJoins/GroupCard";
+import { fetchListGroup } from "src/slices/groups/groupSlice";
+import { selectGroup } from "src/slices/groups/selector";
 
 const GroupsJoins = () => {
-  const groups = [
-    {
-      id: 1,
-      name: "Group 1",
-      description: "Description 1",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      name: "Group 2",
-      description: "Description 2",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 3,
-      name: "Group 3",
-      description: "Description 3",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 4,
-      name: "Group 1",
-      description: "Description 1",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 5,
-      name: "Group 2",
-      description: "Description 2",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 6,
-      name: "Group 3",
-      description: "Description 3",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 1,
-      name: "Group 1",
-      description: "Description 1",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 2,
-      name: "Group 2",
-      description: "Description 2",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 3,
-      name: "Group 3",
-      description: "Description 3",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 4,
-      name: "Group 1",
-      description: "Description 1",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 5,
-      name: "Group 2",
-      description: "Description 2",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 6,
-      name: "Group 3",
-      description: "Description 3",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 4,
-      name: "Group 1",
-      description: "Description 1",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 5,
-      name: "Group 2",
-      description: "Description 2",
-      img: "https://via.placeholder.com/150",
-    },
-    {
-      id: 6,
-      name: "Group 3",
-      description: "Description 3",
-      img: "https://via.placeholder.com/150",
-    },
-  ];
+  const dispatch = useDispatch<AppDispatch>();
+  // const { t } = useTranslation();
+
+  const [page, setPage] = useState(0);
+  const groups = useAppSelector(selectGroup.getListGroup);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  const loadGroups = () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      dispatch(fetchListGroup(page))
+        .then((response) => {
+          if (response.payload.length < 12) {
+            setHasMore(false);
+          } else {
+            setHasMore(true);
+            setPage((prevPage) => prevPage + 1);
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }, 1000);
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      loadGroups();
+    }, 1000);
+  }, []);
 
   return (
-    <div className="p-4 lg:mx-0">
-      <h2 className="mb-4 text-xl font-medium">Nhóm bạn tham gia</h2>
+    <div
+      className="flex h-[calc(100vh-70px)] flex-col overflow-y-auto px-1 pb-10"
+      onScroll={(e: any) => {
+        const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
 
-      <div className="flex flex-wrap gap-3">
-        {groups.map((group) => {
+        if (bottom && !loading && hasMore) {
+          loadGroups();
+        }
+      }}
+    >
+      <h2 className="p-6 text-2xl font-medium lg:px-10 ">Nhóm bạn tham gia</h2>
+
+      <div className=" grid grid-cols-3 gap-3">
+        {groups.map((group: any) => {
           return (
-            <GroupCard key={group.id} id={group.id} name={group.name} img={group.img} description={group.description} />
+            <GroupCard
+              key={group.idGroup}
+              idGroup={group.idGroup}
+              name={group.name}
+              img={group.img}
+              memberCount={group.memberCount}
+            />
           );
         })}
+
+        {loading && <Skeleton avatar paragraph={{ rows: 1 }} active />}
       </div>
     </div>
   );

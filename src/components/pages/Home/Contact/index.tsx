@@ -19,7 +19,7 @@ const Contact = () => {
   const getListFriend = useAppSelector(selectListFriend.getListFriend);
 
   return (
-    <div className="hidden h-[calc(120vh-56px)] w-[25rem] flex-col rounded-xl bg-white p-3 shadow-sm hover:overflow-y-auto xl:flex">
+    <div className="sticky top-0 hidden h-[calc(100vh-96px)] w-[20rem] flex-col self-start rounded-2xl bg-white p-3 shadow-lg hover:overflow-y-auto xl:flex">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-2xl font-normal">{t("home.contact")}</p>
       </div>

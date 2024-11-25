@@ -31,6 +31,7 @@ interface Props {
   shareCount: number;
   hasLike: boolean;
   sharePost?: object;
+  type?: string;
 }
 
 const PostCard = (props: Props) => {
@@ -65,7 +66,7 @@ const PostCard = (props: Props) => {
   );
 
   return (
-    <div className="flex h-max flex-col rounded-lg bg-white">
+    <div className="flex h-max flex-col rounded-2xl bg-white shadow-lg">
       <div className="flex justify-between px-4 pt-4">
         <button
           onClick={() => navigate(`/${props.fullName}`, { state: { id: props.id } })}
@@ -76,7 +77,7 @@ const PostCard = (props: Props) => {
           </div>
 
           <div className="flex flex-grow flex-col">
-            <p className="text-black text-lg font-medium">{props.fullName}</p>
+            <p className="text-black text-start text-lg font-medium">{props.fullName}</p>
 
             <div className="flex gap-3">
               <span className="text-xs font-medium text-gray-400">
@@ -95,17 +96,19 @@ const PostCard = (props: Props) => {
             </Button>
           </PopoverCustomize>
 
-          <PopconfirmCustomize
-            title={t("home.deletepost")}
-            icon={null}
-            okText={t("friend.delete")}
-            cancelText={t("friend.cancel")}
-            onConfirm={handleDeletePost}
-          >
-            <Button className="border-none shadow-none">
-              <IconCustomize name="close" />
-            </Button>
-          </PopconfirmCustomize>
+          {props.type === "USER" ? (
+            <PopconfirmCustomize
+              title={t("home.deletepost")}
+              icon={null}
+              okText={t("friend.delete")}
+              cancelText={t("friend.cancel")}
+              onConfirm={handleDeletePost}
+            >
+              <Button className="border-none shadow-none">
+                <IconCustomize name="close" />
+              </Button>
+            </PopconfirmCustomize>
+          ) : null}
         </div>
       </div>
 

@@ -22,7 +22,7 @@ const Introduce = (props: Props) => {
 
   return (
     <div className="col-span-1 mb-4 grid h-fit gap-4 ">
-      <div className="flex flex-col gap-4 rounded-lg  bg-white p-3 shadow-md">
+      <div className="flex flex-col gap-4 rounded-2xl  bg-white p-3 shadow-lg">
         <p className="text-xl font-medium">{t("profile.intro")}</p>
 
         <div className="flex justify-center">
@@ -44,9 +44,11 @@ const Introduce = (props: Props) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-lg bg-white p-3 shadow-md">
+      <div className="flex flex-col gap-4 rounded-2xl bg-white p-3 shadow-lg">
         <div className="flex items-center justify-between">
           <p className="text-xl font-medium">{t("home.images")}</p>
+
+          <Button className="text-md border-none text-blue-500 shadow-none">Tat ca anh</Button>
         </div>
 
         <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md">
@@ -58,7 +60,7 @@ const Introduce = (props: Props) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-lg bg-white p-3 shadow-md">
+      <div className="flex flex-col gap-4 rounded-2xl bg-white p-3 shadow-lg">
         <div className="flex justify-between">
           <div>
             <p className="text-xl font-medium">{t("home.friends")}</p>

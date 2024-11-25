@@ -12,6 +12,7 @@ interface Props {
   imageUrl: string;
   isFriend?: boolean;
 }
+
 const FriendCard = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
@@ -30,19 +31,26 @@ const FriendCard = (props: Props) => {
   };
 
   return (
-    <div className="flex w-40 flex-col  rounded-2xl border  border-neutral-300 md:w-44">
-      <button onClick={() => navigate(`/${props.fullName}`, { state: { id: props.id } })}>
-        <div>
-          <img src={props.imageUrl} className="h-32 w-full rounded-2xl md:h-40" />
+    <div className="flex w-48 transform flex-col rounded-3xl bg-white shadow-lg transition-transform hover:-translate-y-1 hover:shadow-2xl">
+      <button
+        onClick={() => navigate(`/${props.fullName}`, { state: { id: props.id } })}
+        className="focus:outline-none"
+      >
+        <div className="relative overflow-hidden rounded-t-3xl">
+          <img
+            src={props.imageUrl}
+            className="h-44 w-full object-cover transition-all duration-300 hover:opacity-90"
+            alt={props.fullName}
+          />
         </div>
 
-        <div className="px-2 pt-2">
-          <p className=" text-lg font-semibold">{props.fullName}</p>
+        <div className="px-4 pt-4 text-center">
+          <p className="text-lg font-bold text-gray-800">{props.fullName}</p>
         </div>
       </button>
 
-      {props.isFriend ? (
-        <div className="p-2">
+      <div className="p-4">
+        {props.isFriend ? (
           <PopconfirmCustomize
             title={t("friend.deletefriend")}
             icon={null}
@@ -50,26 +58,33 @@ const FriendCard = (props: Props) => {
             cancelText={t("friend.cancel")}
             onConfirm={handleDeleteFriend}
           >
-            <button className="w-full rounded-lg bg-neutral-200 p-1 text-white">{t("friend.unfriend")}</button>
+            <button className="w-full rounded-full bg-gradient-to-r from-pink-500 to-red-500 py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:from-pink-600 hover:to-red-600 focus:outline-none">
+              {t("friend.unfriend")}
+            </button>
           </PopconfirmCustomize>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-1 p-2">
-          <button className="w-full rounded-lg bg-blue-600 p-1 text-white" onClick={handleAcceptRequest}>
-            {t("friend.accept")}
-          </button>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <button
+              className="w-full rounded-full bg-gradient-to-r from-blue-500 to-purple-600 py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:from-blue-600 hover:to-purple-700 focus:outline-none"
+              onClick={handleAcceptRequest}
+            >
+              {t("friend.accept")}
+            </button>
 
-          <PopconfirmCustomize
-            title={t("friend.deleterequest")}
-            icon={null}
-            okText={t("friend.delete")}
-            cancelText={t("friend.cancel")}
-            onConfirm={handleRejectRequest}
-          >
-            <button className="w-full rounded-lg bg-neutral-200 p-1 text-white">{t("friend.delete")}</button>
-          </PopconfirmCustomize>
-        </div>
-      )}
+            <PopconfirmCustomize
+              title={t("friend.deleterequest")}
+              icon={null}
+              okText={t("friend.delete")}
+              cancelText={t("friend.cancel")}
+              onConfirm={handleRejectRequest}
+            >
+              <button className="w-full rounded-full bg-gray-300 py-2 text-sm font-semibold text-gray-700 transition-all duration-200 ease-in-out hover:bg-gray-400 focus:outline-none">
+                {t("friend.delete")}
+              </button>
+            </PopconfirmCustomize>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

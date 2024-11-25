@@ -88,7 +88,9 @@
     "creategroup": "Create group",
     "groupname": "Group name",
     "invitefriend": "Invite friends",
-    "createsuccessgroup": "Create group successfully"
+    "createsuccessgroup": "Create group successfully",
+    "seegroup": "See group",
+    "searchgroup": "Search group"
   }
   
 }

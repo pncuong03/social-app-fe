@@ -51,7 +51,7 @@ export const fetchInfoGroup = createAsyncThunk("group/fetchInfoGroup", async (gr
   try {
     const data = await getInfoGroup(groupId);
 
-    return data.content;
+    return data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -70,22 +70,19 @@ export const fetchMemberGroup = createAsyncThunk(
   }
 );
 
-export const fetchSearchGroup = createAsyncThunk(
-  "group/fetchSearchGroup",
-  async ({ search, page }: { search: string; page: number }, thunkAPI) => {
-    try {
-      const data = await onSearchGroup(search, page);
+export const fetchSearchGroup = createAsyncThunk("group/fetchSearchGroup", async (search: string, thunkAPI) => {
+  try {
+    const data = await onSearchGroup(search);
 
-      return data.content;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error);
-    }
+    return data.content;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
   }
-);
+});
 
 export const createGroup = createAsyncThunk(
   "group/createGroup",
-  async (params: { name: string; userIds: number[] }, thunkAPI) => {
+  async (params: { name: string; userIds: number[]; tagIds: number[] }, thunkAPI) => {
     try {
       await onCreateGroup(params);
     } catch (error) {
@@ -108,6 +105,8 @@ export const addMemberGroup = createAsyncThunk(
 export const leaveGroup = createAsyncThunk("group/leaveGroup", async (groupId: number, thunkAPI) => {
   try {
     await onLeaveGroup(groupId);
+
+    thunkAPI.dispatch(decreaseMember(groupId));
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
@@ -142,6 +141,8 @@ export const createPostGroup = createAsyncThunk(
   async (params: { content: string; imageUrls: string[]; groupId: number }, thunkAPI) => {
     try {
       await onCreatePostGroup(params);
+
+      thunkAPI.dispatch(fetchPostGroup({ groupId: params.groupId, page: 0 }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -175,11 +176,25 @@ export const deletePostGroup = createAsyncThunk(
 export const groupSlice = createSlice({
   name: "group",
   initialState,
-  reducers: {},
+  reducers: {
+    decreaseMember: (state, action: PayloadAction<number>) => {
+      state.infoGroup.memberCount -= action.payload;
+
+      const groupId = action.payload;
+
+      state.listgroups = state.listgroups.filter((group) => group.idGroup !== groupId);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchListGroup.fulfilled, (state, action: PayloadAction<IGroup[]>) => {
-        state.listgroups = action.payload;
+        const newGroups = action.payload;
+
+        const uniqueGroups = newGroups.filter(
+          (group) => !state.listgroups.some((existingGroup) => existingGroup.idGroup === group.idGroup)
+        );
+
+        state.listgroups = [...state.listgroups, ...uniqueGroups];
       })
 
       .addCase(fetchInfoGroup.fulfilled, (state, action: PayloadAction<IGroup>) => {
@@ -195,9 +210,16 @@ export const groupSlice = createSlice({
       })
 
       .addCase(fetchPostGroup.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-        state.listPostGroup = action.payload;
+        const newPosts = action.payload;
+
+        const uniqueGroups = newPosts.filter(
+          (post) => !state.listPostGroup.some((existingPost) => existingPost.id === post.id)
+        );
+
+        state.listPostGroup = [...state.listPostGroup, ...uniqueGroups];
       });
   },
 });
 
+export const { decreaseMember } = groupSlice.actions;
 export default groupSlice.reducer;

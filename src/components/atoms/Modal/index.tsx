@@ -21,7 +21,7 @@ const ModalCustomize = (props: Props) => {
       onCancel={props.onCancel}
       centered
       footer={null}
-      style={{ borderRadius: "1rem", overflowY: "hidden" }}
+      style={{ borderRadius: "30px", overflowY: "hidden" }}
       width={props.size}
       closable={props.closable}
     >

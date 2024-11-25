@@ -18,3 +18,8 @@ export interface INotification {
   };
   post: IPost;
 }
+
+export interface INotiCount {
+  messageCount: number;
+  notificationCount: number;
+}

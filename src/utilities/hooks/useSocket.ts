@@ -10,6 +10,8 @@ export const useSocket = () => {
   const openMessage = useRef<string | null>(null);
   const [receivedMessages, setReceivedMessages] = useState<IMessage>();
 
+  console.log("receivedMessages", receivedMessages);
+
   useEffect(() => {
     ws.current = new WebSocket("ws://localhost:8087/chat");
 

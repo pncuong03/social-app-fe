@@ -28,6 +28,10 @@ export function onDeleteFriend(friendId: string) {
   return httpRequest.delete(`/post-service/api/v1/friend/delete?friendId=${friendId}`);
 }
 
+export function onSendRequesFriend(userId: string) {
+  return httpRequest.post(`/post-service/api/v1/friend/add?id=${userId}`);
+}
+
 export function onAcceptRequestFriend(id: string) {
   return httpRequest.post(`/post-service/api/v1/friend/accept?id=${id}`, {});
 }
