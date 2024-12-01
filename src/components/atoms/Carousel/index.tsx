@@ -13,7 +13,7 @@ const CarouselCustomize = (props: Props) => {
           {props.images.map((image, index) => (
             <div
               key={index}
-              className="flex h-52 cursor-pointer items-center justify-center focus:outline-none md:h-96 "
+              className="flex h-52 cursor-pointer items-center justify-center bg-gray-200 focus:outline-none md:h-96 "
             >
               <img src={image} className="h-full w-full rounded-xl object-contain" />
             </div>

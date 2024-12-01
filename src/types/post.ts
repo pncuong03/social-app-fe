@@ -1,6 +1,6 @@
 export interface IPost {
   id: number;
-  userId: string;
+  userId: number;
   state: string;
   fullName: string;
   imageUrl: string;

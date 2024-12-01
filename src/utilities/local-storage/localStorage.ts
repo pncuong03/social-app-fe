@@ -16,4 +16,8 @@ export default class LocalStorage {
   public static remove = (key: LocalStorageKey) => {
     return localStorage.removeItem(key);
   };
+
+  public static clear = () => {
+    return localStorage.clear();
+  };
 }

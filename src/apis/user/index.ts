@@ -5,3 +5,15 @@ export function getUser(search: string) {
     return data;
   });
 }
+
+export function onEditInfo(params: {
+  fullName: string;
+  birthdayString: string;
+  gender: string;
+  work: string;
+  description: string;
+  live: string;
+  imageUrl: string;
+}) {
+  return httpRequest.post(`/uaa-service/api/v1/user/change-user-information`, params);
+}

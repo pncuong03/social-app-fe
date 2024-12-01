@@ -102,7 +102,7 @@ export const createGroupChat = createAsyncThunk(
     try {
       await onCreateGroupChat(params);
 
-      // thunkAPI.dispatch(fetchListMessage(0));
+      thunkAPI.dispatch(fetchListMessage(0));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

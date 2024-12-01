@@ -56,8 +56,18 @@
   "profile": {
     "editprofile": "Chỉnh sửa trang cá nhân",
     "editcover" : "Sửa ảnh bìa",
-    "intro": "Giới thiệu"
-  },
+    "intro": "Giới thiệu",
+    "male": "Nam",
+    "female": "Nữ",
+    "editprofilesuccess": "Chỉnh sửa trang cá nhân thành công",
+    "fullname": "Họ và tên",
+    "birdthday": "Ngày sinh",
+    "work": "Nghề nghiệp",
+    "address": "Địa chỉ",
+    "description": "Mô tả",
+    "sex": "Giới tính",
+    "updateinfo": "Cập nhật thông tin cá nhân"
+    },
   "message": {
     "message": "Tin nhắn",
     "newmessage": "Tin nhắn mới",

@@ -1,9 +1,17 @@
 import httpRequest from "src/utilities/services/httpRequest";
 
-export function getPostPublic(page: number) {
+export function getPostofFriend(page: number) {
   return httpRequest.get(`/post-service/api/v1/post/list/friends?page=${page}&size=5`).then((data: any) => {
     return data;
   });
+}
+
+export function getPostofUser(userId: number, page: number) {
+  return httpRequest
+    .get(`/post-service/api/v1/post/list/post-user?userId=${userId}&page=${page}&size=5`)
+    .then((data: any) => {
+      return data;
+    });
 }
 
 export function getPostofMe(page: number) {
@@ -47,7 +55,7 @@ export function onDeletePost(postId: number) {
 }
 
 export function onCreateImage(data: FormData) {
-  return httpRequest.post(`/post-service/api/v1/post/upload-image`, data).then((data: any) => {
+  return httpRequest.post(`/api/v1/post/upload-image`, data).then((data: any) => {
     return data;
   });
 }

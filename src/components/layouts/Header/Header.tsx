@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import clsx from "clsx";
 import { Badge, Button } from "antd";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,6 @@ import { toast } from "react-toastify";
 import NotificationList from "src/components/molecules/notification";
 import { useAppSelector } from "src/app/appHooks";
 import { selectUserInfo } from "src/slices/login/selector";
-import { useSocket } from "src/utilities/hooks/useSocket";
 import SearchUser from "src/components/molecules/search/SearchUser";
 import { selectNotificationCount } from "src/slices/notification/selector";
 
@@ -28,17 +27,11 @@ const Header = () => {
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const notiCount = useAppSelector(selectNotificationCount.getNotificationCount);
 
-  useEffect(() => {
-    dispatch(fetchInfoUser());
-  }, [dispatch]);
-
   const handleLogout = () => {
     dispatch(logOut());
     toast.success(t("home.logout"));
-    navigate(routesName.LOGIN);
+    window.location.href = routesName.LOGIN;
   };
-
-  useSocket();
 
   // useEffect(() => {
   //   if (receivedMessages?.type === "" ) {
@@ -79,6 +72,14 @@ const Header = () => {
 
     { key: "4", label: t("home.logout"), onClick: handleLogout, icon: <IconCustomize name="logout" size={30} /> },
   ];
+
+  const initialize = useCallback(() => {
+    dispatch(fetchInfoUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
 
   return (
     <header className="fixed top-0 z-10 mx-auto flex h-[75px] w-full items-center justify-between gap-2 bg-white px-2 shadow-md">

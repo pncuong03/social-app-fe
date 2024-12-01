@@ -10,7 +10,7 @@ interface Props {
 
 const Feed = (props: Props) => {
   return (
-    <div className="mx-auto flex  w-full  flex-col gap-2  lg:w-[44rem] lg:gap-3">
+    <div className="mx-2 flex w-full  flex-col  gap-2 lg:mx-auto  lg:w-[44rem] lg:gap-3">
       <InputBox />
 
       <Posts posts={props.postsPublic} />

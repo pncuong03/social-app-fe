@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectNotification } from "src/slices/notification/selector";
-import { fetchListNotification } from "src/slices/notification/notificationSlice";
+import { fetchListNotification, increaseNoti } from "src/slices/notification/notificationSlice";
 import TimeCustomize from "src/const/dateFormat";
 import { formatNoti } from "src/const/notiFormat";
-import { useSocket } from "src/utilities/hooks/useSocket";
 import PostDetail from "../posts/PostDetail";
+import { useSocket } from "src/utilities/hooks/useSocket";
 
 interface Props {
   children: React.ReactNode;
@@ -23,12 +23,10 @@ const NotificationList = (props: Props) => {
   const notifications = useAppSelector(selectNotification.getListNotification);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const { receivedMessages } = useSocket();
   const [openModal, setOpenModal] = useState(false);
   const [postId, setPostId] = useState<number>();
   const [openPopover, setOpenPopover] = useState(false);
-
-  console.log(receivedMessages);
+  const { receivedMessages } = useSocket();
 
   const loadNotifications = () => {
     if (loading) return;
@@ -56,6 +54,18 @@ const NotificationList = (props: Props) => {
       loadNotifications();
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    // if (receivedMessages?.type ===  "FRIEND_REQUEST" || "ACCEPT_FRIEND_REQUEST" || "COMMENT" || "LIKE" || "SHARE" ) {
+    //   dispatch(addNoti({
+    //     id: notifications.map((item) => item.id).reduce((a, b) => Math.max(a, b), 0) + 1,
+
+    //   }))
+
+    // }
+
+    dispatch(increaseNoti());
+  }, [receivedMessages]);
 
   const handleOpenDetail = (item: any) => {
     if (["COMMENT", "LIKE", "SHARE"].includes(item.interactType)) {

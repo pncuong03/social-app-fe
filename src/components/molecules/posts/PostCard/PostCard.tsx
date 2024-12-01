@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Button } from "antd";
@@ -32,10 +32,12 @@ interface Props {
   hasLike: boolean;
   sharePost?: object;
   type?: string;
+  userId?: number;
 }
 
 const PostCard = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isOpenComment, setIsOpenComment] = useState(false);
@@ -65,13 +67,20 @@ const PostCard = (props: Props) => {
     </div>
   );
 
+  const handleNavigate = () => {
+    if (userInfo.id === props.userId) {
+      if (location.pathname !== "/profile") {
+        navigate("/profile");
+      }
+    } else {
+      navigate(`/${props.fullName}`, { state: { id: props.id } });
+    }
+  };
+
   return (
     <div className="flex h-max flex-col rounded-2xl bg-white shadow-lg">
       <div className="flex justify-between px-4 pt-4">
-        <button
-          onClick={() => navigate(`/${props.fullName}`, { state: { id: props.id } })}
-          className="flex items-center space-x-4"
-        >
+        <button onClick={handleNavigate} className="flex items-center space-x-4">
           <div className="h-12 w-12">
             <img src={props?.imgUrl} className="h-full w-full rounded-full" alt="dp" />
           </div>
@@ -89,27 +98,29 @@ const PostCard = (props: Props) => {
           </div>
         </button>
 
-        <div className="flex p-2">
-          <PopoverCustomize content={menuItems()} placement="bottom" arrow={true}>
-            <Button className="border-none shadow-none">
-              <IconCustomize name="ellipsis" />
-            </Button>
-          </PopoverCustomize>
-
-          {props.type === "USER" ? (
-            <PopconfirmCustomize
-              title={t("home.deletepost")}
-              icon={null}
-              okText={t("friend.delete")}
-              cancelText={t("friend.cancel")}
-              onConfirm={handleDeletePost}
-            >
+        {userInfo.id === props.userId ? (
+          <div className="flex p-2">
+            <PopoverCustomize content={menuItems()} placement="bottom" arrow={true}>
               <Button className="border-none shadow-none">
-                <IconCustomize name="close" />
+                <IconCustomize name="ellipsis" />
               </Button>
-            </PopconfirmCustomize>
-          ) : null}
-        </div>
+            </PopoverCustomize>
+
+            {props.type === "USER" ? (
+              <PopconfirmCustomize
+                title={t("home.deletepost")}
+                icon={null}
+                okText={t("friend.delete")}
+                cancelText={t("friend.cancel")}
+                onConfirm={handleDeletePost}
+              >
+                <Button className="border-none shadow-none">
+                  <IconCustomize name="close" />
+                </Button>
+              </PopconfirmCustomize>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
       <p className="text-md my-2 max-h-24 overflow-hidden text-ellipsis break-words px-4 font-light">{props.content}</p>

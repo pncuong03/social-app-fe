@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import routesName from "src/routes/enum.routes";
@@ -19,14 +19,6 @@ const FriendsPage = () => {
       icon: <IconCustomize name="friend" size={30} color="#00FF7F" />,
     },
   ];
-
-  useEffect(() => {
-    document.body.classList.add("no-scroll");
-
-    return () => {
-      document.body.classList.remove("no-scroll");
-    };
-  }, []);
 
   return (
     <div className="flex flex-col">

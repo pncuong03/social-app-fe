@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+// import { useNavigate } from "react-router-dom";
 import { List } from "antd";
 import { useTranslation } from "react-i18next";
 import IconCustomize from "src/components/atoms/Icons";
@@ -8,15 +9,16 @@ import { useDebounce } from "src/utilities/hooks";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectUser } from "src/slices/user/seletor";
-import { fetchUser } from "src/slices/user/userSlice";
+import { clearSearchUser, fetchUser } from "src/slices/user/userSlice";
 import { sendRequestFriend } from "src/slices/friend/friendSlice";
+// import { sendRequestFriend } from "src/slices/friend/friendSlice";
 
 const SearchUser = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
+  // const navigate = useNavigate();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchUser, setSearchUser] = useState("");
-  const [searchResults, setSearchResults] = useState<[]>([]);
   const searchUserDebounce = useDebounce(searchUser, 500);
 
   const listUser = useAppSelector(selectUser.getUser);
@@ -28,9 +30,8 @@ const SearchUser = () => {
   useEffect(() => {
     if (searchUserDebounce) {
       dispatch(fetchUser(searchUserDebounce));
-      setSearchResults(listUser);
     } else {
-      setSearchResults([]);
+      dispatch(clearSearchUser());
     }
   }, [searchUserDebounce, dispatch]);
 
@@ -41,6 +42,11 @@ const SearchUser = () => {
   const handleSendFriendRequest = (id: string) => {
     dispatch(sendRequestFriend(id));
   };
+
+  // const handleClickSearch = (item: any) => {
+  //   navigate(`/${item.fullName}`, { state: { id: item.id } });
+  //   setSearchUser("");
+  // };
 
   return (
     <div className="relative flex flex-col items-center">
@@ -59,22 +65,22 @@ const SearchUser = () => {
         />
       </div>
 
-      {searchResults.length > 0 && (
+      {listUser.length > 0 && (
         <List
-          className="absolute z-0 -mt-4 -ml-14 w-[180px] rounded-xl bg-white pt-16 shadow-lg md:w-96"
+          className="absolute z-0 -mt-4 -ml-14 max-h-[500px] w-[180px] overflow-y-auto rounded-xl bg-white pt-16 shadow-lg md:w-96"
           bordered
-          dataSource={searchResults}
+          dataSource={listUser}
           renderItem={(item: any) => (
             <List.Item className="cursor-pointer hover:bg-gray-100">
               <div className="flex items-center gap-2 md:ml-4 md:gap-3">
                 <img src={item.imageUrl} className="h-7 w-7 rounded-full md:h-12 md:w-12" />
 
                 <div className="">
-                  <p className="text-sm md:text-lg">{item.fullName}</p>
+                  <p className="text-sm font-medium md:text-lg">{item.fullName}</p>
 
                   <button
+                    className="text-xs font-semibold text-gray-400"
                     onClick={() => handleSendFriendRequest(item.id)}
-                    className="text-xs font-medium text-gray-400"
                   >
                     {item.isFriend ? "Bạn bè" : "Kết bạn"}
                   </button>
@@ -83,11 +89,11 @@ const SearchUser = () => {
 
               <div>
                 {item.hadSendFriendRequest && (
-                  <button className="text-xs font-medium text-gray-400">Đã gửi lời mời</button>
+                  <button className="text-xs font-semibold text-gray-400">Đã gửi lời mời</button>
                 )}
 
                 {item.hadReceiverFriendRequest && (
-                  <button className="text-xs font-medium text-gray-400">Đã nhận lời mời</button>
+                  <button className="text-xs font-semibold text-gray-400">Đã nhận lời mời</button>
                 )}
               </div>
             </List.Item>

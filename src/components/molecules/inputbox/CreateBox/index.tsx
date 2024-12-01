@@ -103,6 +103,12 @@ const CreateBox = (props: Props) => {
 
       const response = await dispatch(createImage(data));
 
+      // const response = await axios.post("http://localhost:8088/api/v1/post/upload-image", data, {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
+
       if (response && response.payload) {
         seImageUrls((prevList) => [...prevList, response.payload]);
       }

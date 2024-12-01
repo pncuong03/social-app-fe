@@ -1,6 +1,6 @@
 export const selectPost = {
-  getPostsPublic: (state: any) => state.post.postOfPublic,
+  getPostsFriends: (state: any) => state.post.postFriends,
   getPostsMe: (state: any) => state.post.postOfMe,
-  getPostsFriend: (state: any) => state.post.postOfFriend,
+  getPostsUser: (state: any) => state.post.postOfUser,
   getPostDetail: (state: any) => state.post.detailPost,
 };

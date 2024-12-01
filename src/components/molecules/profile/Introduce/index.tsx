@@ -3,22 +3,23 @@ import { useTranslation } from "react-i18next";
 import IconCustomize from "src/components/atoms/Icons";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
+import dayjs from "dayjs";
 
 interface Props {
   friends?: any;
-  user: {
-    fullName: string;
-    imageUrl: string;
-    backgroundUrl: string;
-    gender: string;
-    birthday: string;
-    description: string;
-  };
+  user?: any;
 }
 
 const Introduce = (props: Props) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const userDetails = [
+    { icon: "work", value: props?.user.work },
+    { icon: "male", value: props?.user.gender },
+    { icon: "birthday", value: props?.user.birthday ? dayjs(props.user.birthday).format("DD/MM/YYYY") : null },
+    { icon: "place", value: props?.user.live },
+  ];
 
   return (
     <div className="col-span-1 mb-4 grid h-fit gap-4 ">
@@ -29,11 +30,11 @@ const Introduce = (props: Props) => {
           <p className="text-lg font-light">{props?.user.description}</p>
         </div>
 
-        <div className="text-md flex flex-col space-y-4">
+        {/* <div className="text-md flex flex-col space-y-4">
           <div className="flex items-center space-x-2">
             <IconCustomize name="work" size={25} />
 
-            <p className="text-lg font-light">Software Engineer</p>
+            <p className="text-lg font-light">{props?.user.work}</p>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -41,6 +42,30 @@ const Introduce = (props: Props) => {
 
             <p className="text-lg font-light">{props?.user.gender}</p>
           </div>
+
+          <div className="flex items-center space-x-2">
+            <IconCustomize name="birthday" size={25} />
+
+            <p className="text-lg font-light">{dayjs(props?.user.birthday).format("DD/MM/YYYY")}</p>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <IconCustomize name="place" size={25} />
+
+            <p className="text-lg font-light">{props?.user.live}</p>
+          </div>
+        </div> */}
+
+        <div className="text-md flex flex-col space-y-4">
+          {userDetails
+            .filter((detail) => detail.value)
+            .map((detail, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <IconCustomize name={detail.icon} size={25} />
+
+                <p className="text-lg font-light">{detail.value}</p>
+              </div>
+            ))}
         </div>
       </div>
 
@@ -65,7 +90,7 @@ const Introduce = (props: Props) => {
           <div>
             <p className="text-xl font-medium">{t("home.friends")}</p>
 
-            <p className="text-sm text-gray-400">{props.friends.length + " " + t("home.friends")}</p>
+            {/* <p className="text-sm text-gray-400">{props.friends.length + " " + t("home.friends")}</p> */}
           </div>
 
           <Button className="text-md border-none text-blue-500 shadow-none" onClick={() => navigate("/friends/list")}>
@@ -74,11 +99,11 @@ const Introduce = (props: Props) => {
         </div>
 
         <div className="grid grid-cols-3 gap-4 ">
-          {props.friends.slice(0, 3).map((friend: any) => (
+          {/* {props.friends.slice(0, 3).map((friend: any) => (
             <div key={friend.id} className="flex flex-col items-center">
               <img className="h-24 w-full rounded-md" alt="photo" src={friend.imageUrl} />
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

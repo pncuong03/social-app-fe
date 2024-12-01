@@ -3,7 +3,7 @@ import {
   onCreatePost,
   getDetailPost,
   getPostofMe,
-  getPostPublic,
+  getPostofFriend,
   onComment,
   onCreateImage,
   onDeleteComment,
@@ -11,19 +11,20 @@ import {
   onLike,
   onShare,
   onUnLike,
+  getPostofUser,
 } from "src/apis/post";
 import { IPost } from "src/types/post";
 
 export interface PostState {
-  postOfPublic: IPost[];
+  postFriends: IPost[];
   postOfMe: IPost[];
-  postOfFriend: IPost[];
+  postOfUser: IPost[];
   detailPost: IPost;
 }
 
 const initialPost: IPost = {
   id: 0,
-  userId: "",
+  userId: 0,
   state: "",
   fullName: "",
   imageUrl: "",
@@ -41,13 +42,13 @@ const initialPost: IPost = {
 };
 
 const initialState: PostState = {
-  postOfPublic: [],
+  postFriends: [],
   postOfMe: [],
-  postOfFriend: [],
+  postOfUser: [],
   detailPost: initialPost,
 };
 
-export const fetchPostMe = createAsyncThunk("post/fetchPostMe", async (page: number, thunkAPI) => {
+export const fetchPostofMe = createAsyncThunk("post/fetchPostofMe", async (page: number, thunkAPI) => {
   try {
     const data = await getPostofMe(page);
 
@@ -59,13 +60,26 @@ export const fetchPostMe = createAsyncThunk("post/fetchPostMe", async (page: num
 
 export const fetchPostPublic = createAsyncThunk("post/fetchPostPublic", async (page: number, thunkAPI) => {
   try {
-    const data = await getPostPublic(page);
+    const data = await getPostofFriend(page);
 
     return data.content;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
   }
 });
+
+export const fetchPostUser = createAsyncThunk(
+  "post/fetchPostUser",
+  async ({ userId, page }: { userId: number; page: number }, thunkAPI) => {
+    try {
+      const data = await getPostofUser(userId, page);
+
+      return data.content;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const fetchDetailPost = createAsyncThunk("post/fetchDetailPost", async (postId: number, thunkAPI) => {
   try {
@@ -82,7 +96,7 @@ export const createPosts = createAsyncThunk(
   async (params: { content: string; state: string; imageUrls: string[] }, thunkAPI) => {
     try {
       await onCreatePost(params);
-      thunkAPI.dispatch(fetchPostMe(0));
+      thunkAPI.dispatch(fetchPostofMe(0));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -167,9 +181,9 @@ const postSlice = createSlice({
   reducers: {
     increaseLike: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post) => post.id === postId);
+      const postPublic = state.postFriends.find((post) => post.id === postId);
       const postOfMe = state.postOfMe.find((post) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post) => post.id === postId);
+      const postOfFriend = state.postOfUser.find((post) => post.id === postId);
 
       if (postPublic) {
         postPublic.hasLike = true;
@@ -189,9 +203,9 @@ const postSlice = createSlice({
 
     decreaseLike: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post: any) => post.id === postId);
+      const postPublic = state.postFriends.find((post: any) => post.id === postId);
       const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfUser.find((post: any) => post.id === postId);
 
       if (postPublic) {
         postPublic.hasLike = false;
@@ -211,9 +225,9 @@ const postSlice = createSlice({
 
     increaseShare: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post: any) => post.id === postId);
+      const postPublic = state.postFriends.find((post: any) => post.id === postId);
       const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfUser.find((post: any) => post.id === postId);
 
       if (postPublic) {
         postPublic.shareCount += 1;
@@ -230,9 +244,9 @@ const postSlice = createSlice({
 
     increaseComment: (state, action: PayloadAction<number>) => {
       const postId = action.payload;
-      const postPublic = state.postOfPublic.find((post: any) => post.id === postId);
+      const postPublic = state.postFriends.find((post: any) => post.id === postId);
       const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
-      const postOfFriend = state.postOfFriend.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfUser.find((post: any) => post.id === postId);
 
       if (postPublic) {
         postPublic.commentCount += 1;
@@ -256,7 +270,7 @@ const postSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(fetchPostMe.fulfilled, (state, action: PayloadAction<IPost[]>) => {
+      .addCase(fetchPostofMe.fulfilled, (state, action: PayloadAction<IPost[]>) => {
         const newPosts = action.payload;
 
         const uniquePosts = newPosts.filter(
@@ -267,16 +281,26 @@ const postSlice = createSlice({
       })
 
       .addCase(fetchPostPublic.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-        const newPosts = action.payload;
+        const newPostPublic = action.payload;
 
-        const uniquePosts = newPosts.filter(
-          (newPost) => !state.postOfMe.some((existingPost) => existingPost.id === newPost.id)
+        const uniquePostPublic = newPostPublic.filter(
+          (newPost) => !state.postFriends.some((existingPost) => existingPost.id === newPost.id)
         );
         // const sortedPosts = action.payload.slice().sort((a, b) => {
         //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         // });
 
-        state.postOfPublic = [...state.postOfPublic, ...uniquePosts];
+        state.postFriends = [...state.postFriends, ...uniquePostPublic];
+      })
+
+      .addCase(fetchPostUser.fulfilled, (state, action: PayloadAction<IPost[]>) => {
+        const newPosts = action.payload;
+
+        const uniquePosts = newPosts.filter(
+          (newPost) => !state.postOfUser.some((existingPost) => existingPost.id === newPost.id)
+        );
+
+        state.postOfUser = [...state.postOfUser, ...uniquePosts];
       })
 
       .addCase(fetchDetailPost.fulfilled, (state, action: PayloadAction<IPost>) => {

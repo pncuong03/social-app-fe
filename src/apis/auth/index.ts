@@ -18,7 +18,7 @@ export function authRegister(params: { fullName: string; username: string; passw
 }
 
 export const logout = () => {
-  LocalStorage.remove(LocalStorageKey.ACCESS_TOKEN);
+  LocalStorage.clear();
 };
 
 export function userInfo() {

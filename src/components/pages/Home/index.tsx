@@ -13,7 +13,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const postsPublic = useAppSelector(selectPost.getPostsPublic);
+  const postsPublic = useAppSelector(selectPost.getPostsFriends);
 
   const loadPostPublic = () => {
     if (loading) return;
@@ -38,14 +38,6 @@ const HomePage = () => {
 
   useEffect(() => {
     loadPostPublic();
-  }, []);
-
-  useEffect(() => {
-    document.body.classList.add("no-scroll");
-
-    return () => {
-      document.body.classList.remove("no-scroll");
-    };
   }, []);
 
   return (

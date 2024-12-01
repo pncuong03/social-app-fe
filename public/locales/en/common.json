@@ -56,7 +56,17 @@
   "profile": {
     "editprofile": "Edit profile",
     "editcover" : "Edit cover",
-    "intro": "Introduction"
+    "intro": "Introduction",
+    "male": "Male",
+    "female" : "Female",
+    "editprofilesuccess": "Edit profile successfully",
+    "fullname": "Fullname",
+    "birdthday": "Birthday",
+    "work": "Work",
+    "address": "Address",
+    "description": "Description",
+    "sex": "Sex",
+    "updateinfo": "Update personal information"
   },
   "message": {
     "message": "Message",

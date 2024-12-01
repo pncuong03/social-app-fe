@@ -13,7 +13,7 @@ export const useSocket = () => {
   console.log("receivedMessages", receivedMessages);
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:8087/chat");
+    ws.current = new WebSocket("ws://localhost:8080/chat");
 
     ws.current.onopen = () => {
       const authMessage = JSON.stringify({
@@ -36,11 +36,19 @@ export const useSocket = () => {
           const messageObject = JSON.parse(jsonString);
 
           setReceivedMessages(messageObject);
-
-          console.log(receivedMessages);
         }
       } catch (error) {
         console.error("Failed to parse message:", error);
+      }
+    };
+
+    ws.current.onclose = (event) => {
+      console.warn("WebSocket disconnected:", event);
+
+      // Tùy chọn: Thử kết nối lại
+      if (!isPaused) {
+        console.log("Reconnecting WebSocket...");
+        setReconnect((prev) => !prev);
       }
     };
 

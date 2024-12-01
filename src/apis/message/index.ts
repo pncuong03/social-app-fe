@@ -39,5 +39,5 @@ export function onCreateGroupChat(params: { name: string; userIds: string[] }) {
 }
 
 export function onAddMemberChat(params: { groupChatId: string; userIds: string[] }) {
-  return httpRequest.post(`/rtc-service/api/v1/group-chat`, params);
+  return httpRequest.post(`/rtc-service/api/v1/group-chat/add-new`, params);
 }

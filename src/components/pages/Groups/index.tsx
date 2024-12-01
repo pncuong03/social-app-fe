@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import routesName from "src/routes/enum.routes";
@@ -30,14 +30,6 @@ const GroupsPage = () => {
       icon: <IconCustomize name="group" size={40} />,
     },
   ];
-
-  useEffect(() => {
-    document.body.classList.add("no-scroll");
-
-    return () => {
-      document.body.classList.remove("no-scroll");
-    };
-  }, []);
 
   return (
     <div className="flex flex-col">

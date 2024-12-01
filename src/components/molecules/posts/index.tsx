@@ -29,6 +29,7 @@ const Posts = (props: Props) => {
             hasLike={post.hasLike}
             sharePost={post.sharePost}
             type={post.type}
+            userId={post.userId}
           />
         );
       })}

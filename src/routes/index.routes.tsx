@@ -18,7 +18,7 @@ const FriendsPage = React.lazy(() => import("src/components/pages/Friends"));
 const FriendsList = React.lazy(() => import("src/components/pages/Friends/FriendsList"));
 const FriendRequest = React.lazy(() => import("src/components/pages/Friends/FriendsRequest"));
 const MessagePage = React.lazy(() => import("src/components/pages/Messages"));
-const FriendProfile = React.lazy(() => import("src/components/pages/Friends/FriendProfile"));
+const UserProfile = React.lazy(() => import("src/components/pages/Friends/UserProfile"));
 const GroupsFeed = React.lazy(() => import("src/components/pages/Groups/GroupsFeed"));
 const GroupsJoins = React.lazy(() => import("src/components/pages/Groups/GroupsJoins"));
 
@@ -90,10 +90,10 @@ function RoutesApp() {
             </Route>
 
             <Route
-              path={routesName.FRIENPROFILE}
+              path={routesName.USERPROFILE}
               element={
                 <PrivateRoute>
-                  <FriendProfile />
+                  <UserProfile />
                 </PrivateRoute>
               }
             />

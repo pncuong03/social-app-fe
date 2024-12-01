@@ -6,18 +6,15 @@ import EditProfile from "../Edit";
 
 interface Props {
   friends?: any;
-  user?: {
-    fullName: string;
-    imageUrl: string;
-    backgroundUrl: string;
-    gender: string;
-    birthday: string;
-    description: string;
-  };
+  user?: any;
 }
 const Information = (props: Props) => {
   const { t } = useTranslation();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+
+  const handleClose = () => {
+    setIsOpenEdit(false);
+  };
 
   const uploadProps = {
     showUploadList: false,
@@ -75,7 +72,7 @@ const Information = (props: Props) => {
             <p className="text-[2rem] font-bold ">{props.user?.fullName}</p>
 
             <button className="cursor-pointer text-sm font-semibold text-gray-400 ">
-              {props.friends.length + " " + t("home.friends")}
+              {/* {props.friends.length + " " + t("home.friends")} */}
             </button>
 
             <Avatar.Group
@@ -85,9 +82,9 @@ const Information = (props: Props) => {
               }}
               className="mt-2 flex items-center"
             >
-              {props.friends.map((friend: any) => {
+              {/* {props.friends.map((friend: any) => {
                 return <Avatar key={friend.id} src={friend.imageUrl} alt={friend.fullName} />;
-              })}
+              })} */}
             </Avatar.Group>
           </div>
         </div>
@@ -109,7 +106,7 @@ const Information = (props: Props) => {
         </div>
       </div>
 
-      <EditProfile open={isOpenEdit} onCancel={() => setIsOpenEdit(false)} />
+      <EditProfile open={isOpenEdit} onSuccess={handleClose} onCancel={() => setIsOpenEdit(false)} />
     </div>
   );
 };

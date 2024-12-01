@@ -9,7 +9,7 @@ const routesName = {
   GAMING: "/gaming",
   FRIENDREQUEST: "/friends/request",
   FRIENDLIST: "/friends/list",
-  FRIENPROFILE: "/:slug",
+  USERPROFILE: "/:slug",
   MESSAGES: "/messages",
   MESSAGEDETAIL: "/messages/:slug",
   GROUPDETAIL: "/groups/:slug",
