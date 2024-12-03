@@ -9,14 +9,14 @@ import { selectNotification } from "src/slices/notification/selector";
 import { fetchListNotification, increaseNoti } from "src/slices/notification/notificationSlice";
 import TimeCustomize from "src/const/dateFormat";
 import { formatNoti } from "src/const/notiFormat";
-import PostDetail from "../posts/PostDetail";
+import PostDetail from "../home/Posts/PostDetail";
 import { useSocket } from "src/utilities/hooks/useSocket";
 
 interface Props {
   children: React.ReactNode;
 }
 
-const NotificationList = (props: Props) => {
+const Notification = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
@@ -36,7 +36,7 @@ const NotificationList = (props: Props) => {
     setTimeout(() => {
       dispatch(fetchListNotification(page))
         .then((response) => {
-          if (response.payload.length < 20) {
+          if (response.payload.length < 10) {
             setHasMore(false);
           } else {
             setHasMore(true);
@@ -143,4 +143,4 @@ const NotificationList = (props: Props) => {
   );
 };
 
-export default NotificationList;
+export default Notification;

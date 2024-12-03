@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Avatar, Button, Upload } from "antd";
-import IconCustomize from "src/components/atoms/Icons";
-import { selectInfoGroup, selectMemberGroup } from "src/slices/groups/selector";
 import { useAppSelector } from "src/app/appHooks";
+import { selectInfoGroup, selectMemberGroup } from "src/slices/groups/selector";
+import IconCustomize from "src/components/atoms/Icons";
 
 const InfoGroup = () => {
   const { t } = useTranslation();
@@ -52,9 +52,13 @@ const InfoGroup = () => {
             <button className="flex cursor-pointer items-center gap-2 text-gray-400 ">
               <IconCustomize name="private" size={15} />
 
-              <p className="font-light">Nhóm riêng tư . </p>
+              <p className="font-light">{t("groups.privategroup")} </p>
 
-              <p className="font-normal">{infogroup?.memberCount + " thành viên"}</p>
+              <p className="font-normal">
+                {infogroup?.memberCount}
+
+                {t("groups.membergroup")}
+              </p>
             </button>
 
             <Avatar.Group

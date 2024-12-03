@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-import { List } from "antd";
 import { useTranslation } from "react-i18next";
-import IconCustomize from "src/components/atoms/Icons";
-import InputCustomize from "src/components/atoms/Input";
+import { List } from "antd";
 import { useDebounce } from "src/utilities/hooks";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { selectUser } from "src/slices/user/seletor";
-import { clearSearchUser, fetchUser } from "src/slices/user/userSlice";
 import { sendRequestFriend } from "src/slices/friend/friendSlice";
+import { clearSearchUser, fetchUser } from "src/slices/user/userSlice";
+import { selectUser } from "src/slices/user/seletor";
+import InputCustomize from "src/components/atoms/Input";
+import IconCustomize from "src/components/atoms/Icons";
+// import { useNavigate } from "react-router-dom";
 // import { sendRequestFriend } from "src/slices/friend/friendSlice";
 
 const SearchUser = () => {

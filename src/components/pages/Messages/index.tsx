@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import MessageList from "./MessageList";
-import DrawerCustomize from "src/components/atoms/Drawer";
 import { useTranslation } from "react-i18next";
+import IconCustomize from "src/components/atoms/Icons";
+import DrawerCustomize from "src/components/atoms/Drawer";
 import CreateGroupChat from "src/components/molecules/messages/CreateGroupChat";
 import SearchChat from "src/components/molecules/messages/SearchChat";
-import IconCustomize from "src/components/atoms/Icons";
+import MessageList from "./MessageList";
 
 const MessagePage = () => {
   const { t } = useTranslation();

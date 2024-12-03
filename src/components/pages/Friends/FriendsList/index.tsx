@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import FriendCard from "src/components/molecules/friend/FriendCard";
 import { fetchListFriend } from "src/slices/friend/friendSlice";
 import { selectListFriend } from "src/slices/friend/selector";
+import FriendCard from "src/components/molecules/friend/FriendCard";
 
 const FriendsList = () => {
   const dispatch = useDispatch<AppDispatch>();

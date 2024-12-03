@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ModalCustomize from "src/components/atoms/Modal";
-import PostCard from "../PostCard/PostCard";
+import PostCard from "../PostCard";
 import { fetchDetailPost } from "src/slices/posts/postSlice";
 import { AppDispatch } from "src/app/store";
 import { useDispatch } from "react-redux";
@@ -26,8 +26,6 @@ const PostDetail = (props: Props) => {
     }
   }, [props.postId, props.open, dispatch]);
 
-  console.log("postDetail", postDetail);
-
   return (
     <ModalCustomize
       open={props.open}
@@ -50,6 +48,7 @@ const PostDetail = (props: Props) => {
           hasLike={postDetail.hasLike}
           sharePost={postDetail.sharePost}
           type={postDetail.type}
+          state={postDetail.state}
         />
       </div>
     </ModalCustomize>

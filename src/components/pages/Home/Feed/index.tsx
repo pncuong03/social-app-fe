@@ -1,7 +1,7 @@
 import React from "react";
 import { Skeleton } from "antd";
-import InputBox from "src/components/molecules/inputbox";
-import Posts from "src/components/molecules/posts";
+import Posts from "src/components/molecules/home/Posts";
+import InputBox from "src/components/molecules/home/InputBox";
 
 interface Props {
   loading: boolean;

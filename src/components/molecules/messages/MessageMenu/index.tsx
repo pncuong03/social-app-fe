@@ -2,9 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import IconCustomize from "src/components/atoms/Icons";
-import MenuCard from "./MenuCard";
 import MemberChat from "./MemberChat";
 import Privacy from "./Privacy";
+import MenuCard from "./MenuCard";
 
 interface Props {
   img: string;

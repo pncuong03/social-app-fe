@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Skeleton } from "antd";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import InputBox from "src/components/molecules/inputbox";
-import Posts from "src/components/molecules/posts";
-import Information from "src/components/molecules/profile/Infomation";
-import Introduce from "src/components/molecules/profile/Introduce";
 import { selectUserInfo } from "src/slices/login/selector";
 import { fetchPostofMe } from "src/slices/posts/postSlice";
 import { selectPost } from "src/slices/posts/selector";
 import { selectListFriend } from "src/slices/friend/selector";
 import { fetchListFriend } from "src/slices/friend/friendSlice";
-import { Skeleton } from "antd";
+import Posts from "src/components/molecules/home/Posts";
+import Information from "src/components/molecules/profile/Infomation";
+import Introduce from "src/components/molecules/profile/Introduce";
+import InputBox from "src/components/molecules/home/InputBox";
 
 const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();

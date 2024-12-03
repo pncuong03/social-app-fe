@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Skeleton } from "antd";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import InfoGroup from "./InfoGroup";
-import IntroGroup from "./IntroGroup";
-import Posts from "../../posts";
-import InputBoxGroup from "./FeedGroup/InputBoxGroup";
-import { Skeleton } from "antd";
 import { fetchInfoGroup, fetchMemberGroup, fetchPostGroup } from "src/slices/groups/groupSlice";
 import { selecPostGroup } from "src/slices/groups/selector";
-import { useLocation } from "react-router-dom";
+import InfoGroup from "./InfoGroup";
+import IntroGroup from "./IntroGroup";
+import Posts from "../../home/Posts";
+import InputBoxGroup from "./FeedGroup/InputBoxGroup";
 
 const GroupDetail = () => {
   const location = useLocation();
@@ -52,8 +52,6 @@ const GroupDetail = () => {
       dispatch(fetchMemberGroup({ groupId, page }));
     }
   }, [location]);
-
-  console.log(page);
 
   return (
     <div

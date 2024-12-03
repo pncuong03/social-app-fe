@@ -1,21 +1,23 @@
 import React, { useCallback, useEffect } from "react";
-import clsx from "clsx";
-import { Badge, Button } from "antd";
-import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { Badge, Button } from "antd";
+import clsx from "clsx";
+import { AppDispatch } from "src/app/store";
+import { useAppSelector } from "src/app/appHooks";
 import routesName from "src/routes/enum.routes";
+import { useSocket } from "src/utilities/hooks/useSocket";
+import { selectUserInfo } from "src/slices/login/selector";
+import { selectNotificationCount } from "src/slices/notification/selector";
+import { fetchInfoUser, logOut } from "src/slices/login/loginSlice";
+import { fetchEventNotification, fetchListNotification } from "src/slices/notification/notificationSlice";
 import CustomDropdown from "src/components/atoms/Dropdown";
 import IconCustomize from "src/components/atoms/Icons";
 import CustomLanguage from "src/components/atoms/Language";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "src/app/store";
-import { fetchInfoUser, logOut } from "src/slices/login/loginSlice";
-import { toast } from "react-toastify";
-import NotificationList from "src/components/molecules/notification";
-import { useAppSelector } from "src/app/appHooks";
-import { selectUserInfo } from "src/slices/login/selector";
-import SearchUser from "src/components/molecules/search/SearchUser";
-import { selectNotificationCount } from "src/slices/notification/selector";
+import Notification from "src/components/molecules/notification";
+import SearchUser from "src/components/molecules/search";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
 
@@ -24,6 +26,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
+  const { receivedMessages } = useSocket();
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const notiCount = useAppSelector(selectNotificationCount.getNotificationCount);
 
@@ -33,20 +36,23 @@ const Header = () => {
     window.location.href = routesName.LOGIN;
   };
 
-  // useEffect(() => {
-  //   if (receivedMessages?.type === "" ) {
-  //     console.log(receivedMessages);
+  useEffect(() => {
+    if (["COMMENT", "LIKE", "SHARE"].includes(receivedMessages?.type ?? "")) {
+      dispatch(fetchListNotification(0));
+    }
+  }, [receivedMessages]);
 
-  //     const newReceivedMessage = {
-  //       ...receivedMessages,
-  //       id: data.map((item) => item.id).reduce((a, b) => Math.max(a, b), 0) + 1,
-  //     };
+  const initialize = useCallback(() => {
+    dispatch(fetchInfoUser());
+  }, [dispatch]);
 
-  //     setTimeout(() => {
-  //       setData((prevData) => [...prevData, newReceivedMessage]);
-  //     }, 1000);
-  //   }
-  // }, [receivedMessages, chatId]);
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
+  useEffect(() => {
+    dispatch(fetchEventNotification());
+  }, [dispatch]);
 
   const MENU_PROFILE = [
     {
@@ -72,14 +78,6 @@ const Header = () => {
 
     { key: "4", label: t("home.logout"), onClick: handleLogout, icon: <IconCustomize name="logout" size={30} /> },
   ];
-
-  const initialize = useCallback(() => {
-    dispatch(fetchInfoUser());
-  }, [dispatch]);
-
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
 
   return (
     <header className="fixed top-0 z-10 mx-auto flex h-[75px] w-full items-center justify-between gap-2 bg-white px-2 shadow-md">
@@ -123,11 +121,11 @@ const Header = () => {
         </Badge>
 
         <Badge count={notiCount.notificationCount} offset={[-2, 4]}>
-          <NotificationList>
+          <Notification>
             <Button className=" h-12 w-12 rounded-full bg-gray-200 !p-0">
               <IconCustomize name="notification" size={25} color="black" />
             </Button>
-          </NotificationList>
+          </Notification>
         </Badge>
 
         <CustomDropdown items={MENU_PROFILE} loading={false}>

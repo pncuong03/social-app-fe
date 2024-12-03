@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { List } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import InputCustomize from "src/components/atoms/Input";
-import { useDebounce } from "src/utilities/hooks";
+import { List } from "antd";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { useNavigate } from "react-router-dom";
+import { useDebounce } from "src/utilities/hooks";
 import { fetchSearchGroup } from "src/slices/groups/groupSlice";
 import { selectSearchGroup } from "src/slices/groups/selector";
+import InputCustomize from "src/components/atoms/Input";
 
 const SearchGroup = () => {
   const dispatch = useDispatch<AppDispatch>();

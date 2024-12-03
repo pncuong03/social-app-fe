@@ -1,16 +1,12 @@
 import React from "react";
-import PostCard from "./PostCard/PostCard";
 import { IPost } from "src/types/post";
+import PostCard from "./PostCard";
 
 interface Props {
   posts: IPost[];
 }
 
 const Posts = (props: Props) => {
-  // const sortedPosts = props.posts.slice().sort((a, b) => {
-  //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  // });
-
   return (
     <div className="flex flex-col gap-3">
       {props.posts.map((post) => {
@@ -30,6 +26,7 @@ const Posts = (props: Props) => {
             sharePost={post.sharePost}
             type={post.type}
             userId={post.userId}
+            state={post.state}
           />
         );
       })}

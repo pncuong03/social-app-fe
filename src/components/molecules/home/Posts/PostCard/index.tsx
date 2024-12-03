@@ -3,20 +3,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Button } from "antd";
+import clsx from "clsx";
 import { AppDispatch } from "src/app/store";
+import { useAppSelector } from "src/app/appHooks";
+import { deletePost, likePost, unLikePost } from "src/slices/posts/postSlice";
+import { selectUserInfo } from "src/slices/login/selector";
 import CarouselCustomize from "src/components/atoms/Carousel";
 import IconCustomize from "src/components/atoms/Icons";
-import { Collapse } from "@mui/material";
-import Comments from "../Comments";
-import ShareBox from "../Share";
-import ShareCard from "./ShareCard";
-import { deletePost, likePost, unLikePost } from "src/slices/posts/postSlice";
-import clsx from "clsx";
-import { selectUserInfo } from "src/slices/login/selector";
-import { useAppSelector } from "src/app/appHooks";
 import PopconfirmCustomize from "src/components/atoms/Popconfirm";
-import TimeCustomize from "src/const/dateFormat";
 import PopoverCustomize from "src/components/atoms/Popover";
+import TimeCustomize from "src/const/dateFormat";
+import SharePost from "../Share";
+import ShareCard from "./ShareCard";
+import EditPost from "../Edit";
+import Comments from "../Comment";
+
 // import PostDetail from "../PostDetail";
 
 interface Props {
@@ -33,6 +34,7 @@ interface Props {
   sharePost?: object;
   type?: string;
   userId?: number;
+  state: string;
 }
 
 const PostCard = (props: Props) => {
@@ -42,6 +44,8 @@ const PostCard = (props: Props) => {
   const navigate = useNavigate();
   const [isOpenComment, setIsOpenComment] = useState(false);
   const [isOpenShare, setIsOpenShare] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenPopover, setIsOpenPopover] = useState(false);
 
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
 
@@ -57,9 +61,17 @@ const PostCard = (props: Props) => {
     dispatch(deletePost(props.id));
   };
 
+  const handleEdit = () => {
+    setIsOpenPopover(false);
+    setIsOpenEdit(true);
+  };
+
   const menuItems = () => (
     <div className="flex flex-col gap-2">
-      <button className="flex h-8 w-64 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100">
+      <button
+        onClick={handleEdit}
+        className="flex h-8 w-64 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100"
+      >
         <IconCustomize name="comment" size={25} />
 
         <p className="text-lg ">Sua bai viet</p>
@@ -93,16 +105,26 @@ const PostCard = (props: Props) => {
                 <TimeCustomize time={props.createdAt} />
               </span>
 
-              <IconCustomize name="public" color="text-gray-400" />
+              {props.state === "PUBLIC" ? (
+                <IconCustomize name="public" color="#A9A9A9" />
+              ) : (
+                <IconCustomize name="private" color="#A9A9A9" size={13} />
+              )}
             </div>
           </div>
         </button>
 
         {userInfo.id === props.userId ? (
           <div className="flex p-2">
-            <PopoverCustomize content={menuItems()} placement="bottom" arrow={true}>
+            <PopoverCustomize
+              content={menuItems()}
+              placement="bottom"
+              arrow={true}
+              open={isOpenPopover}
+              onOpenChange={setIsOpenPopover}
+            >
               <Button className="border-none shadow-none">
-                <IconCustomize name="ellipsis" />
+                <IconCustomize name="ellipsis" size={20} />
               </Button>
             </PopoverCustomize>
 
@@ -179,19 +201,27 @@ const PostCard = (props: Props) => {
         </div>
       </div>
 
-      <Collapse in={isOpenComment} timeout="auto">
-        <Comments isOpen={isOpenComment} postId={props.id} />
-      </Collapse>
+      {isOpenComment && (
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out ${
+            isOpenComment ? "max-h-[600px] translate-y-0 opacity-100" : "max-h-0 translate-y-full opacity-0"
+          }`}
+        >
+          <Comments isOpen={isOpenComment} postId={props.id} />
+        </div>
+      )}
 
       {/* <PostDetail open={isOpenShare} onCancel={() => setIsOpenShare(false)} postId={props.id} /> */}
 
-      <ShareBox
+      <SharePost
         open={isOpenShare}
         onCancel={() => setIsOpenShare(false)}
         postId={props.id}
         fullName={userInfo.fullName}
         imageUrl={userInfo.imageUrl}
       />
+
+      <EditPost open={isOpenEdit} onCancel={() => setIsOpenEdit(false)} postId={props.id} />
     </div>
   );
 };

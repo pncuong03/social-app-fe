@@ -1,10 +1,10 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "src/app/appHooks";
+import { leaveChat } from "src/slices/messages/messageSlice";
 import IconCustomize from "src/components/atoms/Icons";
 import PopconfirmCustomize from "src/components/atoms/Popconfirm";
-import { leaveChat } from "src/slices/messages/messageSlice";
 
 interface Props {
   groupId: string;

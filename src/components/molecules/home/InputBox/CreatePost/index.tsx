@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { Button, GetProp, Image, Select, Upload, UploadFile, UploadProps } from "antd";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { Button, GetProp, Image, Select, Upload, UploadFile, UploadProps } from "antd";
+import { AppDispatch } from "src/app/store";
+import { getName } from "src/const";
+import { State } from "src/types/post";
+import { createPostGroup } from "src/slices/groups/groupSlice";
+import { createPosts } from "src/slices/posts/postSlice";
 import ModalCustomize from "src/components/atoms/Modal";
 import IconCustomize from "src/components/atoms/Icons";
-import { getName } from "src/const";
-import { AppDispatch } from "src/app/store";
-import { createImage, createPosts } from "src/slices/posts/postSlice";
-import { createPostGroup } from "src/slices/groups/groupSlice";
-import { useLocation } from "react-router-dom";
 
 interface Props {
   fullName: string;
@@ -30,7 +32,7 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const CreateBox = (props: Props) => {
+const CreatePost = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const { t } = useTranslation();
@@ -47,7 +49,7 @@ const CreateBox = (props: Props) => {
     setContent(e.target.value);
   };
 
-  const handleChange = (value: { value: string; label: React.ReactNode }) => {
+  const handleStateChange = (value: { value: string; label: React.ReactNode }) => {
     setState(value.value);
   };
 
@@ -101,16 +103,16 @@ const CreateBox = (props: Props) => {
 
       data.append("images", file);
 
-      const response = await dispatch(createImage(data));
+      // const response = await dispatch(createImage(data));
 
-      // const response = await axios.post("http://localhost:8088/api/v1/post/upload-image", data, {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
+      const response = await axios.post("http://localhost:8088/api/v1/upload/upload-image", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-      if (response && response.payload) {
-        seImageUrls((prevList) => [...prevList, response.payload]);
+      if (response && response.data) {
+        seImageUrls((prevList) => [...prevList, response.data]);
       }
     } catch (error) {
       toast.error(t("home.uploadError"));
@@ -141,7 +143,7 @@ const CreateBox = (props: Props) => {
             <Select
               labelInValue
               defaultValue={{
-                value: "PUBLIC",
+                value: State.PUBLIC,
                 label: (
                   <span className="flex items-center justify-between">
                     <p>{t("home.public")}</p>
@@ -151,11 +153,11 @@ const CreateBox = (props: Props) => {
                 ),
               }}
               style={{ width: 110 }}
-              onChange={handleChange}
+              onChange={handleStateChange}
               suffixIcon={null}
               options={[
                 {
-                  value: "PUBLIC",
+                  value: State.PUBLIC,
                   label: (
                     <span className="flex items-center justify-between">
                       <p>{t("home.public")}</p>
@@ -165,7 +167,7 @@ const CreateBox = (props: Props) => {
                   ),
                 },
                 {
-                  value: "PRIVATE",
+                  value: State.PRIVATE,
                   label: (
                     <span className="flex items-center justify-between">
                       <p>{t("home.private")}</p>
@@ -225,4 +227,4 @@ const CreateBox = (props: Props) => {
   );
 };
 
-export default CreateBox;
+export default CreatePost;

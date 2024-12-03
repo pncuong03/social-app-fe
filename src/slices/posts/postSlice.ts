@@ -12,6 +12,7 @@ import {
   onShare,
   onUnLike,
   getPostofUser,
+  onEditPost,
 } from "src/apis/post";
 import { IPost } from "src/types/post";
 
@@ -155,6 +156,20 @@ export const deleteComment = createAsyncThunk("post/deleteComment", async (comme
     return thunkAPI.rejectWithValue(error);
   }
 });
+
+export const editPost = createAsyncThunk(
+  "post/editPost",
+  async (
+    { postId, params }: { postId: number; params: { content: string; state: string; imageUrls: string[] } },
+    thunkAPI
+  ) => {
+    try {
+      await onEditPost(postId, params);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const deletePost = createAsyncThunk("post/deletePost", async (postId: number, thunkAPI) => {
   try {

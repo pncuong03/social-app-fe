@@ -52,7 +52,7 @@ const GroupsPage = () => {
         <MenuCustomzie items={items} defaultSelectedKey={routesName.GROUPS} />
 
         <div className="hidden border-t-2 p-4 lg:block">
-          <h2 className="mb-2 text-xl font-medium">Nhóm bạn tham gia</h2>
+          <h2 className="mb-2 text-xl font-medium">{t("groups.groupjoin")}</h2>
 
           <GroupsListCol />
         </div>

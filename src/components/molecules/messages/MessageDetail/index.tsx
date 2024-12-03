@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import IconCustomize from "src/components/atoms/Icons";
-import TextArea from "antd/es/input/TextArea";
-import MessageMenu from "./MessageMenu";
 import { useDispatch } from "react-redux";
+import TextArea from "antd/es/input/TextArea";
 import { AppDispatch } from "src/app/store";
-import { fetchMessageDetail } from "src/slices/messages/messageSlice";
 import { useSocket } from "src/utilities/hooks/useSocket";
-import MessageCard from "./MessageCard";
 import { IMessage } from "src/types/message";
+import { fetchMessageDetail } from "src/slices/messages/messageSlice";
+import IconCustomize from "src/components/atoms/Icons";
+import MessageMenu from "../MessageMenu";
+import MessageCard from "../MessageCard";
 
 const MessageDetail = () => {
   const dispatch = useDispatch<AppDispatch>();

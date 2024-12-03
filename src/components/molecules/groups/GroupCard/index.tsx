@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import IconCustomize from "src/components/atoms/Icons";
-import PopoverCustomize from "src/components/atoms/Popover";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { leaveGroup } from "src/slices/groups/groupSlice";
+import IconCustomize from "src/components/atoms/Icons";
+import PopoverCustomize from "src/components/atoms/Popover";
 
 interface Props {
   idGroup: number;

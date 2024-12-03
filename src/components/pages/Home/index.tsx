@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
-import Contact from "./Contact";
-import Feed from "./Feed";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectPost } from "src/slices/posts/selector";
 import { fetchPostPublic } from "src/slices/posts/postSlice";
+import Sidebar from "./Sidebar";
+import Contact from "./Contact";
+import Feed from "./Feed";
 
 const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();

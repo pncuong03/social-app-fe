@@ -1,6 +1,6 @@
 import React from "react";
 import CarouselCustomize from "src/components/atoms/Carousel";
-import TimeCustomize from "../../../../const/dateFormat";
+import TimeCustomize from "../../../../../const/dateFormat";
 import IconCustomize from "src/components/atoms/Icons";
 
 interface Props {

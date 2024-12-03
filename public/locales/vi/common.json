@@ -50,7 +50,7 @@
     "cancel": "Hủy",
     "unfriend": "Hủy kết bạn",
     "deletefriend": "Bạn có muốn hủy kết bạn này không?",
-    "deleterequest": "Ban có muốn xóa lời mời kết bạn này không?",
+    "deleterequest": "Bạn có muốn xóa lời mời kết bạn này không?",
     "nofriend": "Không có bạn bè nào"
   },
   "profile": {
@@ -66,7 +66,8 @@
     "address": "Địa chỉ",
     "description": "Mô tả",
     "sex": "Giới tính",
-    "updateinfo": "Cập nhật thông tin cá nhân"
+    "updateinfo": "Cập nhật thông tin cá nhân",
+    "allimages": "Tất cả ảnh"
     },
   "message": {
     "message": "Tin nhắn",
@@ -81,6 +82,7 @@
     "creategroup": "Tạo nhóm chat",
     "groupname": "Tên nhóm",
     "invitefriend": "Mời bạn bè",
+    "selectfriend": "Chọn bạn bè",
     "searchchat": "Tìm kiếm cuộc trò chuyện",
     "addperson": "Thêm người",
     "texting": "Nhắn tin",
@@ -89,7 +91,9 @@
     "createsuccesschat": "Tạo nhóm chat thành công",
     "addmember": "Thêm thành viên vào ",
     "addmembersuccess": "Thêm thành viên vào nhóm chat thành công",
-    "validnamegroup" : "Tên nhóm không được bỏ trống"
+    "validnamegroup" : "Tên nhóm không được bỏ trống",
+    "validimgaegroup": "Ảnh nhóm không được bỏ trống",
+    "validfriendgroup": "Vui lòng chọn ít nhất một người bạn"
 
   },
   "groups": {
@@ -97,10 +101,16 @@
     "mygroup" : "Nhóm của bạn",
     "creategroup": "Tạo nhóm",
     "groupname": "Tên nhóm",
-    "invitefriend": "Mời bạn bè",
     "createsuccessgroup": "Tạo nhóm thành công",
     "seegroup": "Xem nhóm",
-    "searchgroup": "Tìm kiếm nhóm"
+    "searchgroup": "Tìm kiếm nhóm",
+    "imagegroup": "Ảnh nhóm",
+    "deleteimage": "Xóa ảnh",
+    "recentactivity": "Hoạt động gần đây",
+    "groupjoin": "Nhóm bạn tham gia",
+    "privategroup": "Nhóm riêng tư .",
+    "membergroup": " thành viên"
+
   }
   
 }

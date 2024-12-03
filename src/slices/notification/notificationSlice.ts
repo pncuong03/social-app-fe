@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getListNotification } from "src/apis/notification";
+import { getEventNoti, getListNotification } from "src/apis/notification";
 import { INotiCount, INotification } from "src/types/notification";
 
 export interface NotificationState {
@@ -28,6 +28,15 @@ export const fetchListNotification = createAsyncThunk(
   }
 );
 
+export const fetchEventNotification = createAsyncThunk("notification/fetchEventNotification", async (_, thunkAPI) => {
+  try {
+    const data = await getEventNoti();
+
+    return data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 export const notificationSlice = createSlice({
   name: "notification",
   initialState,
@@ -39,24 +48,24 @@ export const notificationSlice = createSlice({
     clearNoti: (state) => {
       state.notiCount.notificationCount = 0;
     },
-    addNoti: (state, action: PayloadAction<INotification>) => {
-      const newNoti = action.payload;
-
-      state.notifications.push(newNoti);
-    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchListNotification.fulfilled, (state, action: PayloadAction<INotification[]>) => {
-      const newNoti = action.payload;
+    builder
+      .addCase(fetchListNotification.fulfilled, (state, action: PayloadAction<INotification[]>) => {
+        const newNoti = action.payload;
 
-      const uniqueMessages = newNoti.filter(
-        (newMessage) => !state.notifications.some((existingNoti) => existingNoti.id === newMessage.id)
-      );
+        const uniqueMessages = newNoti.filter(
+          (newMessage) => !state.notifications.some((existingNoti) => existingNoti.id === newMessage.id)
+        );
 
-      state.notifications = [...state.notifications, ...uniqueMessages];
-    });
+        state.notifications = [...state.notifications, ...uniqueMessages];
+      })
+
+      .addCase(fetchEventNotification.fulfilled, (state, action: PayloadAction<INotiCount>) => {
+        state.notiCount = action.payload;
+      });
   },
 });
 
-export const { increaseNoti, addNoti, clearNoti } = notificationSlice.actions;
+export const { increaseNoti, clearNoti } = notificationSlice.actions;
 export default notificationSlice.reducer;

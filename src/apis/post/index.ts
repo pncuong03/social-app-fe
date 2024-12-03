@@ -1,23 +1,27 @@
 import httpRequest from "src/utilities/services/httpRequest";
 
 export function getPostofFriend(page: number) {
-  return httpRequest.get(`/post-service/api/v1/post/list/friends?page=${page}&size=5`).then((data: any) => {
-    return data;
-  });
+  return httpRequest
+    .get(`/post-service/api/v1/post/list/friends?page=${page}&size=5&sort=createdAt,desc`)
+    .then((data: any) => {
+      return data;
+    });
 }
 
 export function getPostofUser(userId: number, page: number) {
   return httpRequest
-    .get(`/post-service/api/v1/post/list/post-user?userId=${userId}&page=${page}&size=5`)
+    .get(`/post-service/api/v1/post/list/post-user?userId=${userId}&page=${page}&size=5&sort=createdAt,desc`)
     .then((data: any) => {
       return data;
     });
 }
 
 export function getPostofMe(page: number) {
-  return httpRequest.get(`/post-service/api/v1/post/list/me?page=${page}&size=5`).then((data: any) => {
-    return data;
-  });
+  return httpRequest
+    .get(`/post-service/api/v1/post/list/me?page=${page}&size=5&sort=createdAt,desc`)
+    .then((data: any) => {
+      return data;
+    });
 }
 
 export function getDetailPost(postId: number) {
@@ -50,12 +54,16 @@ export function onDeleteComment(commentId: number) {
   return httpRequest.delete(`/post-service/api/v1/user/post/interaction/comment/delete?commentId=${commentId}`);
 }
 
+export function onEditPost(postId: number, params: { content: string; state: string; imageUrls: string[] }) {
+  return httpRequest.put(`/post-service/api/v1/post/update?postId=${postId}`, params);
+}
+
 export function onDeletePost(postId: number) {
   return httpRequest.delete(`/post-service/api/v1/post/delete?postId=${postId}`);
 }
 
 export function onCreateImage(data: FormData) {
-  return httpRequest.post(`/api/v1/post/upload-image`, data).then((data: any) => {
+  return httpRequest.post(`/api/v1/upload/upload-image`, data).then((data: any) => {
     return data;
   });
 }

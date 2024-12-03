@@ -66,7 +66,8 @@
     "address": "Address",
     "description": "Description",
     "sex": "Sex",
-    "updateinfo": "Update personal information"
+    "updateinfo": "Update personal information",
+    "allimages": "All images"
   },
   "message": {
     "message": "Message",
@@ -81,6 +82,7 @@
     "creategroup": "Create chat group",
     "groupname": "Group name",
     "invitefriend": "Invite friends",
+    "selectfriend": "Select friends",
     "searchchat": "Search chat",
     "addperson" : "Add person",
     "texting": "Texting",
@@ -89,7 +91,9 @@
     "createsuccesschat": "Create chat group successfully",
     "addmember": "Add members to the ",
     "addmembersuccess": "Add members to the chat group successfully",
-    "validnamegroup": "Group name cannot be left blank"
+    "validnamegroup": "Group name cannot be left blank",
+    "validimgaegroup": "Group image cannot be left blank",
+    "validfriendgroup": "Please select at least one friend"
 
   },
   "groups": {
@@ -97,10 +101,15 @@
     "mygroup" : "Your group",
     "creategroup": "Create group",
     "groupname": "Group name",
-    "invitefriend": "Invite friends",
     "createsuccessgroup": "Create group successfully",
     "seegroup": "See group",
-    "searchgroup": "Search group"
+    "searchgroup": "Search group",
+    "imagegroup": "Group image",
+    "deleteimage": "Delete image",
+    "recentactivity": "Recent activity",
+    "groupjoin": "Group you joined",
+    "privategroup": "Private group .",
+    "membergroup": " members"
   }
   
 }

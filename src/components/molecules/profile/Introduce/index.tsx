@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import IconCustomize from "src/components/atoms/Icons";
 import { useNavigate } from "react-router-dom";
-import { Button } from "antd";
 import dayjs from "dayjs";
+import { Button } from "antd";
+import IconCustomize from "src/components/atoms/Icons";
 
 interface Props {
   friends?: any;
@@ -73,7 +73,7 @@ const Introduce = (props: Props) => {
         <div className="flex items-center justify-between">
           <p className="text-xl font-medium">{t("home.images")}</p>
 
-          <Button className="text-md border-none text-blue-500 shadow-none">Tat ca anh</Button>
+          <Button className="text-md border-none text-blue-500 shadow-none">{t("profile.allimages")}</Button>
         </div>
 
         <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md">

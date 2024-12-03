@@ -1,37 +1,72 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Form, Input } from "antd";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import SelectFriend from "../../friend/SelectFriend";
-import { AppDispatch } from "src/app/store";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { Button, Form, Input, Upload } from "antd";
+import { RcFile } from "antd/lib/upload";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { AppDispatch } from "src/app/store";
 import { createGroup } from "src/slices/groups/groupSlice";
+import IconCustomize from "src/components/atoms/Icons";
+import SelectFriend from "../../friend/SelectFriend";
 
 interface FormValues {
   name: string;
   userIds: number[];
   tagIds: number[];
+  imageUrl: string;
 }
 
 interface Props {
   onSuccess: () => void;
 }
 
+type FileType = RcFile;
+
 const CreateGroup = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>("");
+
   const validationSchema = Yup.object({
     name: Yup.string().required(t("message.validnamegroup")),
+    imageUrl: Yup.string().required(t("message.validimgaegroup")),
+    userIds: Yup.array().min(1, t("message.validfriendgroup")),
   });
+
+  const beforeUpload = async (file: FileType) => {
+    const data = new FormData();
+
+    data.append("images", file);
+
+    const response = await axios.post("http://localhost:8088/api/v1/upload/upload-image", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    if (response && response.data) {
+      setImageUrl(response.data);
+      setFieldValue("imageUrl", response.data);
+    }
+
+    return false; // Prevent automatic upload by Ant Design
+  };
+
+  const handleRemoveImage = () => {
+    setImageUrl("");
+    setFieldValue("imageUrl", "");
+  };
 
   const { errors, touched, values, handleSubmit, handleChange, handleBlur, setFieldValue } = useFormik<FormValues>({
     initialValues: {
       name: "",
       userIds: [],
       tagIds: [0],
+      imageUrl: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -71,9 +106,39 @@ const CreateGroup = (props: Props) => {
         </Form.Item>
 
         <Form.Item>
+          <label className="mb-2 block text-lg font-medium">{t("groups.imagegroup")}:</label>
+
+          {imageUrl ? (
+            <div className="flex flex-col items-center gap-2">
+              <img src={imageUrl} alt="Group" className="h-24 w-24 rounded-md object-cover" />
+
+              <button onClick={handleRemoveImage}>
+                <div className="mt-2 hover:text-blue-400">{t("groups.deleteimage")}</div>
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <Upload
+                accept="image/*"
+                listType="picture-card"
+                beforeUpload={beforeUpload}
+                maxCount={1}
+                showUploadList={false}
+              >
+                <IconCustomize name="plus" />
+              </Upload>
+            </div>
+          )}
+
+          {errors.imageUrl && touched.imageUrl && <p className="text-[red]">{errors.imageUrl}</p>}
+        </Form.Item>
+
+        <Form.Item>
           <label className="mb-2 block text-lg font-medium">{t("message.invitefriend")}:</label>
 
           <SelectFriend isDefaultGetAll onSelect={(value) => setFieldValue("userIds", value)} />
+
+          {errors.userIds && touched.userIds && <p className="text-[red]">{errors.userIds}</p>}
         </Form.Item>
       </div>
 

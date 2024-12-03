@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Button, DatePicker, Form, Input, Select } from "antd";
-import ModalCustomize from "src/components/atoms/Modal";
-import { useFormik } from "formik";
-import { useAppSelector } from "src/app/appHooks";
-import { selectUserInfo } from "src/slices/login/selector";
-import dayjs from "dayjs";
-import { editInfo } from "src/slices/user/userSlice";
-import { AppDispatch } from "src/app/store";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { useFormik } from "formik";
+import { Button, DatePicker, Form, Input, Select } from "antd";
+import dayjs from "dayjs";
+import { useAppSelector } from "src/app/appHooks";
+import { AppDispatch } from "src/app/store";
+import { editInfo } from "src/slices/user/userSlice";
+import { selectUserInfo } from "src/slices/login/selector";
+import ModalCustomize from "src/components/atoms/Modal";
 interface FormValues {
   fullName: string;
   birthdayString: string;

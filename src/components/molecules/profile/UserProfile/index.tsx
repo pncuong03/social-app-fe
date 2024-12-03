@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "src/app/appHooks";
-import { AppDispatch } from "src/app/store";
-import Information from "src/components/molecules/profile/Infomation";
 import { useLocation } from "react-router-dom";
-import { selectPost } from "src/slices/posts/selector";
-import Introduce from "src/components/molecules/profile/Introduce";
-import Posts from "src/components/molecules/posts";
-import { fetchPostUser } from "src/slices/posts/postSlice";
 import { Skeleton } from "antd";
+import { AppDispatch } from "src/app/store";
+import { useAppSelector } from "src/app/appHooks";
+import { selectPost } from "src/slices/posts/selector";
+import { fetchPostUser } from "src/slices/posts/postSlice";
+import Information from "src/components/molecules/profile/Infomation";
+import Introduce from "src/components/molecules/profile/Introduce";
+import Posts from "src/components/molecules/home/Posts";
 
 const UserProfile = () => {
   const dispatch = useDispatch<AppDispatch>();

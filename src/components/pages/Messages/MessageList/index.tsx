@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { List, Skeleton } from "antd";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import TimeCustomize from "../../../../const/dateFormat";
 import { useDispatch } from "react-redux";
-import { truncateString } from "src/const";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { List, Skeleton } from "antd";
 import { AppDispatch } from "src/app/store";
+import { useAppSelector } from "src/app/appHooks";
+import { truncateString } from "src/const";
+import TimeCustomize from "../../../../const/dateFormat";
 import { clearMessageCount, fetchListMessage } from "src/slices/messages/messageSlice";
 import { selectMessage } from "src/slices/messages/selector";
-import { useAppSelector } from "src/app/appHooks";
 
 const MessageList = () => {
   const dispatch = useDispatch<AppDispatch>();

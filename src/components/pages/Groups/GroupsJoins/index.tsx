@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Skeleton } from "antd";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { Skeleton } from "antd";
 import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import GroupCard from "src/components/molecules/groups/GroupsJoins/GroupCard";
 import { fetchListGroup } from "src/slices/groups/groupSlice";
 import { selectGroup } from "src/slices/groups/selector";
+import GroupCard from "src/components/molecules/groups/GroupCard";
 
 const GroupsJoins = () => {
   const dispatch = useDispatch<AppDispatch>();
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const [page, setPage] = useState(0);
   const groups = useAppSelector(selectGroup.getListGroup);
@@ -54,7 +55,7 @@ const GroupsJoins = () => {
         }
       }}
     >
-      <h2 className="p-6 text-2xl font-medium lg:px-10 ">Nhóm bạn tham gia</h2>
+      <h2 className="p-6 text-2xl font-medium lg:px-10 ">{t("groups.groupjoin")}</h2>
 
       <div className=" grid grid-cols-3 gap-3">
         {groups.map((group: any) => {

@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "src/app/store";
-import PopconfirmCustomize from "src/components/atoms/Popconfirm";
 import { acceptFriend, deleteFriend, rejectFriend } from "src/slices/friend/friendSlice";
+import PopconfirmCustomize from "src/components/atoms/Popconfirm";
 
 interface Props {
   id: string;

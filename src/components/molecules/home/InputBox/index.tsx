@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "antd";
-import IconCustomize from "src/components/atoms/Icons";
-import { getName } from "src/const";
 import { useAppSelector } from "src/app/appHooks";
+import { getName } from "src/const";
 import { selectUserInfo } from "src/slices/login/selector";
-import CreateBox from "./CreateBox";
+import IconCustomize from "src/components/atoms/Icons";
+import CreateBox from "./CreatePost";
 
 const InputBox = () => {
   const { t } = useTranslation();

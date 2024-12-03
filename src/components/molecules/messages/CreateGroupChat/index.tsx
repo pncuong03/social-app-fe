@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { Button, Form, Input } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import SelectFriend from "../../friend/SelectFriend";
 import { AppDispatch } from "src/app/store";
-import { useDispatch } from "react-redux";
 import { createGroupChat } from "src/slices/messages/messageSlice";
-import { toast } from "react-toastify";
+import SelectFriend from "../../friend/SelectFriend";
 
 interface FormValues {
   name: string;
@@ -25,6 +25,7 @@ const CreateGroupChat = (props: Props) => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required(t("message.validnamegroup")),
+    userIds: Yup.array().min(1, t("message.validfriendgroup")),
   });
 
   const { errors, touched, values, handleSubmit, handleChange, handleBlur, setFieldValue } = useFormik<FormValues>({
@@ -73,6 +74,8 @@ const CreateGroupChat = (props: Props) => {
           <label className="mb-2 block text-lg font-medium">{t("message.invitefriend")}:</label>
 
           <SelectFriend isDefaultGetAll onSelect={(value) => setFieldValue("userIds", value)} />
+
+          {errors.userIds && touched.userIds && <p className="text-[red]">{errors.userIds}</p>}
         </Form.Item>
       </div>
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { List, Skeleton } from "antd";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { List, Skeleton } from "antd";
 import { selectGroup } from "src/slices/groups/selector";
 import { fetchListGroup } from "src/slices/groups/groupSlice";
-import { useNavigate } from "react-router-dom";
 
 const GroupsListCol = () => {
   const dispatch = useDispatch<AppDispatch>();

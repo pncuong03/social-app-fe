@@ -17,7 +17,7 @@ interface Props {
   onCancel?: () => void;
 }
 
-const ShareBox = (props: Props) => {
+const SharePost = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const [content, setContent] = useState("");
@@ -122,4 +122,4 @@ const ShareBox = (props: Props) => {
   );
 };
 
-export default ShareBox;
+export default SharePost;

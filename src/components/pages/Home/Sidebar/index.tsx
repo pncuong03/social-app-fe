@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import IconCustomize from "src/components/atoms/Icons";
-import SidebarRow from "src/components/molecules/sidebarrow";
-import routesName from "src/routes/enum.routes";
 import { useAppSelector } from "src/app/appHooks";
+import routesName from "src/routes/enum.routes";
+import IconCustomize from "src/components/atoms/Icons";
 import { selectUserInfo } from "src/slices/login/selector";
+import SidebarRow from "src/components/molecules/sidebarrow";
 import GroupsListCol from "src/components/molecules/groups/GroupsList";
 
 const Sidebar = () => {

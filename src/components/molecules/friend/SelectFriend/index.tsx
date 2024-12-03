@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { Select } from "antd";
 import { DefaultOptionType } from "antd/es/select";
-import { useDebounce } from "src/utilities/hooks";
 import { useAppSelector } from "src/app/appHooks";
-import { selectListFriend } from "src/slices/friend/selector";
-import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
+import { useDebounce } from "src/utilities/hooks";
+import { selectListFriend } from "src/slices/friend/selector";
 import { fetchListFriend } from "src/slices/friend/friendSlice";
 
 interface Props {
@@ -16,11 +17,11 @@ interface Props {
 }
 const SelectFriend = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const firstRender = useRef(true);
   const searchClass = useDebounce(search);
   const [options, setOptions] = useState<DefaultOptionType[]>([]);
-  // const getListFriend = useAppSelector(selectSearchListFriend.getSearchListFriend);
 
   const getListFriend = useAppSelector(selectListFriend.getListFriend);
 
@@ -54,7 +55,7 @@ const SelectFriend = (props: Props) => {
         props.onSelect?.(value);
       }}
       value={props.value}
-      placeholder="Type to search"
+      placeholder={t("message.selectfriend")}
       size="large"
       showSearch
       filterOption={false}

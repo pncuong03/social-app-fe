@@ -42,15 +42,15 @@ export const useSocket = () => {
       }
     };
 
-    ws.current.onclose = (event) => {
-      console.warn("WebSocket disconnected:", event);
+    // ws.current.onclose = (event) => {
+    //   console.warn("WebSocket disconnected:", event);
 
-      // Tùy chọn: Thử kết nối lại
-      if (!isPaused) {
-        console.log("Reconnecting WebSocket...");
-        setReconnect((prev) => !prev);
-      }
-    };
+    //   // Tùy chọn: Thử kết nối lại
+    //   if (!isPaused) {
+    //     console.log("Reconnecting WebSocket...");
+    //     setReconnect((prev) => !prev);
+    //   }
+    // };
 
     const wsCurrent = ws.current;
 
