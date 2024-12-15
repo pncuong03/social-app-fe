@@ -104,10 +104,12 @@ const Notification = (props: Props) => {
               <img className="h-12 w-12 rounded-full" src={item.interact.imageUrl} alt="" />
 
               <div>
-                <div className="flex items-center gap-2">
-                  <p className="text-lg font-medium">{item.interact.fullName}</p>
+                <div className="gap-2 text-base">
+                  <p className=" font-medium">
+                    {item.interact.fullName}
 
-                  <p className="text-lg font-normal">{formatNoti(item.interactType, t)}</p>
+                    <span className="pl-1 font-normal">{formatNoti(item.interactType, t)}</span>
+                  </p>
                 </div>
 
                 <p className="font-medium text-blue-600">

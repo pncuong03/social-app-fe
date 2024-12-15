@@ -64,7 +64,7 @@ const GroupsJoins = () => {
               key={group.idGroup}
               idGroup={group.idGroup}
               name={group.name}
-              img={group.img}
+              imageUrl={group.imageUrl}
               memberCount={group.memberCount}
             />
           );

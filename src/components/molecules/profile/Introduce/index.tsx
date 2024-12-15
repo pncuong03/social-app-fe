@@ -15,11 +15,13 @@ const Introduce = (props: Props) => {
   const navigate = useNavigate();
 
   const userDetails = [
-    { icon: "work", value: props?.user.work },
-    { icon: "male", value: props?.user.gender },
-    { icon: "birthday", value: props?.user.birthday ? dayjs(props.user.birthday).format("DD/MM/YYYY") : null },
-    { icon: "place", value: props?.user.live },
+    { icon: "work", value: props?.user?.work },
+    { icon: "male", value: props?.user?.gender },
+    { icon: "birthday", value: props?.user?.birthday ? dayjs(props.user.birthday).format("DD/MM/YYYY") : null },
+    { icon: "place", value: props?.user?.live },
   ];
+
+  console.log(props.user);
 
   return (
     <div className="col-span-1 mb-4 grid h-fit gap-4 ">
@@ -27,7 +29,7 @@ const Introduce = (props: Props) => {
         <p className="text-xl font-medium">{t("profile.intro")}</p>
 
         <div className="flex justify-center">
-          <p className="text-lg font-light">{props?.user.description}</p>
+          <p className="text-lg font-light">{props?.user?.description}</p>
         </div>
 
         {/* <div className="text-md flex flex-col space-y-4">

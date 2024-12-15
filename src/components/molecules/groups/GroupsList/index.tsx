@@ -62,7 +62,7 @@ const GroupsListCol = () => {
             className="mb-2 flex h-16 !justify-start  rounded-2xl  hover:cursor-pointer hover:bg-gray-100"
           >
             <div className="flex items-center gap-3 px-2  ">
-              <img src={item.img} className="h-12 w-12 rounded-xl" />
+              <img src={item.imageUrl} className="h-12 w-12 rounded-xl" />
 
               <p className="text-xl">{item.name}</p>
             </div>

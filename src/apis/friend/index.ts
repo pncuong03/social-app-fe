@@ -1,6 +1,6 @@
 import httpRequest from "src/utilities/services/httpRequest";
 
-export function friendInfo(friendId: string) {
+export function userInfo(friendId: number) {
   return httpRequest.get(`/post-service/api/v1/friend/friend-information?checkId=${friendId}`).then((data: any) => {
     return data;
   });

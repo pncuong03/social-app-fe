@@ -21,8 +21,18 @@ export const logout = () => {
   LocalStorage.clear();
 };
 
-export function userInfo() {
+export function myInfo() {
   return httpRequest.get("/uaa-service/api/v1/user").then((data: any) => {
     return data;
   });
+}
+
+export function subcribeWorkerApi(params: any) {
+  return httpRequest.post("/web-push-service/api/webpush/subscribe", params).then((data: any) => {
+    return data;
+  });
+}
+
+export function unSubcribeWorkerApi(params: any) {
+  return httpRequest.delete("/web-push-service/api/webpush/unsubscribe", params);
 }

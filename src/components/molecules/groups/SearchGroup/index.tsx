@@ -56,7 +56,7 @@ const SearchGroup = () => {
           renderItem={(item: any) => (
             <List.Item className="-mx-4 cursor-pointer rounded-xl hover:bg-gray-300" onClick={() => handleClick(item)}>
               <div className="flex items-center gap-2 md:ml-4 md:gap-3">
-                <img src={item.img} className="h-6 w-6 rounded-full md:h-12 md:w-12" />
+                <img src={item.imageUrl} className="h-6 w-6 rounded-full md:h-12 md:w-12" />
 
                 <div className="">
                   <p className="text-sm md:text-lg">{item.name}</p>

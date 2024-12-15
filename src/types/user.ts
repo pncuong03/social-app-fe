@@ -23,3 +23,19 @@ export interface ISearchUser {
   hadSendFriendRequest: boolean;
   hadReceiverFriendRequest: boolean;
 }
+
+export enum StateUser {
+  STRANGER = "STRANGER",
+  FRIEND = "FRIEND",
+}
+export interface IUserInfo {
+  id: number;
+  chatId: number;
+  mutalFriends: number;
+  totalFriends: number;
+  fullName: string;
+  imageUrl: string;
+  imageBackground: string;
+  description: string;
+  state: string;
+}

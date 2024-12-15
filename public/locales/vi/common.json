@@ -51,7 +51,9 @@
     "unfriend": "Hủy kết bạn",
     "deletefriend": "Bạn có muốn hủy kết bạn này không?",
     "deleterequest": "Bạn có muốn xóa lời mời kết bạn này không?",
-    "nofriend": "Không có bạn bè nào"
+    "nofriend": "Không có bạn bè nào",
+    "mutalfriend": "bạn bè chung",
+    "addfriend": "Kết bạn"
   },
   "profile": {
     "editprofile": "Chỉnh sửa trang cá nhân",

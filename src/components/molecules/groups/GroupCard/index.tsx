@@ -9,7 +9,7 @@ import PopoverCustomize from "src/components/atoms/Popover";
 
 interface Props {
   idGroup: number;
-  img: string;
+  imageUrl: string;
   name: string;
   memberCount: number;
 }
@@ -51,7 +51,7 @@ const GroupCard = (props: Props) => {
   return (
     <div className="mx-auto w-full max-w-[360px] rounded-2xl bg-white p-5 shadow-lg transition-transform duration-300 hover:-translate-y-1  hover:shadow-2xl  lg:max-w-md">
       <div className="mb-4 flex items-center gap-4">
-        <img src={props.img} className="h-20 w-20 rounded-lg object-cover shadow-sm" />
+        <img src={props.imageUrl} className="h-20 w-20 rounded-lg object-cover shadow-sm" />
 
         <p className="text-xl font-semibold text-gray-800">{props.name}</p>
       </div>

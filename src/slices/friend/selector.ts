@@ -10,6 +10,6 @@ export const selectListRequest = {
   getListRequest: (state: any) => state.friend.listRequest,
 };
 
-export const selectInfoFriend = {
-  getInfoFriend: (state: any) => state.friend.infoFriend,
+export const selectInfoUser = {
+  getUserInfo: (state: any) => state.friend.userInfo,
 };

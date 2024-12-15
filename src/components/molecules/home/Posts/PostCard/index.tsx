@@ -85,7 +85,7 @@ const PostCard = (props: Props) => {
         navigate("/profile");
       }
     } else {
-      navigate(`/${props.fullName}`, { state: { id: props.id } });
+      navigate(`/${props.fullName}`, { state: { id: props.userId } });
     }
   };
 

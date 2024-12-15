@@ -301,9 +301,6 @@ const postSlice = createSlice({
         const uniquePostPublic = newPostPublic.filter(
           (newPost) => !state.postFriends.some((existingPost) => existingPost.id === newPost.id)
         );
-        // const sortedPosts = action.payload.slice().sort((a, b) => {
-        //   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        // });
 
         state.postFriends = [...state.postFriends, ...uniquePostPublic];
       })
@@ -311,11 +308,13 @@ const postSlice = createSlice({
       .addCase(fetchPostUser.fulfilled, (state, action: PayloadAction<IPost[]>) => {
         const newPosts = action.payload;
 
-        const uniquePosts = newPosts.filter(
-          (newPost) => !state.postOfUser.some((existingPost) => existingPost.id === newPost.id)
-        );
+        // const uniquePosts = newPosts.filter(
+        //   (newPost) => !state.postOfUser.some((existingPost) => existingPost.id === newPost.id)
+        // );
 
-        state.postOfUser = [...state.postOfUser, ...uniquePosts];
+        // state.postOfUser = [...state.postOfUser, ...newPosts];
+
+        state.postOfUser = newPosts;
       })
 
       .addCase(fetchDetailPost.fulfilled, (state, action: PayloadAction<IPost>) => {

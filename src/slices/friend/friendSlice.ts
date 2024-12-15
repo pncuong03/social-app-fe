@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  friendInfo,
+  userInfo,
   getListFriend,
   getListRequest,
   getSearchListFriend,
@@ -10,34 +10,35 @@ import {
   onRejectRequestFriend,
   onSendRequesFriend,
 } from "src/apis/friend";
-import { IFriend, IUser } from "src/types/user";
+import { IFriend, IUserInfo, StateUser } from "src/types/user";
 
 export interface FriendState {
   listRequest: IFriend[];
   listFriend: IFriend[];
   searchListFriend: IFriend[];
-  infoFriend: IUser;
+  userInfo: IUserInfo;
 }
 
 const initialState: FriendState = {
   listRequest: [],
   listFriend: [],
   searchListFriend: [],
-  infoFriend: {
-    id: "",
+  userInfo: {
+    id: 0,
+    chatId: 0,
+    mutalFriends: 0,
+    totalFriends: 0,
     fullName: "",
     imageUrl: "",
-    backgroundUrl: "",
-    birthday: "",
-    gender: "",
+    imageBackground: "",
     description: "",
-    state: "",
+    state: StateUser.STRANGER,
   },
 };
 
-export const fetchInfoFriend = createAsyncThunk("auth/fetchInfoFriend", async (friendId: string, thunkAPI) => {
+export const fetchUserInfo = createAsyncThunk("auth/fetchUserInfo", async (friendId: number, thunkAPI) => {
   try {
-    const data = await friendInfo(friendId);
+    const data = await userInfo(friendId);
 
     return data;
   } catch (error) {
@@ -141,8 +142,8 @@ export const friendSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      .addCase(fetchInfoFriend.fulfilled, (state, action: PayloadAction<IUser>) => {
-        state.infoFriend = action.payload;
+      .addCase(fetchUserInfo.fulfilled, (state, action: PayloadAction<IUserInfo>) => {
+        state.userInfo = action.payload;
       })
 
       .addCase(fetchSearchListFriend.fulfilled, (state, action: PayloadAction<IFriend[]>) => {

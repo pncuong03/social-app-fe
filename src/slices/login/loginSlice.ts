@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { authLogin, authRegister, logout, userInfo } from "src/apis/auth";
+import { authLogin, authRegister, logout, myInfo } from "src/apis/auth";
 import { IUser } from "src/types/user";
 
 export interface AuthState {
@@ -47,9 +47,9 @@ export const userRegister = createAsyncThunk<
   }
 });
 
-export const fetchInfoUser = createAsyncThunk("auth/fetchInfoUser", async (_, thunkAPI) => {
+export const fetchMyInfo = createAsyncThunk("auth/fetchMyInfo", async (_, thunkAPI) => {
   try {
-    const data = await userInfo();
+    const data = await myInfo();
 
     return data;
   } catch (error) {
@@ -88,7 +88,7 @@ export const authSlice = createSlice({
         state.accessToken = "";
       })
 
-      .addCase(fetchInfoUser.fulfilled, (state, action: PayloadAction<IUser>) => {
+      .addCase(fetchMyInfo.fulfilled, (state, action: PayloadAction<IUser>) => {
         state.user = action.payload;
       });
   },

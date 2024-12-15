@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getUser, onEditInfo } from "src/apis/user";
 import { ISearchUser } from "src/types/user";
-import { fetchInfoUser } from "../login/loginSlice";
+import { fetchMyInfo } from "../login/loginSlice";
 
 export interface UserState {
   searchUser: ISearchUser[];
@@ -38,7 +38,7 @@ export const editInfo = createAsyncThunk(
     try {
       await onEditInfo(params);
 
-      thunkAPI.dispatch(fetchInfoUser());
+      thunkAPI.dispatch(fetchMyInfo());
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

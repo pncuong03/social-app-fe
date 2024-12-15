@@ -9,6 +9,8 @@ import { fetchPostUser } from "src/slices/posts/postSlice";
 import Information from "src/components/molecules/profile/Infomation";
 import Introduce from "src/components/molecules/profile/Introduce";
 import Posts from "src/components/molecules/home/Posts";
+import { selectInfoUser } from "src/slices/friend/selector";
+import { fetchUserInfo } from "src/slices/friend/friendSlice";
 
 const UserProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,6 +21,7 @@ const UserProfile = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const postsUser = useAppSelector(selectPost.getPostsUser);
+  const infoUser = useAppSelector(selectInfoUser.getUserInfo);
 
   const loadPostUser = () => {
     if (loading) return;
@@ -45,6 +48,10 @@ const UserProfile = () => {
     loadPostUser();
   }, []);
 
+  useEffect(() => {
+    dispatch(fetchUserInfo(id));
+  }, [id]);
+
   return (
     <div
       className="h-[calc(100vh-60px)] overflow-y-auto"
@@ -57,12 +64,12 @@ const UserProfile = () => {
       }}
     >
       <div className=" w-full bg-white shadow">
-        <Information />
+        <Information user={infoUser} />
       </div>
 
       <div className="mx-auto mt-6 h-full w-full grid-cols-3 gap-4 px-2 md:px-6 lg:grid xl:max-w-screen-xl xl:px-24 2xl:max-w-screen-2xl 2xl:px-52">
         <div className="col-span-1">
-          <Introduce />
+          <Introduce user={infoUser} />
         </div>
 
         <div className="col-span-2 flex w-full flex-col gap-4 ">

@@ -30,6 +30,7 @@ const initialState: GroupState = {
   infoGroup: {
     idGroup: 0,
     name: "",
+    imageUrl: "",
     memberCount: 0,
   },
   memberGroup: [],

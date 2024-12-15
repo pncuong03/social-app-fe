@@ -62,7 +62,7 @@ const ProfilePage = () => {
       }}
     >
       <div className=" w-full bg-white shadow">
-        <Information user={userInfo} friends={friendList} />
+        <Information my={userInfo} listFriends={friendList} />
       </div>
 
       <div className="mx-auto mt-6 h-full w-full grid-cols-3 gap-4 px-2 md:px-6 lg:grid xl:max-w-screen-xl xl:px-24 2xl:max-w-screen-2xl 2xl:px-52">

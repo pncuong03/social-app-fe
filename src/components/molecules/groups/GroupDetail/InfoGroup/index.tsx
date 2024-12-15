@@ -25,11 +25,11 @@ const InfoGroup = () => {
     <div className="mx-auto -mt-2 max-w-7xl rounded-md bg-white">
       <div
         className="relative h-[15rem] max-h-[28.75rem] w-full rounded-lg bg-cover bg-center bg-no-repeat xl:h-[30rem]"
-        // style={{
-        //   backgroundImage: props.group?.backgroundUrl
-        //     ? `url(${props.user?.backgroundUrl})`
-        //     : "linear-gradient(to right, #e5e5e5, #f9f9f9)",
-        // }}
+        style={{
+          backgroundImage: infogroup?.imageUrl
+            ? `url(${infogroup?.imageUrl})`
+            : "linear-gradient(to right, #e5e5e5, #f9f9f9)",
+        }}
       >
         <div className="absolute -bottom-2 flex w-full items-center justify-center md:bottom-1">
           <div className="absolute bottom-[10px] right-[30px]">

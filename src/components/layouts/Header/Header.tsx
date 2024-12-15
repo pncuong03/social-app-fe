@@ -11,13 +11,14 @@ import routesName from "src/routes/enum.routes";
 import { useSocket } from "src/utilities/hooks/useSocket";
 import { selectUserInfo } from "src/slices/login/selector";
 import { selectNotificationCount } from "src/slices/notification/selector";
-import { fetchInfoUser, logOut } from "src/slices/login/loginSlice";
+import { fetchMyInfo, logOut } from "src/slices/login/loginSlice";
 import { fetchEventNotification, fetchListNotification } from "src/slices/notification/notificationSlice";
 import CustomDropdown from "src/components/atoms/Dropdown";
 import IconCustomize from "src/components/atoms/Icons";
 import CustomLanguage from "src/components/atoms/Language";
 import Notification from "src/components/molecules/notification";
 import SearchUser from "src/components/molecules/search";
+import { unSubscribePushNoti } from "src/serviceWorker";
 
 const MENU_ITEMS = [{ name: "Home", path: routesName.HOME, icon: <IconCustomize name="home" size={40} /> }];
 
@@ -30,10 +31,16 @@ const Header = () => {
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const notiCount = useAppSelector(selectNotificationCount.getNotificationCount);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(logOut());
     toast.success(t("home.logout"));
     window.location.href = routesName.LOGIN;
+
+    const registration = await navigator.serviceWorker.ready;
+
+    if (registration) {
+      unSubscribePushNoti(registration);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +50,7 @@ const Header = () => {
   }, [receivedMessages]);
 
   const initialize = useCallback(() => {
-    dispatch(fetchInfoUser());
+    dispatch(fetchMyInfo());
   }, [dispatch]);
 
   useEffect(() => {
