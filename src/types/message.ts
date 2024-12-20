@@ -25,3 +25,8 @@ export interface IMember {
   imageUrl: string;
   role: string;
 }
+
+export enum Role {
+  ADMIN = "ADMIN",
+  MEMBER = "MEMBER",
+}

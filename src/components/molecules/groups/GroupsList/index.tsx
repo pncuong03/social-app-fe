@@ -59,10 +59,10 @@ const GroupsListCol = () => {
         renderItem={(item: any) => (
           <List.Item
             onClick={() => navigate(`/groups/${item.name}`, { state: { groupId: item.idGroup } })}
-            className="mb-2 flex h-16 !justify-start  rounded-2xl  hover:cursor-pointer hover:bg-gray-100"
+            className="mb-2 flex h-16 !justify-start rounded-2xl hover:cursor-pointer hover:bg-gray-100"
           >
-            <div className="flex items-center gap-3 px-2  ">
-              <img src={item.imageUrl} className="h-12 w-12 rounded-xl" />
+            <div className="flex items-center gap-3 px-2">
+              <img src={item.imageUrl} alt={`Image of ${item.name}`} className="h-12 w-12 rounded-xl" />
 
               <p className="text-xl">{item.name}</p>
             </div>

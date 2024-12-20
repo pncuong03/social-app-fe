@@ -41,12 +41,35 @@ export const notificationSlice = createSlice({
   name: "notification",
   initialState,
   reducers: {
-    increaseNoti: (state) => {
-      state.notiCount.notificationCount += 1;
-    },
-
     clearNoti: (state) => {
       state.notiCount.notificationCount = 0;
+    },
+
+    addNoti: (
+      state,
+      action: PayloadAction<{ createdAt: string; fullName: string; imageUrl: string; userId: number; type: string }>
+    ) => {
+      const newNotification: INotification = {
+        id: Date.now(),
+        type: "",
+        userId: action.payload.userId,
+        interacId: 0,
+        groupId: 0,
+        interactType: action.payload.type,
+        postId: 0,
+        hasSeen: false,
+        createdAt: action.payload.createdAt,
+        interact: {
+          id: action.payload.userId,
+          fullName: action.payload.fullName,
+          imageUrl: action.payload.imageUrl,
+        },
+        group: { id: 0, name: "" },
+        post: { id: 0, content: "" },
+      };
+
+      state.notifications = [newNotification, ...state.notifications];
+      state.notiCount.notificationCount += 1;
     },
   },
   extraReducers: (builder) => {
@@ -67,5 +90,5 @@ export const notificationSlice = createSlice({
   },
 });
 
-export const { increaseNoti, clearNoti } = notificationSlice.actions;
+export const { clearNoti, addNoti } = notificationSlice.actions;
 export default notificationSlice.reducer;

@@ -1,3 +1,5 @@
+import axios from "axios";
+import { API_UPLOAD } from "src/const/env";
 import httpRequest from "src/utilities/services/httpRequest";
 
 export function getPostofFriend(page: number) {
@@ -63,7 +65,13 @@ export function onDeletePost(postId: number) {
 }
 
 export function onCreateImage(data: FormData) {
-  return httpRequest.post(`/api/v1/upload/upload-image`, data).then((data: any) => {
-    return data;
-  });
+  return axios
+    .post(`${API_UPLOAD}/api/v1/upload/upload-image`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((data: any) => {
+      return data;
+    });
 }

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { Button, Form, Input, Upload } from "antd";
 import { RcFile } from "antd/lib/upload";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AppDispatch } from "src/app/store";
+import { onCreateImage } from "src/apis/post";
 import { createGroup } from "src/slices/groups/groupSlice";
 import IconCustomize from "src/components/atoms/Icons";
 import SelectFriend from "../../friend/SelectFriend";
@@ -42,18 +42,14 @@ const CreateGroup = (props: Props) => {
 
     data.append("images", file);
 
-    const response = await axios.post("http://localhost:8088/api/v1/upload/upload-image", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await onCreateImage(data);
 
     if (response && response.data) {
       setImageUrl(response.data);
       setFieldValue("imageUrl", response.data);
     }
 
-    return false; // Prevent automatic upload by Ant Design
+    return false;
   };
 
   const handleRemoveImage = () => {

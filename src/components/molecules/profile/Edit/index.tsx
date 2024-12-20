@@ -10,6 +10,7 @@ import { AppDispatch } from "src/app/store";
 import { editInfo } from "src/slices/user/userSlice";
 import { selectUserInfo } from "src/slices/login/selector";
 import ModalCustomize from "src/components/atoms/Modal";
+import ImageUploader from "../../upload";
 interface FormValues {
   fullName: string;
   birthdayString: string;
@@ -72,6 +73,16 @@ const EditProfile = (props: Props) => {
   return (
     <ModalCustomize title={t("profile.editprofile")} open={props.open} onCancel={props.onCancel}>
       <Form onFinish={handleSubmit} className="mt-2">
+        <Form.Item>
+          <label className="mb-2 block text-lg font-medium">{t("profile.avatar")}:</label>
+
+          <ImageUploader
+            imageUrl={values.imageUrl}
+            onChange={(url) => setFieldValue("imageUrl", url)}
+            loading={loading}
+          />
+        </Form.Item>
+
         <Form.Item>
           <label className="mb-2 block text-lg font-medium">{t("profile.fullname")}:</label>
 

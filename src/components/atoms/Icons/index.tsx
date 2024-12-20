@@ -16,7 +16,7 @@ import { PiImagesFill, PiVideoFill } from "react-icons/pi";
 import { IoIosHappy } from "react-icons/io";
 import { BsSend } from "react-icons/bs";
 import { TfiShare } from "react-icons/tfi";
-import { MdPublic, MdOutlineModeComment, MdOutlinePlace } from "react-icons/md";
+import { MdPublic, MdOutlineModeComment, MdOutlinePlace, MdEdit } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { CgWorkAlt, CgDanger } from "react-icons/cg";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
@@ -68,6 +68,7 @@ const IconCustomize = (props: Props) => {
     create: <IoCreateOutline size={props.size} color={props.color} />,
     birthday: <LiaBirthdayCakeSolid size={props.size} color={props.color} />,
     place: <MdOutlinePlace size={props.size} color={props.color} />,
+    edit: <MdEdit size={props.size} color={props.color} />,
   };
 
   return icons[props.name] || null;

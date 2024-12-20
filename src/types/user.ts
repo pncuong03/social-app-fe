@@ -1,11 +1,13 @@
 export interface IUser {
   id: string;
   fullName: string;
+  birthdayString: string;
+  gender: string;
+  work: string;
+  description: string;
+  live: string;
   imageUrl: string;
   backgroundUrl: string;
-  birthday: string;
-  gender: string;
-  description: string;
   state?: string;
 }
 

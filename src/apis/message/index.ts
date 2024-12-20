@@ -20,8 +20,8 @@ export function getListMemberChat(groupId: string) {
   });
 }
 
-export function onDeleteMemeberChat(params: { groupChatId: string; userId: string }) {
-  return httpRequest.delete(`/rtc-service/api/v1/group-chat/delete-member`, params);
+export function onDeleteMemeberChat(groupChatId: string, userId: string) {
+  return httpRequest.delete(`/rtc-service/api/v1/group-chat/delete-member?groupChatId=${groupChatId}&userId=${userId}`);
 }
 
 export function onLeaveChat(chatId: string) {

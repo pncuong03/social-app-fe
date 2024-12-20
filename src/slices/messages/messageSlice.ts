@@ -9,7 +9,7 @@ import {
   onLeaveChat,
   onSearchChat,
 } from "src/apis/message";
-import { IChat, IMember, IMessage } from "src/types/message";
+import { IChat, IMember } from "src/types/message";
 
 export interface ISearchChat {
   id: string;
@@ -17,17 +17,13 @@ export interface ISearchChat {
   img: string;
 }
 export interface MessageState {
-  accessToken: string;
   messages: IChat[];
-  messagesDetail: IMessage[];
   memberChat: IMember[];
   searchChat: ISearchChat[];
 }
 
 const initialState: MessageState = {
-  accessToken: "",
   messages: [],
-  messagesDetail: [],
   memberChat: [],
   searchChat: [],
 };
@@ -67,10 +63,11 @@ export const fetchMemberChat = createAsyncThunk("message/fetchMemberChat", async
 
 export const deleteMemeberChat = createAsyncThunk(
   "message/deleteMemeber",
-  async (params: { groupChatId: string; userId: string }, thunkAPI) => {
+  async ({ groupChatId, userId }: { groupChatId: string; userId: string }, thunkAPI) => {
     try {
-      await onDeleteMemeberChat(params);
-      // thunkAPI.dispatch(increaseShare(postId));
+      await onDeleteMemeberChat(groupChatId, userId);
+
+      thunkAPI.dispatch(removeMemberChat(userId));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -115,7 +112,7 @@ export const addMemberChat = createAsyncThunk(
     try {
       await onAddMemberChat(params);
 
-      // thunkAPI.dispatch(fetchMemberChat(groupChatId));
+      thunkAPI.dispatch(fetchMemberChat(params.groupChatId));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -126,10 +123,6 @@ export const messageSlice = createSlice({
   name: "message",
   initialState,
   reducers: {
-    newMessage: (state, action: PayloadAction<IMessage>) => {
-      state.messagesDetail.unshift(action.payload);
-    },
-
     clearMessageCount: (state, action: PayloadAction<string>) => {
       const index = state.messages.findIndex((message) => message.id === action.payload);
 
@@ -141,13 +134,18 @@ export const messageSlice = createSlice({
     leaveGroupChat: (state, action: PayloadAction<string>) => {
       const index = state.messages.findIndex((message) => message.id === action.payload);
 
-      console.log("index", index);
-
       if (index !== -1) {
         state.messages.splice(index, 1);
       }
     },
 
+    removeMemberChat: (state, action: PayloadAction<string>) => {
+      const index = state.memberChat.findIndex((member) => member.id === action.payload);
+
+      if (index !== -1) {
+        state.memberChat.splice(index, 1);
+      }
+    },
     newListMessage: (state, action: PayloadAction<string>) => {
       const index = state.messages.findIndex((message) => message.id === action.payload);
 
@@ -170,10 +168,6 @@ export const messageSlice = createSlice({
         state.messages = [...state.messages, ...uniqueMessages];
       })
 
-      .addCase(fetchMessageDetail.fulfilled, (state, action: PayloadAction<IMessage[]>) => {
-        state.messagesDetail = action.payload;
-      })
-
       .addCase(fetchMemberChat.fulfilled, (state, action: PayloadAction<IMember[]>) => {
         state.memberChat = action.payload;
       })
@@ -184,5 +178,5 @@ export const messageSlice = createSlice({
   },
 });
 
-export const { newMessage, clearMessageCount, leaveGroupChat, newListMessage } = messageSlice.actions;
+export const { clearMessageCount, leaveGroupChat, newListMessage, removeMemberChat } = messageSlice.actions;
 export default messageSlice.reducer;

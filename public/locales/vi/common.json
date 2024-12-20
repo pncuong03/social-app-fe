@@ -38,7 +38,8 @@
     "commentactivity":"bình luận về bài viết của bạn",
     "likeactivity":"thích bài viết của bạn",
     "shareactivity":"chia sẻ bài viết của bạn",
-    "nonoti":"Không có thông báo nào"
+    "nonoti":"Không có thông báo nào",
+    "editpost": "Chỉnh sửa bài viết"
   },
   "friend": {
     "home": "Trang chủ",
@@ -69,7 +70,8 @@
     "description": "Mô tả",
     "sex": "Giới tính",
     "updateinfo": "Cập nhật thông tin cá nhân",
-    "allimages": "Tất cả ảnh"
+    "allimages": "Tất cả ảnh",
+    "avatar": "Ảnh đại diện"
     },
   "message": {
     "message": "Tin nhắn",
@@ -95,7 +97,8 @@
     "addmembersuccess": "Thêm thành viên vào nhóm chat thành công",
     "validnamegroup" : "Tên nhóm không được bỏ trống",
     "validimgaegroup": "Ảnh nhóm không được bỏ trống",
-    "validfriendgroup": "Vui lòng chọn ít nhất một người bạn"
+    "validfriendgroup": "Vui lòng chọn ít nhất một người bạn",
+    "deletemember": "Xoá thành viên"
 
   },
   "groups": {

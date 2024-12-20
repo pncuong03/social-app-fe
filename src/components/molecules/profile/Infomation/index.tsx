@@ -4,6 +4,10 @@ import { Avatar, Button, Image, Upload } from "antd";
 import IconCustomize from "src/components/atoms/Icons";
 import EditProfile from "../Edit";
 import { StateUser } from "src/types/user";
+import { onCreateImage } from "src/apis/post";
+import { AppDispatch } from "src/app/store";
+import { useDispatch } from "react-redux";
+import { editInfo } from "src/slices/user/userSlice";
 
 interface Props {
   user?: any;
@@ -12,6 +16,7 @@ interface Props {
 }
 const Information = (props: Props) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch<AppDispatch>();
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   const handleClose = () => {
@@ -20,14 +25,30 @@ const Information = (props: Props) => {
 
   const uploadProps = {
     showUploadList: false,
-    beforeUpload: (file: any) => {
-      console.log(file);
+    beforeUpload: async (file: any) => {
+      const data = new FormData();
 
-      return false;
+      data.append("images", file);
+
+      const response = await onCreateImage(data);
+
+      if (response && response.data) {
+        console.log(response.data);
+      }
+
+      dispatch(
+        editInfo({
+          fullName: props.my?.fullName,
+          birthdayString: props.my?.birthday,
+          gender: props.my.gender,
+          work: props.my.work,
+          description: props.my.description,
+          live: props.my.live,
+          imageUrl: response.data,
+        })
+      );
     },
   };
-
-  console.log(props.user);
 
   return (
     <div className="mx-auto -mt-2 max-w-6xl rounded-md bg-white">

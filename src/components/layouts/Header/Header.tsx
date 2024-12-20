@@ -8,11 +8,10 @@ import clsx from "clsx";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import routesName from "src/routes/enum.routes";
-import { useSocket } from "src/utilities/hooks/useSocket";
 import { selectUserInfo } from "src/slices/login/selector";
 import { selectNotificationCount } from "src/slices/notification/selector";
 import { fetchMyInfo, logOut } from "src/slices/login/loginSlice";
-import { fetchEventNotification, fetchListNotification } from "src/slices/notification/notificationSlice";
+import { fetchEventNotification } from "src/slices/notification/notificationSlice";
 import CustomDropdown from "src/components/atoms/Dropdown";
 import IconCustomize from "src/components/atoms/Icons";
 import CustomLanguage from "src/components/atoms/Language";
@@ -27,7 +26,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
-  const { receivedMessages } = useSocket();
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const notiCount = useAppSelector(selectNotificationCount.getNotificationCount);
 
@@ -42,12 +40,6 @@ const Header = () => {
       unSubscribePushNoti(registration);
     }
   };
-
-  useEffect(() => {
-    if (["COMMENT", "LIKE", "SHARE"].includes(receivedMessages?.type ?? "")) {
-      dispatch(fetchListNotification(0));
-    }
-  }, [receivedMessages]);
 
   const initialize = useCallback(() => {
     dispatch(fetchMyInfo());
@@ -70,7 +62,7 @@ const Header = () => {
     },
     {
       key: "1",
-      label: "Friends",
+      label: t("home.friends"),
       path: routesName.FRIENDS,
       icon: <IconCustomize name="friend" size={30} color="#00FF7F" />,
     },

@@ -72,9 +72,9 @@ const PostCard = (props: Props) => {
         onClick={handleEdit}
         className="flex h-8 w-64 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100"
       >
-        <IconCustomize name="comment" size={25} />
+        <IconCustomize name="edit" size={25} />
 
-        <p className="text-lg ">Sua bai viet</p>
+        <p className="text-lg ">{t("home.editpost")}</p>
       </button>
     </div>
   );
@@ -168,9 +168,21 @@ const PostCard = (props: Props) => {
           </div>
 
           <div className="flex items-center space-x-2 text-sm">
-            <button className="font-inherit text-gray-400">{props.commentCount} bình luận</button>
+            <button className="font-inherit text-gray-400">
+              {props.commentCount}
 
-            <button className="font-inherit text-gray-400">{props.shareCount} chia sẻ</button>
+              <span> </span>
+
+              {t("home.comment")}
+            </button>
+
+            <button className="font-inherit text-gray-400">
+              {props.shareCount}
+
+              <span> </span>
+
+              {t("home.share")}
+            </button>
           </div>
         </div>
 

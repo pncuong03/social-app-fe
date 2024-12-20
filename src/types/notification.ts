@@ -1,5 +1,4 @@
 import { IPost } from "./post";
-import { IFriend } from "./user";
 
 export interface INotification {
   id: number;
@@ -11,12 +10,12 @@ export interface INotification {
   postId: number;
   hasSeen: boolean;
   createdAt: string;
-  interact: IFriend;
+  interact: any;
   group: {
     id: number;
     name: string;
   };
-  post: IPost;
+  post: any;
 }
 
 export interface INotiCount {

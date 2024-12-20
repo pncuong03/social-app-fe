@@ -141,8 +141,9 @@ export const commentPost = createAsyncThunk(
   async ({ postId, comment }: { postId: number; comment: string }, thunkAPI) => {
     try {
       await onComment(postId, comment);
-      thunkAPI.dispatch(fetchDetailPost(postId));
       thunkAPI.dispatch(increaseComment(postId));
+
+      // thunkAPI.dispatch(addComment({ postId, comment }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -165,6 +166,8 @@ export const editPost = createAsyncThunk(
   ) => {
     try {
       await onEditPost(postId, params);
+
+      thunkAPI.dispatch(updatePostDetail({ postId, ...params }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -281,6 +284,48 @@ const postSlice = createSlice({
 
       state.postOfMe = state.postOfMe.filter((post: any) => post.id !== postId);
     },
+
+    updatePostDetail: (
+      state,
+      action: PayloadAction<{ postId: number; content: string; imageUrls: string[]; state: string }>
+    ) => {
+      const { postId, content, imageUrls, state: newState } = action.payload;
+
+      const updatePost = (post: IPost | any) => {
+        if (post) {
+          Object.assign(post, {
+            ...post,
+            content,
+            state: newState,
+            imageUrls,
+          });
+        }
+      };
+
+      const postOfMe = state.postOfMe.find((post) => post.id === postId);
+
+      updatePost(postOfMe);
+    },
+
+    addComment: (state, action: PayloadAction<{ postId: number; comment: any }>) => {
+      const { postId, comment } = action.payload;
+
+      const postPublic = state.postFriends.find((post) => post.id === postId);
+      const postOfMe = state.postOfMe.find((post) => post.id === postId);
+      const postOfFriend = state.postOfUser.find((post) => post.id === postId);
+
+      if (postPublic) {
+        postPublic.comments = [...postPublic.comments, comment];
+      }
+
+      if (postOfMe) {
+        postOfMe.comments = [...postOfMe.comments, comment];
+      }
+
+      if (postOfFriend) {
+        postOfFriend.comments = [...postOfFriend.comments, comment];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -308,12 +353,6 @@ const postSlice = createSlice({
       .addCase(fetchPostUser.fulfilled, (state, action: PayloadAction<IPost[]>) => {
         const newPosts = action.payload;
 
-        // const uniquePosts = newPosts.filter(
-        //   (newPost) => !state.postOfUser.some((existingPost) => existingPost.id === newPost.id)
-        // );
-
-        // state.postOfUser = [...state.postOfUser, ...newPosts];
-
         state.postOfUser = newPosts;
       })
 
@@ -323,6 +362,14 @@ const postSlice = createSlice({
   },
 });
 
-export const { increaseLike, decreaseLike, increaseShare, increaseComment, deletePostofMe } = postSlice.actions;
+export const {
+  increaseLike,
+  decreaseLike,
+  increaseShare,
+  increaseComment,
+  deletePostofMe,
+  updatePostDetail,
+  addComment,
+} = postSlice.actions;
 
 export default postSlice.reducer;

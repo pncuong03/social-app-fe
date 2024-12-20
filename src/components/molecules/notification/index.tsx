@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectNotification } from "src/slices/notification/selector";
-import { fetchListNotification, increaseNoti } from "src/slices/notification/notificationSlice";
+import { addNoti, fetchListNotification } from "src/slices/notification/notificationSlice";
 import TimeCustomize from "src/const/dateFormat";
 import { formatNoti } from "src/const/notiFormat";
 import PostDetail from "../home/Posts/PostDetail";
@@ -56,15 +56,24 @@ const Notification = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    // if (receivedMessages?.type ===  "FRIEND_REQUEST" || "ACCEPT_FRIEND_REQUEST" || "COMMENT" || "LIKE" || "SHARE" ) {
-    //   dispatch(addNoti({
-    //     id: notifications.map((item) => item.id).reduce((a, b) => Math.max(a, b), 0) + 1,
-
-    //   }))
-
-    // }
-
-    dispatch(increaseNoti());
+    if (
+      receivedMessages &&
+      (receivedMessages.type === "FRIEND_REQUEST" ||
+        receivedMessages.type === "ACCEPT_FRIEND_REQUEST" ||
+        receivedMessages.type === "COMMENT" ||
+        receivedMessages.type === "LIKE" ||
+        receivedMessages.type === "SHARE")
+    ) {
+      dispatch(
+        addNoti({
+          createdAt: new Date(new Date(receivedMessages.createdAt).getTime() - 7 * 60 * 60 * 1000).toISOString(),
+          fullName: receivedMessages.fullName,
+          imageUrl: receivedMessages.imageUrl,
+          userId: Number(receivedMessages.userId),
+          type: receivedMessages.type,
+        })
+      );
+    }
   }, [receivedMessages]);
 
   const handleOpenDetail = (item: any) => {

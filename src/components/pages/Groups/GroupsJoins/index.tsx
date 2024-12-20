@@ -46,7 +46,7 @@ const GroupsJoins = () => {
 
   return (
     <div
-      className="flex h-[calc(100vh-70px)] flex-col overflow-y-auto px-1 pb-10"
+      className="flex h-[calc(100vh-350px)] flex-col overflow-y-auto px-1 pb-10 md:h-[calc(100vh-70px)]"
       onScroll={(e: any) => {
         const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
 
@@ -55,9 +55,9 @@ const GroupsJoins = () => {
         }
       }}
     >
-      <h2 className="p-6 text-2xl font-medium lg:px-10 ">{t("groups.groupjoin")}</h2>
+      <h2 className="px-6 py-3 text-2xl font-medium lg:px-10 ">{t("groups.groupjoin")}</h2>
 
-      <div className=" grid grid-cols-3 gap-3">
+      <div className=" grid gap-3 sm:grid-cols-3">
         {groups.map((group: any) => {
           return (
             <GroupCard

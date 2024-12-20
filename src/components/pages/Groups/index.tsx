@@ -58,7 +58,7 @@ const GroupsPage = () => {
         </div>
       </div>
 
-      <div className="pt-64 lg:pt-2 lg:pl-96">
+      <div className="pt-72 lg:pt-2 lg:pl-96">
         <Outlet />
       </div>
     </div>

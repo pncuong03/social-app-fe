@@ -38,7 +38,9 @@
     "commentactivity":"commented on your post",
     "likeactivity":"liked on your post",
     "shareactivity":"shared your post",
-    "nonoti":"No more notifications"
+    "nonoti":"No more notifications",
+    "editpost": "Edit post",
+    "deletemember": "Delete member"
   },
   "friend": {
     "home": "Home",
@@ -69,7 +71,8 @@
     "description": "Description",
     "sex": "Sex",
     "updateinfo": "Update personal information",
-    "allimages": "All images"
+    "allimages": "All images",
+    "avatar": "Avatar"
   },
   "message": {
     "message": "Message",

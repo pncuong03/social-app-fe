@@ -86,6 +86,8 @@ export const createGroup = createAsyncThunk(
   async (params: { name: string; userIds: number[]; tagIds: number[] }, thunkAPI) => {
     try {
       await onCreateGroup(params);
+
+      thunkAPI.dispatch(fetchListGroup(0));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
