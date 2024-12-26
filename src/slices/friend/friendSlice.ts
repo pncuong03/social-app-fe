@@ -9,14 +9,16 @@ import {
   onDeleteRequestSend,
   onRejectRequestFriend,
   onSendRequesFriend,
+  getListImage,
 } from "src/apis/friend";
-import { IFriend, IUserInfo, StateUser } from "src/types/user";
+import { IFriend, Image, IUserInfo, StateUser } from "src/types/user";
 
 export interface FriendState {
   listRequest: IFriend[];
   listFriend: IFriend[];
   searchListFriend: IFriend[];
   userInfo: IUserInfo;
+  imageofUser: Image[];
 }
 
 const initialState: FriendState = {
@@ -34,6 +36,7 @@ const initialState: FriendState = {
     description: "",
     state: StateUser.STRANGER,
   },
+  imageofUser: [],
 };
 
 export const fetchUserInfo = createAsyncThunk("auth/fetchUserInfo", async (friendId: number, thunkAPI) => {
@@ -125,6 +128,16 @@ export const deleteRequestSend = createAsyncThunk("friend/deleteRequestSend", as
   }
 });
 
+export const fetchListImage = createAsyncThunk("friend/fetchListImage", async (userId: number, thunkAPI) => {
+  try {
+    const data = await getListImage(userId);
+
+    return data.content;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const friendSlice = createSlice({
   name: "friend",
   initialState,
@@ -156,6 +169,10 @@ export const friendSlice = createSlice({
 
       .addCase(fetchListRequest.fulfilled, (state, action: PayloadAction<IFriend[]>) => {
         state.listRequest = action.payload;
+      })
+
+      .addCase(fetchListImage.fulfilled, (state, action: PayloadAction<Image[]>) => {
+        state.imageofUser = action.payload;
       });
   },
 });

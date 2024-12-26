@@ -6,7 +6,7 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-let isPageVisible = false; // Theo dõi trạng thái hiển thị của trang
+let isPageVisible = false;
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "VISIBILITY_CHANGE") {
@@ -73,7 +73,6 @@ self.addEventListener("push", (event) => {
       };
 
       if (!isPageVisible) {
-        // Chỉ hiển thị thông báo nếu trang không hiển thị
         event.waitUntil(self.registration.showNotification(title, options));
       }
     } catch (error) {

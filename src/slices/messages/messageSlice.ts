@@ -99,6 +99,7 @@ export const createGroupChat = createAsyncThunk(
     try {
       await onCreateGroupChat(params);
 
+      thunkAPI.dispatch(clearMessage());
       thunkAPI.dispatch(fetchListMessage(0));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -154,7 +155,9 @@ export const messageSlice = createSlice({
       }
     },
 
-    // clearMessage: (state, action: PayloadAction<string>) => {},
+    clearMessage: (state) => {
+      state.messages = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -178,5 +181,6 @@ export const messageSlice = createSlice({
   },
 });
 
-export const { clearMessageCount, leaveGroupChat, newListMessage, removeMemberChat } = messageSlice.actions;
+export const { clearMessageCount, leaveGroupChat, newListMessage, removeMemberChat, clearMessage } =
+  messageSlice.actions;
 export default messageSlice.reducer;

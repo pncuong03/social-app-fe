@@ -8,8 +8,10 @@ import IconCustomize from "src/components/atoms/Icons";
 interface Props {
   imageUrl: string;
   onChange: (url: string) => void;
-  loading?: boolean;
+  isCover?: boolean;
+  inputId: string;
 }
+
 const ImageUploader = (props: Props) => {
   const { t } = useTranslation();
   const [uploading, setUploading] = useState(false);
@@ -34,27 +36,42 @@ const ImageUploader = (props: Props) => {
   };
 
   return (
-    <div className="my-4 flex flex-col items-center justify-center gap-3">
-      <Image
-        src={props.imageUrl}
-        height={150}
-        width={150}
-        className="rounded-full border-4 border-primary"
-        preview={{
-          mask: <div style={{ background: "none" }} />,
-        }}
-      />
+    <div className={`my-4 flex flex-col items-center justify-center gap-3 `}>
+      {props.isCover ? (
+        <div className="relative h-48 w-full">
+          <Image
+            src={props.imageUrl}
+            alt="Cover Image"
+            className="rounded-md object-cover"
+            height={150}
+            width={300}
+            preview={{
+              mask: <div style={{ background: "none" }} />,
+            }}
+          />
+        </div>
+      ) : (
+        <Image
+          src={props.imageUrl}
+          height={150}
+          width={150}
+          className="rounded-full border-4 border-primary"
+          preview={{
+            mask: <div style={{ background: "none" }} />,
+          }}
+        />
+      )}
 
       <Button
         className="absolute bottom-[10px] right-[170px] flex items-center gap-2 rounded-xl bg-neutral-400 px-1 text-neutral-100"
-        onClick={() => document.getElementById("imageUpload")?.click()}
-        disabled={props.loading || uploading}
+        onClick={() => document.getElementById(props.inputId)?.click()}
+        disabled={uploading}
       >
         <IconCustomize name="camera" />
       </Button>
 
       <input
-        id="imageUpload"
+        id={props.inputId}
         type="file"
         accept="image/*"
         style={{ display: "none" }}

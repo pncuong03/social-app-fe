@@ -45,6 +45,7 @@ body {
 }
 
 .ant-popover-inner {
+  /* padding: 6px !important; */
   border-radius: 27px !important;
 }
 

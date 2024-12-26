@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { List, Skeleton } from "antd";
+import { Empty, List, Skeleton } from "antd";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectGroup } from "src/slices/groups/selector";
@@ -56,6 +56,13 @@ const GroupsListCol = () => {
     >
       <List
         dataSource={groups}
+        locale={{
+          emptyText: loading ? (
+            <Skeleton avatar paragraph={{ rows: 1 }} active />
+          ) : (
+            <Empty description="Không có nhóm nào" />
+          ),
+        }}
         renderItem={(item: any) => (
           <List.Item
             onClick={() => navigate(`/groups/${item.name}`, { state: { groupId: item.idGroup } })}
@@ -68,13 +75,7 @@ const GroupsListCol = () => {
             </div>
           </List.Item>
         )}
-      >
-        {loading && (
-          <List.Item>
-            <Skeleton avatar paragraph={{ rows: 1 }} active />
-          </List.Item>
-        )}
-      </List>
+      ></List>
     </div>
   );
 };

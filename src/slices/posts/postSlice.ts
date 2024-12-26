@@ -40,6 +40,8 @@ const initialPost: IPost = {
   comments: [] || null,
   hasLike: false,
   type: "",
+  group: {},
+  groupId: 0,
 };
 
 const initialState: PostState = {
@@ -97,6 +99,7 @@ export const createPosts = createAsyncThunk(
   async (params: { content: string; state: string; imageUrls: string[] }, thunkAPI) => {
     try {
       await onCreatePost(params);
+      thunkAPI.dispatch(clearPost());
       thunkAPI.dispatch(fetchPostofMe(0));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -326,6 +329,10 @@ const postSlice = createSlice({
         postOfFriend.comments = [...postOfFriend.comments, comment];
       }
     },
+
+    clearPost: (state) => {
+      state.postOfMe = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -370,6 +377,7 @@ export const {
   deletePostofMe,
   updatePostDetail,
   addComment,
+  clearPost,
 } = postSlice.actions;
 
 export default postSlice.reducer;

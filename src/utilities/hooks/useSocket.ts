@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import LocalStorage, { LocalStorageKey } from "../local-storage/localStorage";
 import { IMessage } from "src/types/message";
+import { API_SOCKET } from "src/const/env";
 
 export const useSocket = () => {
   const accessToken = LocalStorage.get(LocalStorageKey.ACCESS_TOKEN) || "";
@@ -13,7 +14,7 @@ export const useSocket = () => {
   console.log("receivedMessages", receivedMessages);
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:8080/chat");
+    ws.current = new WebSocket(API_SOCKET);
 
     ws.current.onopen = () => {
       const authMessage = JSON.stringify({

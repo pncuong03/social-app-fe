@@ -10,4 +10,14 @@ export interface ISearchGroup {
   name: string;
   imageUrl: string;
   memberCount: number;
+  isInGroup: boolean;
+  isRequestJoin: boolean;
+}
+
+export interface IMemberGroup {
+  id: string;
+  fullName: string;
+  imageUrl: string;
+  description: string;
+  imageBackground: string;
 }

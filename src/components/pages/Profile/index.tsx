@@ -6,8 +6,7 @@ import { AppDispatch } from "src/app/store";
 import { selectUserInfo } from "src/slices/login/selector";
 import { fetchPostofMe } from "src/slices/posts/postSlice";
 import { selectPost } from "src/slices/posts/selector";
-import { selectListFriend } from "src/slices/friend/selector";
-import { fetchListFriend } from "src/slices/friend/friendSlice";
+import { fetchListFriend, fetchListImage } from "src/slices/friend/friendSlice";
 import Posts from "src/components/molecules/home/Posts";
 import Information from "src/components/molecules/profile/Infomation";
 import Introduce from "src/components/molecules/profile/Introduce";
@@ -22,7 +21,6 @@ const ProfilePage = () => {
 
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
   const postsMe = useAppSelector(selectPost.getPostsMe);
-  const friendList = useAppSelector(selectListFriend.getListFriend);
 
   const loadPostofMe = () => {
     if (loading) return;
@@ -48,6 +46,7 @@ const ProfilePage = () => {
   useEffect(() => {
     loadPostofMe();
     dispatch(fetchListFriend());
+    dispatch(fetchListImage(userInfo.id));
   }, []);
 
   return (
@@ -62,12 +61,12 @@ const ProfilePage = () => {
       }}
     >
       <div className=" w-full bg-white shadow">
-        <Information my={userInfo} listFriends={friendList} />
+        <Information my={userInfo} />
       </div>
 
       <div className="mx-auto mt-6 h-full w-full grid-cols-3 gap-4 px-2 md:px-6 lg:grid xl:max-w-screen-xl xl:px-24 2xl:max-w-screen-2xl 2xl:px-52">
         <div className="col-span-1">
-          <Introduce user={userInfo} friends={friendList} />
+          <Introduce user={userInfo} />
         </div>
 
         <div className="no-scrollbar col-span-2 flex  w-full flex-col gap-4 ">

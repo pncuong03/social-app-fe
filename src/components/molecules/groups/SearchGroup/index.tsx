@@ -60,6 +60,10 @@ const SearchGroup = () => {
 
                 <div className="">
                   <p className="text-sm md:text-lg">{item.name}</p>
+
+                  {item.isInGroup && <p className="text-xs text-gray-400 md:text-sm">{t("groups.participate")}</p>}
+
+                  {item.isRequestJoin && <p className="text-xs text-gray-400 md:text-sm">{t("groups.wait")}</p>}
                 </div>
               </div>
             </List.Item>

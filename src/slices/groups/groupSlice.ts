@@ -2,18 +2,23 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   getInfoGroup,
   getListGroup,
+  getListJoinGroup,
   getMemberGroup,
   getPostGroup,
+  getPostGroupPublic,
   onAddMemberGroup,
   onCreateGroup,
   onCreatePostGroup,
   onDeleteMember,
   onDeletePostGroup,
+  onEditGroup,
   onEditPostGroup,
+  onJoinAcceptGroup,
+  onJoinRequestGroup,
   onLeaveGroup,
   onSearchGroup,
 } from "src/apis/group";
-import { IGroup } from "src/types/group";
+import { IGroup, IMemberGroup } from "src/types/group";
 import { IMember } from "src/types/message";
 import { IPost } from "src/types/post";
 
@@ -23,6 +28,7 @@ export interface GroupState {
   memberGroup: IMember[];
   searchGroup: IGroup[];
   listPostGroup: IPost[];
+  listJoinGroup: IMemberGroup[];
 }
 
 const initialState: GroupState = {
@@ -36,6 +42,7 @@ const initialState: GroupState = {
   memberGroup: [],
   searchGroup: [],
   listPostGroup: [],
+  listJoinGroup: [],
 };
 
 export const fetchListGroup = createAsyncThunk("group/fetchListGroup", async (page: number, thunkAPI) => {
@@ -115,11 +122,13 @@ export const leaveGroup = createAsyncThunk("group/leaveGroup", async (groupId: n
   }
 });
 
-export const deleteMember = createAsyncThunk(
-  "group/deleteMember",
-  async (params: { groupId: number; userIds: number }, thunkAPI) => {
+export const deleteMemberGroup = createAsyncThunk(
+  "group/deleteMemberGroup",
+  async ({ groupId, userId }: { groupId: number; userId: number }, thunkAPI) => {
     try {
-      await onDeleteMember(params);
+      await onDeleteMember(groupId, userId);
+
+      thunkAPI.dispatch(fetchMemberGroup({ groupId, page: 0 }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -138,6 +147,18 @@ export const fetchPostGroup = createAsyncThunk(
     }
   }
 );
+
+export const fetchPostGroupPublic = createAsyncThunk("group/fetchPostGroup", async (page: number, thunkAPI) => {
+  try {
+    const data = await getPostGroupPublic(page);
+
+    return data.content;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+getPostGroupPublic;
 
 export const createPostGroup = createAsyncThunk(
   "group/createPostGroup",
@@ -176,6 +197,58 @@ export const deletePostGroup = createAsyncThunk(
     }
   }
 );
+
+export const editGroup = createAsyncThunk(
+  "group/editGroup",
+  async (
+    { groupId, params }: { groupId: number; params: { name: string; imageUrl: string; description: string } },
+    thunkAPI
+  ) => {
+    try {
+      await onEditGroup(params, groupId);
+
+      thunkAPI.dispatch(fetchInfoGroup(groupId));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchListJoinGroup = createAsyncThunk(
+  "group/fetchListJoinGroup",
+  async ({ groupId, page }: { groupId: number; page: number }, thunkAPI) => {
+    try {
+      const data = await getListJoinGroup(groupId, page);
+
+      return data.content;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const joinRequestGroup = createAsyncThunk("group/joinRequestGroup", async (groupId: number, thunkAPI) => {
+  try {
+    await onJoinRequestGroup(groupId);
+
+    thunkAPI.dispatch(fetchInfoGroup(groupId));
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const joinAcceptGroup = createAsyncThunk(
+  "group/joinAcceptGroup",
+  async ({ isAccept, groupId, userId }: { isAccept: boolean; groupId: number; userId: number }, thunkAPI) => {
+    try {
+      await onJoinAcceptGroup(isAccept, groupId, userId);
+      thunkAPI.dispatch(fetchListJoinGroup({ groupId, page: 0 }));
+      thunkAPI.dispatch(fetchMemberGroup({ groupId, page: 0 }));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 export const groupSlice = createSlice({
   name: "group",
   initialState,
@@ -186,6 +259,10 @@ export const groupSlice = createSlice({
       const groupId = action.payload;
 
       state.listgroups = state.listgroups.filter((group) => group.idGroup !== groupId);
+    },
+
+    clearPostGroup: (state) => {
+      state.listPostGroup = [];
     },
   },
   extraReducers: (builder) => {
@@ -220,9 +297,13 @@ export const groupSlice = createSlice({
         );
 
         state.listPostGroup = [...state.listPostGroup, ...uniqueGroups];
+      })
+
+      .addCase(fetchListJoinGroup.fulfilled, (state, action: PayloadAction<IMemberGroup[]>) => {
+        state.listJoinGroup = action.payload;
       });
   },
 });
 
-export const { decreaseMember } = groupSlice.actions;
+export const { decreaseMember, clearPostGroup } = groupSlice.actions;
 export default groupSlice.reducer;

@@ -54,8 +54,8 @@ const FriendCard = (props: Props) => {
           <PopconfirmCustomize
             title={t("friend.deletefriend")}
             icon={null}
-            okText={t("friend.delete")}
-            cancelText={t("friend.cancel")}
+            okText={t("friend.yes")}
+            cancelText={t("friend.no")}
             onConfirm={handleDeleteFriend}
           >
             <button className="w-full rounded-full bg-gradient-to-r from-pink-500 to-red-500 py-2 text-sm font-semibold text-white transition-all duration-200 ease-in-out hover:from-pink-600 hover:to-red-600 focus:outline-none">
@@ -74,8 +74,8 @@ const FriendCard = (props: Props) => {
             <PopconfirmCustomize
               title={t("friend.deleterequest")}
               icon={null}
-              okText={t("friend.delete")}
-              cancelText={t("friend.cancel")}
+              okText={t("friend.yes")}
+              cancelText={t("friend.no")}
               onConfirm={handleRejectRequest}
             >
               <button className="w-full rounded-full bg-gray-300 py-2 text-sm font-semibold text-gray-700 transition-all duration-200 ease-in-out hover:bg-gray-400 focus:outline-none">

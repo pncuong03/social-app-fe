@@ -5,7 +5,6 @@ import { List } from "antd";
 import { useDebounce } from "src/utilities/hooks";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { sendRequestFriend } from "src/slices/friend/friendSlice";
 import { clearSearchUser, fetchUser } from "src/slices/user/userSlice";
 import { selectUser } from "src/slices/user/seletor";
 import InputCustomize from "src/components/atoms/Input";
@@ -36,10 +35,6 @@ const SearchUser = () => {
 
   const toggleSearch = () => {
     setIsSearchVisible(true);
-  };
-
-  const handleSendFriendRequest = (id: string) => {
-    dispatch(sendRequestFriend(id));
   };
 
   const handleClickSearch = (item: any) => {
@@ -77,10 +72,7 @@ const SearchUser = () => {
                 <div className="">
                   <p className="text-sm font-medium md:text-lg">{item.fullName}</p>
 
-                  <button
-                    className="text-xs font-semibold text-gray-400"
-                    onClick={() => handleSendFriendRequest(item.id)}
-                  >
+                  <button className="text-xs font-semibold text-gray-400">
                     {item.isFriend ? "Bạn bè" : "Kết bạn"}
                   </button>
                 </div>

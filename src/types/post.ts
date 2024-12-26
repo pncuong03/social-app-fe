@@ -15,6 +15,8 @@ export interface IPost {
   comments: IComment[];
   hasLike: boolean;
   type: string;
+  group: any;
+  groupId: number;
 }
 
 export interface IComment {
@@ -31,4 +33,9 @@ export interface IComment {
 export enum State {
   PUBLIC = "PUBLIC",
   PRIVATE = "PRIVATE",
+}
+
+export enum Type {
+  GROUP = "GROUP",
+  USER = "USER",
 }

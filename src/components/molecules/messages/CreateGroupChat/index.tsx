@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AppDispatch } from "src/app/store";
@@ -63,7 +63,7 @@ const CreateGroupChat = (props: Props) => {
             value={values.name}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="h-11"
+            className="h-11 rounded-full"
             disabled={loading}
           />
 
@@ -75,19 +75,18 @@ const CreateGroupChat = (props: Props) => {
 
           <SelectFriend isDefaultGetAll onSelect={(value) => setFieldValue("userIds", value)} />
 
-          {errors.userIds && touched.userIds && <p className="text-[red]">{errors.userIds}</p>}
+          {/* {errors.userIds && touched.userIds && <p className="text-[red]">{errors.userIds}</p>} */}
         </Form.Item>
       </div>
 
       <Form.Item className="mt-auto">
-        <Button
-          htmlType="submit"
-          type="primary"
-          className=" interceptor-loading h-12 w-full rounded-lg bg-blue-600 p-3 text-center text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+        <button
+          type="submit"
+          className=" h-12 w-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 p-3 text-center text-lg font-medium text-white transition-all duration-200 ease-in-out hover:from-blue-600 hover:to-cyan-600 focus:outline-none"
           disabled={loading}
         >
           {t("message.creategroup")}
-        </Button>
+        </button>
       </Form.Item>
     </Form>
   );

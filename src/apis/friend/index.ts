@@ -43,3 +43,9 @@ export function onRejectRequestFriend(senderId: string) {
 export function onDeleteRequestSend(receiverId: string) {
   return httpRequest.delete(`/post-service/api/v1/friend/delete-request/user?receiverId=${receiverId}`);
 }
+
+export function getListImage(userId: number) {
+  return httpRequest.get(`/post-service/api/v1/post/group-images?userId=${userId}`).then((data: any) => {
+    return data;
+  });
+}

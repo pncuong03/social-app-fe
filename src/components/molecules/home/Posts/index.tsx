@@ -4,6 +4,7 @@ import PostCard from "./PostCard";
 
 interface Props {
   posts: IPost[];
+  isInGroup?: boolean;
 }
 
 const Posts = (props: Props) => {
@@ -27,6 +28,9 @@ const Posts = (props: Props) => {
             type={post.type}
             userId={post.userId}
             state={post.state}
+            group={post.group}
+            groupId={post.groupId}
+            isInGroup={props.isInGroup}
           />
         );
       })}

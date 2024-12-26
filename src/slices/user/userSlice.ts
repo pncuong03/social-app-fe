@@ -32,6 +32,7 @@ export const editInfo = createAsyncThunk(
       description: string;
       live: string;
       imageUrl: string;
+      imageBackground: string;
     },
     thunkAPI
   ) => {

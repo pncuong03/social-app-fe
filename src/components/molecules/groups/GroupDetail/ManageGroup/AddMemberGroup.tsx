@@ -5,30 +5,29 @@ import { toast } from "react-toastify";
 import { Button, Form } from "antd";
 import { useFormik } from "formik";
 import { AppDispatch } from "src/app/store";
-import { addMemberChat } from "src/slices/messages/messageSlice";
 import SelectFriend from "src/components/molecules/friend/SelectFriend";
+import { addMemberGroup } from "src/slices/groups/groupSlice";
 
 interface FormValues {
-  groupChatId: string;
-  userIds: string[];
+  groupId: number;
+  userIds: number[];
 }
 
 interface Props {
-  groupId: string;
-  nameGroup: string;
+  groupId: number;
   onSuccess: () => void;
 }
 
-const AddMemberChat = (props: Props) => {
+const AddMemberGroup = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const { handleSubmit, setFieldValue } = useFormik<FormValues>({
     initialValues: {
-      groupChatId: props.groupId,
+      groupId: props.groupId,
       userIds: [],
     },
     onSubmit: (values) => {
-      dispatch(addMemberChat(values));
+      dispatch(addMemberGroup(values));
 
       setTimeout(() => {
         setFieldValue("userIds", []);
@@ -62,4 +61,4 @@ const AddMemberChat = (props: Props) => {
   );
 };
 
-export default AddMemberChat;
+export default AddMemberGroup;

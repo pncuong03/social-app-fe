@@ -13,3 +13,7 @@ export const selectListRequest = {
 export const selectInfoUser = {
   getUserInfo: (state: any) => state.friend.userInfo,
 };
+
+export const selectImageofUser = {
+  getImageofUser: (state: any) => state.friend.imageofUser,
+};

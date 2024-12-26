@@ -39,7 +39,8 @@
     "likeactivity":"thích bài viết của bạn",
     "shareactivity":"chia sẻ bài viết của bạn",
     "nonoti":"Không có thông báo nào",
-    "editpost": "Chỉnh sửa bài viết"
+    "editpost": "Chỉnh sửa bài viết",
+    "deletemember": "Xóa thành viên"
   },
   "friend": {
     "home": "Trang chủ",
@@ -47,8 +48,11 @@
     "friendrequest": "Lời mời kết bạn",
     "listfriend": "Danh sách bạn bè",
     "accept":"Chấp nhận",
+    "reject": "Từ chối",
     "delete": "Xóa",
     "cancel": "Hủy",
+    "no": "Không",
+    "yes": "Có",
     "unfriend": "Hủy kết bạn",
     "deletefriend": "Bạn có muốn hủy kết bạn này không?",
     "deleterequest": "Bạn có muốn xóa lời mời kết bạn này không?",
@@ -71,7 +75,9 @@
     "sex": "Giới tính",
     "updateinfo": "Cập nhật thông tin cá nhân",
     "allimages": "Tất cả ảnh",
-    "avatar": "Ảnh đại diện"
+    "avatar": "Ảnh đại diện",
+    "background":"Ảnh bìa"
+    
     },
   "message": {
     "message": "Tin nhắn",
@@ -114,8 +120,17 @@
     "recentactivity": "Hoạt động gần đây",
     "groupjoin": "Nhóm bạn tham gia",
     "privategroup": "Nhóm riêng tư .",
-    "membergroup": " thành viên"
-
+    "membergroup": " thành viên",
+    "editgroup": "Sửa thông tin nhóm",
+    "description": "Mô tả nhóm",
+    "updategroup": "Cập nhật thông tin nhóm",
+    "participate": "Đã tham gia",
+    "managegroup": "Quản lý nhóm",
+    "deletemember": "Bạn muốn xóa thành viên này không?",
+    "waitaccept": "Thành viên đang chờ chấp nhận",
+    "wait": "Chờ quản trị viên chấp nhận",
+    "join": "Tham gia nhóm",
+    "nogroup": "Không có nhóm nào"
   }
   
 }

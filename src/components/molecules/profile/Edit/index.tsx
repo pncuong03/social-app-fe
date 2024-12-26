@@ -19,6 +19,7 @@ interface FormValues {
   description: string;
   live: string;
   imageUrl: string;
+  imageBackground: string;
 }
 
 interface Props {
@@ -42,14 +43,13 @@ const EditProfile = (props: Props) => {
       description: userInfo.description,
       live: userInfo.live,
       imageUrl: userInfo.imageUrl,
+      imageBackground: userInfo.imageBackground,
     },
     onSubmit: (values) => {
       setLoading(true);
 
       dispatch(editInfo(values));
       setTimeout(() => {
-        setFieldValue("name", "");
-        setFieldValue("userIds", []);
         toast.success(t("profile.editprofilesuccess"));
         setLoading(false);
 
@@ -68,6 +68,7 @@ const EditProfile = (props: Props) => {
     setFieldValue("description", userInfo.description);
     setFieldValue("live", userInfo.live);
     setFieldValue("imageUrl", userInfo.imageUrl);
+    setFieldValue("imageBackground", userInfo.imageBackground);
   }, [userInfo]);
 
   return (
@@ -79,7 +80,17 @@ const EditProfile = (props: Props) => {
           <ImageUploader
             imageUrl={values.imageUrl}
             onChange={(url) => setFieldValue("imageUrl", url)}
-            loading={loading}
+            inputId="avatarUpload"
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <label className="mb-2 block text-lg font-medium">{t("profile.background")}:</label>
+
+          <ImageUploader
+            imageUrl={values.imageBackground}
+            onChange={(url) => setFieldValue("imageBackground", url)}
+            inputId="coverUpload"
           />
         </Form.Item>
 

@@ -28,6 +28,7 @@ export interface ISearchUser {
 
 export enum StateUser {
   STRANGER = "STRANGER",
+  REQUESTING = "REQUESTING",
   FRIEND = "FRIEND",
 }
 export interface IUserInfo {
@@ -40,4 +41,13 @@ export interface IUserInfo {
   imageBackground: string;
   description: string;
   state: string;
+}
+
+export interface Image {
+  id: number;
+  postId: number;
+  userId: number;
+  imageUrl: string;
+  state: string;
+  createdAt: string;
 }
