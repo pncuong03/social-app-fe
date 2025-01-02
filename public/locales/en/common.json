@@ -38,7 +38,9 @@
     "commentactivity":"commented on your post",
     "likeactivity":"liked on your post",
     "shareactivity":"shared your post",
-    "nonoti":"No more notifications"
+    "nonoti":"No more notifications",
+    "editpost": "Edit post",
+    "deletemember": "Delete member"
   },
   "friend": {
     "home": "Home",
@@ -46,7 +48,10 @@
     "friendrequest": "Friend invitation",
     "listfriend": "List of friends",
     "accept": "Accept",
+    "reject": "Reject",
     "delete": "Delete",
+    "no": "No",
+    "yes": "Yes",
     "cancel": "Cancel",
     "unfriend": "Unfriend",
     "deletefriend": "Do you want to unfriend this person?",
@@ -69,7 +74,10 @@
     "description": "Description",
     "sex": "Sex",
     "updateinfo": "Update personal information",
-    "allimages": "All images"
+    "allimages": "All images",
+    "avatar": "Avatar",
+    "background":"Backgroud"
+
   },
   "message": {
     "message": "Message",
@@ -111,7 +119,17 @@
     "recentactivity": "Recent activity",
     "groupjoin": "Group you joined",
     "privategroup": "Private group .",
-    "membergroup": " members"
+    "membergroup": " members",
+    "editgroup": "Edit group information",
+    "description": "Group description",
+    "updategroup":"Update group information",
+    "participate": "Participate",
+    "managegroup": "Manage group",
+    "deletemember": " Do you want to delete this member?",
+    "waitaccept": "Member is awaiting approval",
+    "wait": "Wait for the administrator to accept",
+    "join":"Join the group",
+    "nogroup": "No group"
   }
   
 }

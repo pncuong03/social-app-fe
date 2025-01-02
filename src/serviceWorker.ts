@@ -58,7 +58,7 @@ export function register() {
         if (!registration) {
           navigator.serviceWorker.register(swUrl);
         } else {
-          console.log("Service Worker is already registered:", registration);
+          console.log("Service Worker is already registered");
         }
 
         document.addEventListener("visibilitychange", () => {

@@ -3,28 +3,32 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Sour+Gummy:wght@300;400;500;700&display=swap");
 
+/* Apply Sour Gummy globally */
 * {
   font-family: "Sour Gummy", sans-serif !important;
 }
 
-::-webkit-scrollbar {
-  width: 8px; 
+/* You can also target specific HTML elements */
+body {
+  font-family: "Sour Gummy", sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1; 
+  background-color: #f1f1f1;
   border-radius: 10px;
 }
 
-
 ::-webkit-scrollbar-thumb {
   background-color: darkgray;
-  border-radius: 10px; 
+  border-radius: 10px;
 }
 
 .ant-image-mask {
-  border-radius: 50% !important; 
+  border-radius: 50% !important;
 }
 
 .ant-popover-content {
@@ -40,7 +44,8 @@
   align-items: center;
 }
 
-.ant-popover-inner{
+.ant-popover-inner {
+  /* padding: 6px !important; */
   border-radius: 27px !important;
 }
 
@@ -69,4 +74,3 @@
 .no-scroll {
   overflow: hidden;
 }
-

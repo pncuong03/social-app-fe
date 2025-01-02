@@ -17,3 +17,7 @@ export const selectMemberGroup = {
 export const selectSearchGroup = {
   getSearchGroup: (state: any) => state.group.searchGroup,
 };
+
+export const selectJoinGroup = {
+  getJoinGroup: (state: any) => state.group.listJoinGroup,
+};

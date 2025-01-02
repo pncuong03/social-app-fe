@@ -35,6 +35,9 @@ interface Props {
   type?: string;
   userId?: number;
   state: string;
+  group?: any;
+  groupId?: number;
+  isInGroup?: boolean;
 }
 
 const PostCard = (props: Props) => {
@@ -72,9 +75,9 @@ const PostCard = (props: Props) => {
         onClick={handleEdit}
         className="flex h-8 w-64 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100"
       >
-        <IconCustomize name="comment" size={25} />
+        <IconCustomize name="edit" size={25} />
 
-        <p className="text-lg ">Sua bai viet</p>
+        <p className="text-lg ">{t("home.editpost")}</p>
       </button>
     </div>
   );
@@ -92,27 +95,56 @@ const PostCard = (props: Props) => {
   return (
     <div className="flex h-max flex-col rounded-2xl bg-white shadow-lg">
       <div className="flex justify-between px-4 pt-4">
-        <button onClick={handleNavigate} className="flex items-center space-x-4">
-          <div className="h-12 w-12">
-            <img src={props?.imgUrl} className="h-full w-full rounded-full" alt="dp" />
-          </div>
+        {props.isInGroup ? (
+          <button
+            className="flex items-center space-x-4"
+            onClick={() => navigate(`/groups/${props.group.name}`, { state: { groupId: props.groupId } })}
+          >
+            <div className="relative h-12 w-12">
+              <img src={props.group.imageUrl} className="h-full w-full rounded-xl object-cover" alt="group" />
 
-          <div className="flex flex-grow flex-col">
-            <p className="text-black text-start text-lg font-medium">{props.fullName}</p>
-
-            <div className="flex gap-3">
-              <span className="text-xs font-medium text-gray-400">
-                <TimeCustomize time={props.createdAt} />
-              </span>
-
-              {props.state === "PUBLIC" ? (
-                <IconCustomize name="public" color="#A9A9A9" />
-              ) : (
-                <IconCustomize name="private" color="#A9A9A9" size={13} />
-              )}
+              <img
+                src={props?.imgUrl}
+                className="absolute bottom-0 right-0 h-8 w-8 rounded-xl border-2 border-white"
+                alt="author"
+              />
             </div>
-          </div>
-        </button>
+
+            <div className="flex flex-col">
+              <p className="text-black text-start text-lg font-medium">{props.group.name}</p>
+
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-gray-600">{props.fullName}</p>
+
+                <span className="text-xs font-medium text-gray-400">
+                  <TimeCustomize time={props.createdAt} />
+                </span>
+              </div>
+            </div>
+          </button>
+        ) : (
+          <button onClick={handleNavigate} className="flex items-center space-x-4">
+            <div className="h-12 w-12">
+              <img src={props?.imgUrl} className="h-full w-full rounded-full" alt="dp" />
+            </div>
+
+            <div className="flex flex-grow flex-col">
+              <p className="text-black text-start text-lg font-medium">{props.fullName}</p>
+
+              <div className="flex gap-3">
+                <span className="text-xs font-medium text-gray-400">
+                  <TimeCustomize time={props.createdAt} />
+                </span>
+
+                {props.state === "PUBLIC" ? (
+                  <IconCustomize name="public" color="#A9A9A9" />
+                ) : (
+                  <IconCustomize name="private" color="#A9A9A9" size={13} />
+                )}
+              </div>
+            </div>
+          </button>
+        )}
 
         {userInfo.id === props.userId ? (
           <div className="flex p-2">
@@ -168,9 +200,21 @@ const PostCard = (props: Props) => {
           </div>
 
           <div className="flex items-center space-x-2 text-sm">
-            <button className="font-inherit text-gray-400">{props.commentCount} bình luận</button>
+            <button className="font-inherit text-gray-400">
+              {props.commentCount}
 
-            <button className="font-inherit text-gray-400">{props.shareCount} chia sẻ</button>
+              <span> </span>
+
+              {t("home.comment")}
+            </button>
+
+            <button className="font-inherit text-gray-400">
+              {props.shareCount}
+
+              <span> </span>
+
+              {t("home.share")}
+            </button>
           </div>
         </div>
 

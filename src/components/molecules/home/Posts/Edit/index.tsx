@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-// import { toast } from "react-toastify";
-import axios from "axios";
-// import { useTranslation } from "next-i18next";
+import { toast } from "react-toastify";
 import { Button, GetProp, Image, Select, Upload, UploadFile, UploadProps } from "antd";
 import { AppDispatch } from "src/app/store";
 import IconCustomize from "src/components/atoms/Icons";
@@ -10,6 +8,7 @@ import ModalCustomize from "src/components/atoms/Modal";
 import { getName } from "src/const";
 import { State } from "src/types/post";
 import { useAppSelector } from "src/app/appHooks";
+import { onCreateImage } from "src/apis/post";
 import { selectPost } from "src/slices/posts/selector";
 import { editPost, fetchDetailPost } from "src/slices/posts/postSlice";
 
@@ -31,7 +30,6 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 const EditPost = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  // const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [state, setState] = useState("PUBLIC");
   const [fileList, setFileList] = useState<any[]>([]);
@@ -96,7 +94,7 @@ const EditPost = (props: Props) => {
       dispatch(editPost({ postId: props.postId, params: { content, state, imageUrls } }));
 
       setTimeout(() => {
-        // toast.success(t("home.postsucces"));
+        toast.success("Sửa bài viết thành công");
         setLoading(false);
 
         if (props.onCancel) {
@@ -111,11 +109,7 @@ const EditPost = (props: Props) => {
 
     data.append("images", file);
 
-    const response = await axios.post("http://localhost:8088/api/v1/upload/upload-image", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await onCreateImage(data);
 
     if (response && response.data) {
       setImageUrls((prevList) => [...prevList, response.data]);
@@ -128,7 +122,7 @@ const EditPost = (props: Props) => {
     <button className="h-full w-full" type="button">
       <IconCustomize name="plus" />
 
-      {/* <div className="mt-2">{t("home.addimage")}</div> */}
+      <div className="mt-2">Thêm ảnh</div>
     </button>
   );
 
@@ -149,7 +143,7 @@ const EditPost = (props: Props) => {
                 value: State.PUBLIC,
                 label: (
                   <span className="flex items-center justify-between">
-                    {/* <p>{t("home.public")}</p> */}
+                    <p>Công khai</p>
 
                     <IconCustomize name="public" />
                   </span>
@@ -163,7 +157,7 @@ const EditPost = (props: Props) => {
                   value: State.PUBLIC,
                   label: (
                     <span className="flex items-center justify-between">
-                      {/* <p>{t("home.public")}</p> */}
+                      <p>Công khai</p>
 
                       <IconCustomize name="public" />
                     </span>
@@ -173,7 +167,7 @@ const EditPost = (props: Props) => {
                   value: State.PRIVATE,
                   label: (
                     <span className="flex items-center justify-between">
-                      {/* <p>{t("home.private")}</p> */}
+                      <p>Riêng tư</p>
 
                       <IconCustomize name="private" />
                     </span>
@@ -187,8 +181,7 @@ const EditPost = (props: Props) => {
         <textarea
           value={content}
           onChange={handleContentChange}
-          // placeholder={getName(postDetail.fullName) + t("home.whatmind")}
-          placeholder={getName(postDetail.fullName)}
+          placeholder={getName(postDetail.fullName) + "bạn đang nghĩ gì?"}
           className="mt-2 w-full resize-none rounded-md border-none p-2 shadow-none outline-none"
         />
 
@@ -223,7 +216,7 @@ const EditPost = (props: Props) => {
             onClick={handleEdit}
             disabled={!content.trim() || loading}
           >
-            {/* {t("home.post")} */}
+            Sửa bài viết
           </Button>
         </div>
       </div>

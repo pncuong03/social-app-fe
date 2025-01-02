@@ -16,7 +16,7 @@ import { PiImagesFill, PiVideoFill } from "react-icons/pi";
 import { IoIosHappy } from "react-icons/io";
 import { BsSend } from "react-icons/bs";
 import { TfiShare } from "react-icons/tfi";
-import { MdPublic, MdOutlineModeComment, MdOutlinePlace } from "react-icons/md";
+import { MdPublic, MdOutlineModeComment, MdOutlinePlace, MdEdit, MdAdminPanelSettings } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import { CgWorkAlt, CgDanger } from "react-icons/cg";
 import { PlusOutlined, CameraOutlined } from "@ant-design/icons";
@@ -25,6 +25,8 @@ import { TbLogout } from "react-icons/tb";
 import { FaUserPlus, FaUserMinus } from "react-icons/fa6";
 import { LuUserX } from "react-icons/lu";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
+import { HiUserGroup } from "react-icons/hi2";
+import { FaUserClock, FaUserCog } from "react-icons/fa";
 
 interface Props {
   name: string;
@@ -68,6 +70,11 @@ const IconCustomize = (props: Props) => {
     create: <IoCreateOutline size={props.size} color={props.color} />,
     birthday: <LiaBirthdayCakeSolid size={props.size} color={props.color} />,
     place: <MdOutlinePlace size={props.size} color={props.color} />,
+    edit: <MdEdit size={props.size} color={props.color} />,
+    users: <HiUserGroup size={props.size} color={props.color} />,
+    admin: <MdAdminPanelSettings size={props.size} color={props.color} />,
+    clock: <FaUserClock size={props.size} color={props.color} />,
+    cog: <FaUserCog size={props.size} color={props.color} />,
   };
 
   return icons[props.name] || null;

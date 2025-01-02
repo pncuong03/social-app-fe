@@ -14,6 +14,7 @@ export function onEditInfo(params: {
   description: string;
   live: string;
   imageUrl: string;
+  imageBackground: string;
 }) {
   return httpRequest.post(`/uaa-service/api/v1/user/change-user-information`, params);
 }

@@ -9,6 +9,9 @@ import { useDebounce } from "src/utilities/hooks";
 import { selectListFriend } from "src/slices/friend/selector";
 import { fetchListFriend } from "src/slices/friend/friendSlice";
 
+interface CustomOptionType extends DefaultOptionType {
+  imageUrl?: string;
+}
 interface Props {
   onSelect?: (value: string) => void;
   name?: string;
@@ -21,13 +24,20 @@ const SelectFriend = (props: Props) => {
   const [search, setSearch] = useState("");
   const firstRender = useRef(true);
   const searchClass = useDebounce(search);
-  const [options, setOptions] = useState<DefaultOptionType[]>([]);
+  const [options, setOptions] = useState<CustomOptionType[]>([]);
 
   const getListFriend = useAppSelector(selectListFriend.getListFriend);
 
-  const getOptions: Array<DefaultOptionType> = getListFriend?.map((item: any) => {
+  const getOptions: Array<CustomOptionType> = getListFriend?.map((item: any) => {
     return {
-      label: item.fullName,
+      imageUrl: item.imageUrl,
+      label: (
+        <div className="flex items-center gap-2 text-sm">
+          {item.imageUrl && <img src={item.imageUrl} alt={item.fullName} className="h-8 w-8 rounded-full" />}
+
+          <span>{item.fullName}</span>
+        </div>
+      ),
       value: item.id,
     };
   });

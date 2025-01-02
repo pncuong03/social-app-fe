@@ -13,11 +13,13 @@ const initialState: AuthState = {
   user: {
     id: "",
     fullName: "",
-    imageUrl: "",
-    backgroundUrl: "",
-    birthday: "",
+    birthdayString: "",
     gender: "",
+    work: "",
+    backgroundUrl: "",
     description: "",
+    live: "",
+    imageUrl: "",
   },
 };
 

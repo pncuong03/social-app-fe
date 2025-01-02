@@ -1,18 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "src/app/appHooks";
-import { selecPostGroup } from "src/slices/groups/selector";
+import { AppDispatch } from "src/app/store";
 import Posts from "src/components/molecules/home/Posts";
+import { fetchPostGroupPublic } from "src/slices/groups/groupSlice";
+import { Skeleton } from "antd";
 
 const GroupsFeed = () => {
   const { t } = useTranslation();
-  const postsGroup = useAppSelector(selecPostGroup.getListPostGroup);
+  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [data, setData] = useState<any>([]);
+
+  const loadPostGroupPublic = () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+
+    setTimeout(() => {
+      dispatch(fetchPostGroupPublic(page))
+        .then((body) => {
+          const newPosts = body.payload;
+
+          setData((prev: any) => [...prev, ...newPosts]);
+
+          if (newPosts.length < 5) {
+            setHasMore(false);
+          } else {
+            setPage((prevPage) => prevPage + 1);
+          }
+        })
+        .finally(() => setLoading(false));
+    }, 1000);
+  };
+
+  useEffect(() => {
+    loadPostGroupPublic();
+  }, []);
 
   return (
-    <div className="mx-2 mt-4 md:mx-10 lg:mx-32 2xl:mx-80">
-      <h2 className="text-2xl font-medium text-gray-400 lg:px-10 xl:px-2">{t("groups.recentactivity")}</h2>
+    <div
+      className="h-[calc(100vh-60px)] overflow-y-auto "
+      onScroll={(e: any) => {
+        const bottom = e.target.scrollTop === e.target.scrollHeight - e.target.clientHeight;
 
-      <Posts posts={postsGroup} />
+        if (bottom && !loading && hasMore) {
+          loadPostGroupPublic();
+        }
+      }}
+    >
+      <div className="mx-2 md:mx-10 lg:mx-32 2xl:mx-80">
+        <h2 className="px-6 py-3 text-2xl font-medium lg:px-10 xl:px-2">{t("groups.recentactivity")}</h2>
+
+        <Posts posts={data} isInGroup={true} />
+
+        {loading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
+      </div>
     </div>
   );
 };

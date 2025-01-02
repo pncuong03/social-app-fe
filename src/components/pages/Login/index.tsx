@@ -39,15 +39,15 @@ const LoginPage = () => {
     <div className="flex min-h-screen items-center justify-center gap-32 bg-gray-100 p-2 ">
       <div className="w-full max-w-lg rounded-3xl bg-white p-8 shadow-md">
         <div className="mb-8 flex flex-col gap-5 text-center text-3xl font-medium">
-          <img src="./img/logo.png" alt="Facebook" className="mx-auto w-32" />
+          <img src="./img/logo.png" alt="Social Media" className="mx-auto w-32" />
 
-          <div>Log in to Facebook</div>
+          <div>Đăng nhập vào mạng xã hội</div>
         </div>
 
         <Form onFinish={handleSubmit}>
           <Form.Item>
             <Input
-              placeholder="Username"
+              placeholder="Tài khoản"
               name="username"
               value={values.username}
               onChange={handleChange}
@@ -60,7 +60,7 @@ const LoginPage = () => {
 
           <Form.Item>
             <Input.Password
-              placeholder="Password"
+              placeholder="Mật khẩu"
               name="password"
               value={values.password}
               onChange={handleChange}
@@ -76,7 +76,7 @@ const LoginPage = () => {
             type="primary"
             className="h-12 w-full rounded-lg bg-blue-600 p-3 text-center text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
-            Log In
+            Đăng nhập
           </Button>
         </Form>
 
@@ -85,7 +85,7 @@ const LoginPage = () => {
             size="large"
             className="mt-4 h-12 w-full rounded-lg bg-green-600 p-3 text-center text-lg font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-600"
           >
-            Register
+            Đăng ký
           </Button>
         </Link>
       </div>

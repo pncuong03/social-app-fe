@@ -1,11 +1,13 @@
 export interface IUser {
   id: string;
   fullName: string;
+  birthdayString: string;
+  gender: string;
+  work: string;
+  description: string;
+  live: string;
   imageUrl: string;
   backgroundUrl: string;
-  birthday: string;
-  gender: string;
-  description: string;
   state?: string;
 }
 
@@ -26,6 +28,7 @@ export interface ISearchUser {
 
 export enum StateUser {
   STRANGER = "STRANGER",
+  REQUESTING = "REQUESTING",
   FRIEND = "FRIEND",
 }
 export interface IUserInfo {
@@ -38,4 +41,13 @@ export interface IUserInfo {
   imageBackground: string;
   description: string;
   state: string;
+}
+
+export interface Image {
+  id: number;
+  postId: number;
+  userId: number;
+  imageUrl: string;
+  state: string;
+  createdAt: string;
 }

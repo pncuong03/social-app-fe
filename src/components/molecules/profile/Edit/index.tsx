@@ -10,6 +10,7 @@ import { AppDispatch } from "src/app/store";
 import { editInfo } from "src/slices/user/userSlice";
 import { selectUserInfo } from "src/slices/login/selector";
 import ModalCustomize from "src/components/atoms/Modal";
+import ImageUploader from "../../upload";
 interface FormValues {
   fullName: string;
   birthdayString: string;
@@ -18,6 +19,7 @@ interface FormValues {
   description: string;
   live: string;
   imageUrl: string;
+  imageBackground: string;
 }
 
 interface Props {
@@ -41,14 +43,13 @@ const EditProfile = (props: Props) => {
       description: userInfo.description,
       live: userInfo.live,
       imageUrl: userInfo.imageUrl,
+      imageBackground: userInfo.imageBackground,
     },
     onSubmit: (values) => {
       setLoading(true);
 
       dispatch(editInfo(values));
       setTimeout(() => {
-        setFieldValue("name", "");
-        setFieldValue("userIds", []);
         toast.success(t("profile.editprofilesuccess"));
         setLoading(false);
 
@@ -67,11 +68,32 @@ const EditProfile = (props: Props) => {
     setFieldValue("description", userInfo.description);
     setFieldValue("live", userInfo.live);
     setFieldValue("imageUrl", userInfo.imageUrl);
+    setFieldValue("imageBackground", userInfo.imageBackground);
   }, [userInfo]);
 
   return (
     <ModalCustomize title={t("profile.editprofile")} open={props.open} onCancel={props.onCancel}>
       <Form onFinish={handleSubmit} className="mt-2">
+        <Form.Item>
+          <label className="mb-2 block text-lg font-medium">{t("profile.avatar")}:</label>
+
+          <ImageUploader
+            imageUrl={values.imageUrl}
+            onChange={(url) => setFieldValue("imageUrl", url)}
+            inputId="avatarUpload"
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <label className="mb-2 block text-lg font-medium">{t("profile.background")}:</label>
+
+          <ImageUploader
+            imageUrl={values.imageBackground}
+            onChange={(url) => setFieldValue("imageBackground", url)}
+            inputId="coverUpload"
+          />
+        </Form.Item>
+
         <Form.Item>
           <label className="mb-2 block text-lg font-medium">{t("profile.fullname")}:</label>
 

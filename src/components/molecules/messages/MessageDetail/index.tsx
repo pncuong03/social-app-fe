@@ -23,6 +23,8 @@ const MessageDetail = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
+  console.log(receivedMessages);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -50,7 +52,7 @@ const MessageDetail = () => {
     }
   };
 
-  const loadMoreData = () => {
+  const loadMoreMessage = () => {
     if (loading || !hasMore) return;
 
     setLoading(true);
@@ -76,13 +78,13 @@ const MessageDetail = () => {
   }, [data]);
 
   useEffect(() => {
-    if (chatId) {
+    if (location.state?.chatId) {
+      loadMoreMessage();
       setData([]);
       setPage(0);
       setHasMore(true);
-      loadMoreData();
     }
-  }, [location]);
+  }, [location.state]);
 
   useEffect(() => {
     if (receivedMessages?.type === "CHAT" && receivedMessages?.chatId === chatId) {
@@ -122,7 +124,7 @@ const MessageDetail = () => {
         onScroll={(e: any) => {
           const top = e.target.scrollTop === 0;
 
-          if (top && !loading && hasMore) loadMoreData();
+          if (top && !loading && hasMore) loadMoreMessage();
         }}
       >
         {data.map((message, index) => (

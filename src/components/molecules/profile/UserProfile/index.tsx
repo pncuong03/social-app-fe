@@ -4,13 +4,12 @@ import { useLocation } from "react-router-dom";
 import { Skeleton } from "antd";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { selectPost } from "src/slices/posts/selector";
 import { fetchPostUser } from "src/slices/posts/postSlice";
 import Information from "src/components/molecules/profile/Infomation";
 import Introduce from "src/components/molecules/profile/Introduce";
 import Posts from "src/components/molecules/home/Posts";
 import { selectInfoUser } from "src/slices/friend/selector";
-import { fetchUserInfo } from "src/slices/friend/friendSlice";
+import { fetchListImage, fetchUserInfo } from "src/slices/friend/friendSlice";
 
 const UserProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,28 +18,28 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-
-  const postsUser = useAppSelector(selectPost.getPostsUser);
+  const [data, setData] = useState<any>([]);
   const infoUser = useAppSelector(selectInfoUser.getUserInfo);
 
   const loadPostUser = () => {
-    if (loading) return;
+    if (loading || !hasMore) return;
 
     setLoading(true);
 
     setTimeout(() => {
       dispatch(fetchPostUser({ userId: id, page }))
-        .then((response) => {
-          if (response.payload.length < 5) {
+        .then((body) => {
+          const newPosts = body.payload;
+
+          setData((prev: any) => [...prev, ...newPosts]);
+
+          if (newPosts.length < 5) {
             setHasMore(false);
           } else {
-            setHasMore(true);
             setPage((prevPage) => prevPage + 1);
           }
         })
-        .finally(() => {
-          setLoading(false);
-        });
+        .finally(() => setLoading(false));
     }, 1000);
   };
 
@@ -50,6 +49,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(fetchUserInfo(id));
+    dispatch(fetchListImage(id));
   }, [id]);
 
   return (
@@ -73,7 +73,7 @@ const UserProfile = () => {
         </div>
 
         <div className="col-span-2 flex w-full flex-col gap-4 ">
-          <Posts posts={postsUser} />
+          <Posts posts={data} />
 
           {loading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
         </div>

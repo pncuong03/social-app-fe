@@ -8,6 +8,7 @@ export interface Props {
   okText?: string;
   cancelText?: string;
   className?: string;
+  placement?: "top" | "bottom";
   onConfirm?: () => void;
 }
 
@@ -19,6 +20,7 @@ const PopconfirmCustomize = (props: Props) => {
       okText={props.okText}
       cancelText={props.cancelText}
       onConfirm={props.onConfirm}
+      placement={props.placement}
       okButtonProps={{ style: { backgroundColor: "red", color: "white" } }}
       cancelButtonProps={{ style: { backgroundColor: "gray", color: "white" } }}
       className={props.className}

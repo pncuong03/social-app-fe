@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { Button, Form, Input, Upload } from "antd";
+import { Form, Input, Upload } from "antd";
 import { RcFile } from "antd/lib/upload";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AppDispatch } from "src/app/store";
+import { onCreateImage } from "src/apis/post";
 import { createGroup } from "src/slices/groups/groupSlice";
 import IconCustomize from "src/components/atoms/Icons";
 import SelectFriend from "../../friend/SelectFriend";
@@ -42,18 +42,14 @@ const CreateGroup = (props: Props) => {
 
     data.append("images", file);
 
-    const response = await axios.post("http://localhost:8088/api/v1/upload/upload-image", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await onCreateImage(data);
 
     if (response && response.data) {
       setImageUrl(response.data);
       setFieldValue("imageUrl", response.data);
     }
 
-    return false; // Prevent automatic upload by Ant Design
+    return false;
   };
 
   const handleRemoveImage = () => {
@@ -98,7 +94,7 @@ const CreateGroup = (props: Props) => {
             value={values.name}
             onChange={handleChange}
             onBlur={handleBlur}
-            className="h-11"
+            className="h-11 rounded-full"
             disabled={loading}
           />
 
@@ -138,19 +134,18 @@ const CreateGroup = (props: Props) => {
 
           <SelectFriend isDefaultGetAll onSelect={(value) => setFieldValue("userIds", value)} />
 
-          {errors.userIds && touched.userIds && <p className="text-[red]">{errors.userIds}</p>}
+          {/* {errors.userIds && touched.userIds && <p className="text-[red]">{errors.userIds}</p>} */}
         </Form.Item>
       </div>
 
       <Form.Item className="mt-auto">
-        <Button
-          htmlType="submit"
-          type="primary"
-          className="interceptor-loading h-12 w-full rounded-lg bg-blue-600 p-3 text-center text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+        <button
+          type="submit"
+          className=" h-12 w-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 p-3 text-center text-lg font-medium text-white transition-all duration-200 ease-in-out hover:from-blue-600 hover:to-cyan-600 focus:outline-none"
           disabled={loading}
         >
           {t("groups.creategroup")}
-        </Button>
+        </button>
       </Form.Item>
     </Form>
   );

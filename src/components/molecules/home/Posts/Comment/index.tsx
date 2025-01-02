@@ -6,8 +6,6 @@ import IconCustomize from "src/components/atoms/Icons";
 import { AppDispatch } from "src/app/store";
 import { useDispatch } from "react-redux";
 import { commentPost, deleteComment, fetchDetailPost } from "src/slices/posts/postSlice";
-import { useAppSelector } from "src/app/appHooks";
-import { selectPost } from "src/slices/posts/selector";
 
 interface Props {
   postId: number;
@@ -19,8 +17,15 @@ const Comments = (props: Props) => {
   const { t } = useTranslation();
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const [detailPost, setDetailPost] = useState<any>({});
 
-  const postDetail = useAppSelector(selectPost.getPostDetail);
+  useEffect(() => {
+    if (props.isOpen) {
+      dispatch(fetchDetailPost(props.postId)).then((res: any) => {
+        setDetailPost(res.payload);
+      });
+    }
+  }, [props.postId, props.isOpen, dispatch]);
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -44,16 +49,10 @@ const Comments = (props: Props) => {
     dispatch(deleteComment(commentId));
   };
 
-  useEffect(() => {
-    if (props.isOpen) {
-      dispatch(fetchDetailPost(props.postId));
-    }
-  }, [props.postId, props.isOpen, dispatch]);
-
   return (
     <div className="max-h-96 overflow-y-auto  md:max-h-[450px] xl:max-h-[600px]">
       <div className="mt-4 flex flex-col gap-2">
-        {postDetail?.comments?.map((comment: any) => (
+        {detailPost?.comments?.map((comment: any) => (
           <div key={comment.id} className="pb-2">
             <div className="flex items-center gap-2 pl-2">
               <img src={comment.imageUrl} className="h-10 w-10 rounded-full" />

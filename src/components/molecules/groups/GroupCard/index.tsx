@@ -25,7 +25,7 @@ const GroupCard = (props: Props) => {
         className="flex h-10 w-64 items-center gap-3 rounded-lg px-3 py-1 transition duration-200 hover:bg-gray-100"
         onClick={() => handleLeaveGroup()}
       >
-        <IconCustomize name="comment" size={20} />
+        <IconCustomize name="logout" size={20} />
 
         <p className="text-base font-medium text-gray-700">{t("message.leave")}</p>
       </button>

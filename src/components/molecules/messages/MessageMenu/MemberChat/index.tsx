@@ -1,13 +1,15 @@
-import { Button } from "antd";
 import React, { useEffect, useState } from "react";
+import { Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/appHooks";
 import DrawerCustomize from "src/components/atoms/Drawer";
 import IconCustomize from "src/components/atoms/Icons";
 import PopoverCustomize from "src/components/atoms/Popover";
-import { fetchMemberChat } from "src/slices/messages/messageSlice";
+import { deleteMemeberChat, fetchMemberChat } from "src/slices/messages/messageSlice";
 import { selectMemberChat } from "src/slices/messages/selector";
 import AddMemberChat from "./AddMemberChat";
+import { selectUserInfo } from "src/slices/login/selector";
+import { Role } from "src/types/message";
 
 interface Props {
   groupId: string;
@@ -19,42 +21,52 @@ const MemberChat = (props: Props) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const memberChats = useAppSelector(selectMemberChat.getMemberChat);
+  const userInfo = useAppSelector(selectUserInfo.getUserInfo);
 
   useEffect(() => {
     dispatch(fetchMemberChat(props.groupId));
   }, [dispatch]);
 
-  // const handleDeleteMember = (userId: string) => {
-  //   dispatch(deleteMemeberChat({props.groupId, userId}));
-  // };
+  const handleDeleteMember = (userId: string) => {
+    console.log(props.groupId, userId);
+
+    dispatch(deleteMemeberChat({ groupChatId: props.groupId, userId }));
+  };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const menuItems = (role: string) => (
-    <div className="flex flex-col gap-2">
-      <button className="flex h-8 w-64 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100">
-        <IconCustomize name="comment" size={25} />
+  const menuItems = (role: string, userId: string) => {
+    const isSelf = userInfo.id === userId;
 
-        <p className="text-lg ">{t("message.texting")}</p>
-      </button>
+    return (
+      <div className="flex flex-col gap-2">
+        <button className="flex h-8 w-64 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100">
+          <IconCustomize name="comment" size={25} />
 
-      <button className="flex h-8 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100">
-        <IconCustomize name="user" size={25} />
-
-        <p className="text-lg">{t("home.personal")}</p>
-      </button>
-
-      {role === "admin" && (
-        <button className="flex h-8 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100">
-          <IconCustomize name="userkick" size={27} />
-
-          <p className="text-lg">Kick</p>
+          <p className="text-lg">{t("message.texting")}</p>
         </button>
-      )}
-    </div>
-  );
+
+        <button className="flex h-8 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100">
+          <IconCustomize name="user" size={25} />
+
+          <p className="text-lg">{t("home.personal")}</p>
+        </button>
+
+        {role === Role.MEMBER && !isSelf && (
+          <button
+            className="flex h-8 items-center gap-2 rounded-md border-none px-2 shadow-none hover:bg-gray-100"
+            onClick={() => handleDeleteMember(userId)}
+          >
+            <IconCustomize name="userkick" size={27} />
+
+            <p className="text-lg">{t("message.deletemember")}</p>
+          </button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col gap-1 ">
@@ -66,7 +78,7 @@ const MemberChat = (props: Props) => {
             <h1>{member.fullName}</h1>
           </div>
 
-          <PopoverCustomize content={menuItems(member.role)} placement="bottom" arrow={true}>
+          <PopoverCustomize content={menuItems(member.role, member.id)} placement="bottom" arrow={true}>
             <button className="flex w-8 items-center justify-center rounded-md ">
               <IconCustomize name="ellipsis" size={20} />
             </button>

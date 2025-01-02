@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { Button, GetProp, Image, Select, Upload, UploadFile, UploadProps } from "antd";
 import { AppDispatch } from "src/app/store";
 import { getName } from "src/const";
 import { State } from "src/types/post";
+import { onCreateImage } from "src/apis/post";
 import { createPostGroup } from "src/slices/groups/groupSlice";
 import { createPosts } from "src/slices/posts/postSlice";
 import ModalCustomize from "src/components/atoms/Modal";
@@ -103,13 +103,7 @@ const CreatePost = (props: Props) => {
 
       data.append("images", file);
 
-      // const response = await dispatch(createImage(data));
-
-      const response = await axios.post("http://localhost:8088/api/v1/upload/upload-image", data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await onCreateImage(data);
 
       if (response && response.data) {
         seImageUrls((prevList) => [...prevList, response.data]);
@@ -140,23 +134,10 @@ const CreatePost = (props: Props) => {
           <div className="flex flex-col items-start gap-1">
             <p className="text-lg font-semibold">{props?.fullName}</p>
 
-            <Select
-              labelInValue
-              defaultValue={{
-                value: State.PUBLIC,
-                label: (
-                  <span className="flex items-center justify-between">
-                    <p>{t("home.public")}</p>
-
-                    <IconCustomize name="public" />
-                  </span>
-                ),
-              }}
-              style={{ width: 110 }}
-              onChange={handleStateChange}
-              suffixIcon={null}
-              options={[
-                {
+            {props.type === "USER" && (
+              <Select
+                labelInValue
+                defaultValue={{
                   value: State.PUBLIC,
                   label: (
                     <span className="flex items-center justify-between">
@@ -165,19 +146,34 @@ const CreatePost = (props: Props) => {
                       <IconCustomize name="public" />
                     </span>
                   ),
-                },
-                {
-                  value: State.PRIVATE,
-                  label: (
-                    <span className="flex items-center justify-between">
-                      <p>{t("home.private")}</p>
+                }}
+                style={{ width: 110 }}
+                onChange={handleStateChange}
+                suffixIcon={null}
+                options={[
+                  {
+                    value: State.PUBLIC,
+                    label: (
+                      <span className="flex items-center justify-between">
+                        <p>{t("home.public")}</p>
 
-                      <IconCustomize name="private" />
-                    </span>
-                  ),
-                },
-              ]}
-            />
+                        <IconCustomize name="public" />
+                      </span>
+                    ),
+                  },
+                  {
+                    value: State.PRIVATE,
+                    label: (
+                      <span className="flex items-center justify-between">
+                        <p>{t("home.private")}</p>
+
+                        <IconCustomize name="private" />
+                      </span>
+                    ),
+                  },
+                ]}
+              />
+            )}
           </div>
         </div>
 
