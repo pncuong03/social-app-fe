@@ -12,45 +12,41 @@
 
   const MessageList = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { t } = useTranslation();
-    const navigate = useNavigate();
-
-    const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [selectedMessageId, setSelectedMessageId] = useState<number | null>(null);
     const messages = useAppSelector(selectMessage.getListMessages);
-
+    const [loading, setLoading] = useState(false);
+    const { t } = useTranslation();
+    const navigate = useNavigate();
     const loadMessages = () => {
       if (loading) return;
-
-      setLoading(true);
-
       setTimeout(() => {
         dispatch(fetchListMessage(page))
-          .then((response) => {
-            if (response.payload.length < 13) {
-              setHasMore(false);
-            } else {
-              setHasMore(true);
-              setPage((prevPage) => prevPage + 1);
-            }
-          })
-          .finally(() => {
-            setLoading(false);
-          });
+            .then((response) => {
+              if (response.payload.length < 13) {
+                setHasMore(false);
+              } else {
+                setHasMore(true);
+                setPage((prevPage) => prevPage + 1);
+              }
+            })
+            .finally(() => {
+              setLoading(false);
+            });
       }, 1000);
+      setLoading(true);
     };
-
-    useEffect(() => {
-      loadMessages();
-    }, []);
 
     const handleClick = (item: any) => {
       setSelectedMessageId(item.id);
       dispatch(clearMessageCount(item.id));
       navigate(`/messages/${item.name}`, { state: { chatId: item.id, info: item.name, img: item.imageUrl } });
     };
+
+    useEffect(() => {
+      loadMessages();
+    }, []);
 
     return (
       <div
