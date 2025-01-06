@@ -69,6 +69,10 @@ export const notificationSlice = createSlice({
       };
 
       state.notifications = [newNotification, ...state.notifications];
+    },
+
+    clearAllNoti: (state) => {
+      state.notifications = [];
       state.notiCount.notificationCount += 1;
     },
   },
@@ -90,5 +94,5 @@ export const notificationSlice = createSlice({
   },
 });
 
-export const { clearNoti, addNoti } = notificationSlice.actions;
+export const { clearNoti, addNoti, clearAllNoti } = notificationSlice.actions;
 export default notificationSlice.reducer;

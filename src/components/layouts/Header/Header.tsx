@@ -73,9 +73,9 @@ const Header = () => {
       icon: <IconCustomize name="group" size={30} color="#1E90FF" />,
     },
 
-    { key: "3", label: "Watch", path: routesName.WATCH, icon: <IconCustomize name="friend" size={30} /> },
+    // { key: "3", label: "Watch", path: routesName.WATCH, icon: <IconCustomize name="friend" size={30} /> },
 
-    { key: "4", label: t("home.logout"), onClick: handleLogout, icon: <IconCustomize name="logout" size={30} /> },
+    { key: "3", label: t("home.logout"), onClick: handleLogout, icon: <IconCustomize name="logout" size={30} /> },
   ];
 
   return (

@@ -56,7 +56,7 @@ const EditProfile = (props: Props) => {
         if (props.onSuccess) {
           props.onSuccess();
         }
-      }, 3000);
+      }, 1000);
     },
   });
 
@@ -72,7 +72,7 @@ const EditProfile = (props: Props) => {
   }, [userInfo]);
 
   return (
-    <ModalCustomize title={t("profile.editprofile")} open={props.open} onCancel={props.onCancel}>
+    <ModalCustomize title={t("profile.editprofile")} open={props.open} onCancel={props.onCancel} loading={loading}>
       <Form onFinish={handleSubmit} className="mt-2">
         <Form.Item>
           <label className="mb-2 block text-lg font-medium">{t("profile.avatar")}:</label>

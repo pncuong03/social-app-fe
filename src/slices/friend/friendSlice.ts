@@ -151,6 +151,9 @@ export const friendSlice = createSlice({
     unFriend: (state, action: PayloadAction<string>) => {
       state.listFriend = state.listFriend.filter((friend) => friend.id !== action.payload);
     },
+    clearUserInfo: (state) => {
+      state.userInfo = initialState.userInfo;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -177,6 +180,6 @@ export const friendSlice = createSlice({
   },
 });
 
-export const { rejectFriendRequest, acceptFriendRequest, unFriend } = friendSlice.actions;
+export const { rejectFriendRequest, acceptFriendRequest, unFriend, clearUserInfo } = friendSlice.actions;
 
 export default friendSlice.reducer;

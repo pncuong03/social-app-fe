@@ -12,8 +12,8 @@ interface FormValues {
 }
 
 const validationSchema = Yup.object({
-  username: Yup.string().required("Username is required"),
-  password: Yup.string().min(6, "Password must be at least 6 characters").max(20).required("Password is required"),
+  username: Yup.string().required("Tài khoản là bắt buộc"),
+  password: Yup.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự").max(20).required("Mật khẩu là bắt buộc"),
 });
 
 const LoginPage = () => {

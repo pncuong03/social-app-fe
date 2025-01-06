@@ -5,6 +5,8 @@ import { AppDispatch } from "src/app/store";
 import Posts from "src/components/molecules/home/Posts";
 import { fetchPostGroupPublic } from "src/slices/groups/groupSlice";
 import { Skeleton } from "antd";
+import { useAppSelector } from "src/app/appHooks";
+import { selectPostGroupPublic } from "src/slices/groups/selector";
 
 const GroupsFeed = () => {
   const { t } = useTranslation();
@@ -12,27 +14,26 @@ const GroupsFeed = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [data, setData] = useState<any>([]);
+  const postsGroupPublic = useAppSelector(selectPostGroupPublic.getListPostGroupPublic);
 
   const loadPostGroupPublic = () => {
-    if (loading || !hasMore) return;
+    if (loading) return;
 
     setLoading(true);
 
     setTimeout(() => {
       dispatch(fetchPostGroupPublic(page))
-        .then((body) => {
-          const newPosts = body.payload;
-
-          setData((prev: any) => [...prev, ...newPosts]);
-
-          if (newPosts.length < 5) {
+        .then((response) => {
+          if (response.payload.length < 5) {
             setHasMore(false);
           } else {
+            setHasMore(true);
             setPage((prevPage) => prevPage + 1);
           }
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+        });
     }, 1000);
   };
 
@@ -54,7 +55,7 @@ const GroupsFeed = () => {
       <div className="mx-2 md:mx-10 lg:mx-32 2xl:mx-80">
         <h2 className="px-6 py-3 text-2xl font-medium lg:px-10 xl:px-2">{t("groups.recentactivity")}</h2>
 
-        <Posts posts={data} isInGroup={true} />
+        <Posts posts={postsGroupPublic} isInGroup={true} />
 
         {loading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
       </div>

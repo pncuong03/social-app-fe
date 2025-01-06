@@ -17,8 +17,8 @@ import SharePost from "../Share";
 import ShareCard from "./ShareCard";
 import EditPost from "../Edit";
 import Comments from "../Comment";
-
-// import PostDetail from "../PostDetail";
+import PostDetail from "../PostDetail";
+import { deletePostGroup } from "src/slices/groups/groupSlice";
 
 interface Props {
   id: number;
@@ -48,6 +48,7 @@ const PostCard = (props: Props) => {
   const [isOpenComment, setIsOpenComment] = useState(false);
   const [isOpenShare, setIsOpenShare] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [isOpenDeatil, setIsOpenDetail] = useState(false);
   const [isOpenPopover, setIsOpenPopover] = useState(false);
 
   const userInfo = useAppSelector(selectUserInfo.getUserInfo);
@@ -61,7 +62,11 @@ const PostCard = (props: Props) => {
   };
 
   const handleDeletePost = () => {
-    dispatch(deletePost(props.id));
+    if (props.type == "USER") {
+      dispatch(deletePost(props.id));
+    } else {
+      dispatch(deletePostGroup({ groupId: props.groupId, postId: props.id }));
+    }
   };
 
   const handleEdit = () => {
@@ -98,10 +103,10 @@ const PostCard = (props: Props) => {
         {props.isInGroup ? (
           <button
             className="flex items-center space-x-4"
-            onClick={() => navigate(`/groups/${props.group.name}`, { state: { groupId: props.groupId } })}
+            onClick={() => navigate(`/groups/${props.group?.name}`, { state: { groupId: props.groupId } })}
           >
             <div className="relative h-12 w-12">
-              <img src={props.group.imageUrl} className="h-full w-full rounded-xl object-cover" alt="group" />
+              <img src={props.group?.imageUrl} className="h-full w-full rounded-xl object-cover" alt="group" />
 
               <img
                 src={props?.imgUrl}
@@ -111,7 +116,7 @@ const PostCard = (props: Props) => {
             </div>
 
             <div className="flex flex-col">
-              <p className="text-black text-start text-lg font-medium">{props.group.name}</p>
+              <p className="text-black text-start text-lg font-medium">{props.group?.name}</p>
 
               <div className="flex items-center gap-2">
                 <p className="text-sm text-gray-600">{props.fullName}</p>
@@ -160,19 +165,17 @@ const PostCard = (props: Props) => {
               </Button>
             </PopoverCustomize>
 
-            {props.type === "USER" ? (
-              <PopconfirmCustomize
-                title={t("home.deletepost")}
-                icon={null}
-                okText={t("friend.delete")}
-                cancelText={t("friend.cancel")}
-                onConfirm={handleDeletePost}
-              >
-                <Button className="border-none shadow-none">
-                  <IconCustomize name="close" />
-                </Button>
-              </PopconfirmCustomize>
-            ) : null}
+            <PopconfirmCustomize
+              title={t("home.deletepost")}
+              icon={null}
+              okText={t("friend.delete")}
+              cancelText={t("friend.cancel")}
+              onConfirm={handleDeletePost}
+            >
+              <Button className="border-none shadow-none">
+                <IconCustomize name="close" />
+              </Button>
+            </PopconfirmCustomize>
           </div>
         ) : null}
       </div>
@@ -255,7 +258,7 @@ const PostCard = (props: Props) => {
         </div>
       )}
 
-      {/* <PostDetail open={isOpenShare} onCancel={() => setIsOpenShare(false)} postId={props.id} /> */}
+      <PostDetail open={isOpenDeatil} onCancel={() => setIsOpenDetail(false)} postId={props.id} />
 
       <SharePost
         open={isOpenShare}
@@ -265,7 +268,13 @@ const PostCard = (props: Props) => {
         imageUrl={userInfo.imageUrl}
       />
 
-      <EditPost open={isOpenEdit} onCancel={() => setIsOpenEdit(false)} postId={props.id} />
+      <EditPost
+        open={isOpenEdit}
+        onCancel={() => setIsOpenEdit(false)}
+        postId={props.id}
+        type={props.type}
+        groupId={props.groupId}
+      />
     </div>
   );
 };

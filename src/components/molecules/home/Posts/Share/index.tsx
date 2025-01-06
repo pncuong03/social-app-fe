@@ -47,7 +47,7 @@ const SharePost = (props: Props) => {
       if (props.onCancel) {
         props.onCancel();
       }
-    }, 3000);
+    }, 1000);
   };
 
   return (

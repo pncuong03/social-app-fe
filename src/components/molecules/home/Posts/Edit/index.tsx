@@ -11,11 +11,14 @@ import { useAppSelector } from "src/app/appHooks";
 import { onCreateImage } from "src/apis/post";
 import { selectPost } from "src/slices/posts/selector";
 import { editPost, fetchDetailPost } from "src/slices/posts/postSlice";
+import { editPostGroup } from "src/slices/groups/groupSlice";
 
 interface Props {
   open?: boolean;
   onCancel?: () => void;
   postId: number;
+  type: any;
+  groupId?: any;
 }
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
@@ -91,7 +94,11 @@ const EditPost = (props: Props) => {
     if (content.trim()) {
       setLoading(true);
 
-      dispatch(editPost({ postId: props.postId, params: { content, state, imageUrls } }));
+      if (props.type === "USER") {
+        dispatch(editPost({ postId: props.postId, params: { content, state, imageUrls } }));
+      } else {
+        dispatch(editPostGroup({ postId: props.postId, params: { content, imageUrls, groupId: props.groupId } }));
+      }
 
       setTimeout(() => {
         toast.success("Sửa bài viết thành công");
@@ -100,7 +107,7 @@ const EditPost = (props: Props) => {
         if (props.onCancel) {
           props.onCancel();
         }
-      }, 3000);
+      }, 1000);
     }
   };
 
@@ -127,7 +134,7 @@ const EditPost = (props: Props) => {
   );
 
   return (
-    <ModalCustomize title="Edit Post" open={props.open} onCancel={props.onCancel}>
+    <ModalCustomize title="Edit Post" open={props.open} onCancel={props.onCancel} loading={loading}>
       <div className="mb-2">
         <div className="my-4 flex items-center gap-3">
           <div className="rounded-full ">

@@ -29,6 +29,7 @@ export interface GroupState {
   searchGroup: IGroup[];
   listPostGroup: IPost[];
   listJoinGroup: IMemberGroup[];
+  listPostGroupPublic: IPost[];
 }
 
 const initialState: GroupState = {
@@ -43,6 +44,7 @@ const initialState: GroupState = {
   searchGroup: [],
   listPostGroup: [],
   listJoinGroup: [],
+  listPostGroupPublic: [],
 };
 
 export const fetchListGroup = createAsyncThunk("group/fetchListGroup", async (page: number, thunkAPI) => {
@@ -106,6 +108,8 @@ export const addMemberGroup = createAsyncThunk(
   async (params: { groupId: number; userIds: number[] }, thunkAPI) => {
     try {
       await onAddMemberGroup(params);
+
+      thunkAPI.dispatch(fetchMemberGroup({ groupId: params.groupId, page: 0 }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -148,7 +152,7 @@ export const fetchPostGroup = createAsyncThunk(
   }
 );
 
-export const fetchPostGroupPublic = createAsyncThunk("group/fetchPostGroup", async (page: number, thunkAPI) => {
+export const fetchPostGroupPublic = createAsyncThunk("group/fetchPostGroupPublic", async (page: number, thunkAPI) => {
   try {
     const data = await getPostGroupPublic(page);
 
@@ -158,14 +162,13 @@ export const fetchPostGroupPublic = createAsyncThunk("group/fetchPostGroup", asy
   }
 });
 
-getPostGroupPublic;
-
 export const createPostGroup = createAsyncThunk(
   "group/createPostGroup",
   async (params: { content: string; imageUrls: string[]; groupId: number }, thunkAPI) => {
     try {
       await onCreatePostGroup(params);
 
+      thunkAPI.dispatch(clearPostGroup());
       thunkAPI.dispatch(fetchPostGroup({ groupId: params.groupId, page: 0 }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -181,6 +184,8 @@ export const editPostGroup = createAsyncThunk(
   ) => {
     try {
       await onEditPostGroup(params, postId);
+
+      thunkAPI.dispatch(updatePostDetailGroup({ postId, ...params }));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -189,9 +194,11 @@ export const editPostGroup = createAsyncThunk(
 
 export const deletePostGroup = createAsyncThunk(
   "group/deletePostGroup",
-  async ({ groupId, postId }: { groupId: number; postId: number }, thunkAPI) => {
+  async ({ groupId, postId }: { groupId: any; postId: number }, thunkAPI) => {
     try {
       await onDeletePostGroup(groupId, postId);
+
+      thunkAPI.dispatch(deletePostofGroup(postId));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -264,6 +271,30 @@ export const groupSlice = createSlice({
     clearPostGroup: (state) => {
       state.listPostGroup = [];
     },
+
+    deletePostofGroup: (state, action: PayloadAction<number>) => {
+      const postId = action.payload;
+
+      state.listPostGroup = state.listPostGroup.filter((post: any) => post.id !== postId);
+    },
+
+    updatePostDetailGroup: (state, action: PayloadAction<{ postId: number; content: string; imageUrls: string[] }>) => {
+      const { postId, content, imageUrls } = action.payload;
+
+      const updatePost = (post: IPost | any) => {
+        if (post) {
+          Object.assign(post, {
+            ...post,
+            content,
+            imageUrls,
+          });
+        }
+      };
+
+      const postOfGroup = state.listPostGroup.find((post) => post.id === postId);
+
+      updatePost(postOfGroup);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -301,9 +332,29 @@ export const groupSlice = createSlice({
 
       .addCase(fetchListJoinGroup.fulfilled, (state, action: PayloadAction<IMemberGroup[]>) => {
         state.listJoinGroup = action.payload;
+      })
+
+      // .addCase(fetchPostGroupPublic.fulfilled, (state, action: PayloadAction<IPost[]>) => {
+      //   const newPostGroupPublic = action.payload;
+
+      //   const uniquePostGroupPublic = newPostGroupPublic.filter(
+      //     (newPost) => !state.listPostGroupPublic.some((existingPost) => existingPost.id === newPost.id)
+      //   );
+
+      //   state.listPostGroupPublic = [...state.listPostGroupPublic, ...uniquePostGroupPublic];
+      // });
+
+      .addCase(fetchPostGroupPublic.fulfilled, (state, action: PayloadAction<IPost[]>) => {
+        const newPostGroupPublic = action.payload;
+
+        const uniquePostPublic = newPostGroupPublic.filter(
+          (newPost) => !state.listPostGroupPublic.some((existingPost) => existingPost.id === newPost.id)
+        );
+
+        state.listPostGroupPublic = [...state.listPostGroupPublic, ...uniquePostPublic];
       });
   },
 });
 
-export const { decreaseMember, clearPostGroup } = groupSlice.actions;
+export const { decreaseMember, clearPostGroup, deletePostofGroup, updatePostDetailGroup } = groupSlice.actions;
 export default groupSlice.reducer;

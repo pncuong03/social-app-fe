@@ -6,11 +6,12 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
 import { selectNotification } from "src/slices/notification/selector";
-import { addNoti, fetchListNotification } from "src/slices/notification/notificationSlice";
+import { clearAllNoti, clearNoti, fetchListNotification } from "src/slices/notification/notificationSlice";
 import TimeCustomize from "src/const/dateFormat";
 import { formatNoti } from "src/const/notiFormat";
 import PostDetail from "../home/Posts/PostDetail";
 import { useSocket } from "src/utilities/hooks/useSocket";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   children: React.ReactNode;
@@ -18,6 +19,7 @@ interface Props {
 
 const Notification = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const notifications = useAppSelector(selectNotification.getListNotification);
@@ -64,15 +66,8 @@ const Notification = (props: Props) => {
         receivedMessages.type === "LIKE" ||
         receivedMessages.type === "SHARE")
     ) {
-      dispatch(
-        addNoti({
-          createdAt: new Date(new Date(receivedMessages.createdAt).getTime() - 7 * 60 * 60 * 1000).toISOString(),
-          fullName: receivedMessages.fullName,
-          imageUrl: receivedMessages.imageUrl,
-          userId: Number(receivedMessages.userId),
-          type: receivedMessages.type,
-        })
-      );
+      dispatch(clearAllNoti());
+      dispatch(fetchListNotification(0));
     }
   }, [receivedMessages]);
 
@@ -81,6 +76,12 @@ const Notification = (props: Props) => {
       setPostId(item.postId);
       setOpenModal(true);
       setOpenPopover(false);
+    } else if (["FRIEND_REQUEST"].includes(item.interactType)) {
+      setOpenPopover(false);
+      navigate("/friends");
+    } else {
+      setOpenPopover(false);
+      navigate("/friends/list");
     }
   };
 
@@ -144,7 +145,13 @@ const Notification = (props: Props) => {
         content={content}
         title={t("home.noti")}
         open={openPopover}
-        onOpenChange={(visible) => setOpenPopover(visible)}
+        onOpenChange={(visible) => {
+          setOpenPopover(visible);
+
+          if (visible) {
+            dispatch(clearNoti());
+          }
+        }}
       >
         {props.children}
       </PopoverCustomize>

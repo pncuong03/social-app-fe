@@ -2,7 +2,7 @@ export const selectGroup = {
   getListGroup: (state: any) => state.group.listgroups,
 };
 
-export const selecPostGroup = {
+export const selectPostGroup = {
   getListPostGroup: (state: any) => state.group.listPostGroup,
 };
 
@@ -20,4 +20,8 @@ export const selectSearchGroup = {
 
 export const selectJoinGroup = {
   getJoinGroup: (state: any) => state.group.listJoinGroup,
+};
+
+export const selectPostGroupPublic = {
+  getListPostGroupPublic: (state: any) => state.group.listPostGroupPublic,
 };

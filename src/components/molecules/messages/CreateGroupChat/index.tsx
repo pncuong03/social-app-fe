@@ -47,7 +47,7 @@ const CreateGroupChat = (props: Props) => {
         if (props.onSuccess) {
           props.onSuccess();
         }
-      }, 3000);
+      }, 1000);
     },
   });
 

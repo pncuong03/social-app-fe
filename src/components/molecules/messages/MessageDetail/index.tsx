@@ -23,8 +23,6 @@ const MessageDetail = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
-  console.log(receivedMessages);
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -78,13 +76,13 @@ const MessageDetail = () => {
   }, [data]);
 
   useEffect(() => {
-    if (location.state?.chatId) {
+    if (chatId) {
       loadMoreMessage();
       setData([]);
       setPage(0);
       setHasMore(true);
     }
-  }, [location.state]);
+  }, [chatId]);
 
   useEffect(() => {
     if (receivedMessages?.type === "CHAT" && receivedMessages?.chatId === chatId) {

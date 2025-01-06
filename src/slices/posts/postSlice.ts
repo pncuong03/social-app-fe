@@ -99,7 +99,7 @@ export const createPosts = createAsyncThunk(
   async (params: { content: string; state: string; imageUrls: string[] }, thunkAPI) => {
     try {
       await onCreatePost(params);
-      thunkAPI.dispatch(clearPost());
+      thunkAPI.dispatch(clearPostOfMe());
       thunkAPI.dispatch(fetchPostofMe(0));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -146,7 +146,7 @@ export const commentPost = createAsyncThunk(
       await onComment(postId, comment);
       thunkAPI.dispatch(increaseComment(postId));
 
-      // thunkAPI.dispatch(addComment({ postId, comment }));
+      thunkAPI.dispatch(fetchDetailPost(postId));
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -288,6 +288,25 @@ const postSlice = createSlice({
       state.postOfMe = state.postOfMe.filter((post: any) => post.id !== postId);
     },
 
+    decreaseComment: (state, action: PayloadAction<number>) => {
+      const postId = action.payload;
+      const postPublic = state.postFriends.find((post: any) => post.id === postId);
+      const postOfMe = state.postOfMe.find((post: any) => post.id === postId);
+      const postOfFriend = state.postOfUser.find((post: any) => post.id === postId);
+
+      if (postPublic) {
+        postPublic.commentCount -= 1;
+      }
+
+      if (postOfMe) {
+        postOfMe.commentCount -= 1;
+      }
+
+      if (postOfFriend) {
+        postOfFriend.commentCount -= 1;
+      }
+    },
+
     updatePostDetail: (
       state,
       action: PayloadAction<{ postId: number; content: string; imageUrls: string[]; state: string }>
@@ -310,28 +329,16 @@ const postSlice = createSlice({
       updatePost(postOfMe);
     },
 
-    addComment: (state, action: PayloadAction<{ postId: number; comment: any }>) => {
-      const { postId, comment } = action.payload;
-
-      const postPublic = state.postFriends.find((post) => post.id === postId);
-      const postOfMe = state.postOfMe.find((post) => post.id === postId);
-      const postOfFriend = state.postOfUser.find((post) => post.id === postId);
-
-      if (postPublic) {
-        postPublic.comments = [...postPublic.comments, comment];
-      }
-
-      if (postOfMe) {
-        postOfMe.comments = [...postOfMe.comments, comment];
-      }
-
-      if (postOfFriend) {
-        postOfFriend.comments = [...postOfFriend.comments, comment];
-      }
+    clearPostOfMe: (state) => {
+      state.postOfMe = [];
     },
 
-    clearPost: (state) => {
-      state.postOfMe = [];
+    clearPostOfUser: (state) => {
+      state.postOfUser = [];
+    },
+
+    clearDetailPost: (state) => {
+      state.detailPost = initialPost;
     },
   },
   extraReducers: (builder) => {
@@ -358,9 +365,13 @@ const postSlice = createSlice({
       })
 
       .addCase(fetchPostUser.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-        const newPosts = action.payload;
+        const newPostPublic = action.payload;
 
-        state.postOfUser = newPosts;
+        const uniquePostPublic = newPostPublic.filter(
+          (newPost) => !state.postOfUser.some((existingPost) => existingPost.id === newPost.id)
+        );
+
+        state.postOfUser = [...state.postOfUser, ...uniquePostPublic];
       })
 
       .addCase(fetchDetailPost.fulfilled, (state, action: PayloadAction<IPost>) => {
@@ -376,8 +387,10 @@ export const {
   increaseComment,
   deletePostofMe,
   updatePostDetail,
-  addComment,
-  clearPost,
+  clearPostOfMe,
+  clearPostOfUser,
+  clearDetailPost,
+  decreaseComment,
 } = postSlice.actions;
 
 export default postSlice.reducer;

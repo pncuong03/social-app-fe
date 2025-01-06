@@ -10,6 +10,7 @@ import Album from "../Album";
 
 interface Props {
   user?: any;
+  userId?: number;
 }
 
 const Introduce = (props: Props) => {
@@ -67,27 +68,29 @@ const Introduce = (props: Props) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-2xl bg-white p-3 shadow-lg">
-        <div className="flex justify-between">
-          <div>
-            <p className="text-xl font-medium">{t("home.friends")}</p>
+      {!props.userId && (
+        <div className="flex flex-col gap-4 rounded-2xl bg-white p-3 shadow-lg">
+          <div className="flex justify-between">
+            <div>
+              <p className="text-xl font-medium">{t("home.friends")}</p>
 
-            <p className="text-sm text-gray-400">{friendList.length + " " + t("home.friends")}</p>
+              <p className="text-sm text-gray-400">{friendList.length + " " + t("home.friends")}</p>
+            </div>
+
+            <Button className="text-md border-none text-blue-500 shadow-none" onClick={() => navigate("/friends/list")}>
+              {t("friend.allfriends")}
+            </Button>
           </div>
 
-          <Button className="text-md border-none text-blue-500 shadow-none" onClick={() => navigate("/friends/list")}>
-            {t("friend.allfriends")}
-          </Button>
+          <div className="grid grid-cols-3 gap-4 ">
+            {friendList?.slice(0, 3).map((friend: any) => (
+              <div key={friend.id} className="flex flex-col items-center">
+                <img className="h-24 w-full rounded-md" alt="photo" src={friend.imageUrl} />
+              </div>
+            ))}
+          </div>
         </div>
-
-        <div className="grid grid-cols-3 gap-4 ">
-          {friendList?.slice(0, 3).map((friend: any) => (
-            <div key={friend.id} className="flex flex-col items-center">
-              <img className="h-24 w-full rounded-md" alt="photo" src={friend.imageUrl} />
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
 
       <Album open={isOpenAlbum} onCancel={() => setIsOpenAlbum(false)} />
     </div>

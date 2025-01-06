@@ -44,7 +44,7 @@ export function onDeleteMember(groupId: number, userId: number) {
 
 export function getPostGroup(groupId: number, page: number) {
   return httpRequest
-    .get(`/post-service/api/v1/post-group/get-post?groupId=${groupId}&page=${page}&size=10&sort=createdAt,desc`)
+    .get(`/post-service/api/v1/post-group/get-post?groupId=${groupId}&page=${page}&size=5&sort=createdAt,desc`)
     .then((data: any) => {
       return data;
     });
@@ -52,7 +52,7 @@ export function getPostGroup(groupId: number, page: number) {
 
 export function getPostGroupPublic(page: number) {
   return httpRequest
-    .get(`/post-service/api/v1/post-group/post-all-group?page=${page}&size=20&sort=createdAt,desc`)
+    .get(`/post-service/api/v1/post-group/post-all-group?page=${page}&size=5&sort=createdAt,desc`)
     .then((data: any) => {
       return data;
     });

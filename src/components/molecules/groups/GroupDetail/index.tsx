@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Skeleton } from "antd";
-// import { useAppSelector } from "src/app/appHooks";
+import { useAppSelector } from "src/app/appHooks";
 import { AppDispatch } from "src/app/store";
-import { fetchInfoGroup, fetchListJoinGroup, fetchMemberGroup, fetchPostGroup } from "src/slices/groups/groupSlice";
-// import { selecPostGroup } from "src/slices/groups/selector";
+import {
+  clearPostGroup,
+  fetchInfoGroup,
+  fetchListJoinGroup,
+  fetchMemberGroup,
+  fetchPostGroup,
+} from "src/slices/groups/groupSlice";
+import { selectPostGroup } from "src/slices/groups/selector";
 import InfoGroup from "./InfoGroup";
 import IntroGroup from "./IntroGroup";
 import Posts from "../../home/Posts";
 import InputBoxGroup from "./FeedGroup/InputBoxGroup";
-import { useAppSelector } from "src/app/appHooks";
 import { selectInfoGroup } from "src/slices/groups/selector";
 
 const GroupDetail = () => {
@@ -19,30 +24,29 @@ const GroupDetail = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [data, setData] = useState<any>([]);
   const { groupId } = location.state || {};
 
   const infogroup = useAppSelector(selectInfoGroup.getInfoGroup);
+  const postOfGroup = useAppSelector(selectPostGroup.getListPostGroup);
 
   const loadPostGroups = () => {
-    if (loading || !hasMore) return;
+    if (loading) return;
 
     setLoading(true);
 
     setTimeout(() => {
       dispatch(fetchPostGroup({ groupId, page }))
-        .then((body) => {
-          const newPosts = body.payload;
-
-          setData((prev: any) => [...prev, ...newPosts]);
-
-          if (newPosts.length < 5) {
+        .then((response) => {
+          if (response.payload.length < 5) {
             setHasMore(false);
           } else {
+            setHasMore(true);
             setPage((prevPage) => prevPage + 1);
           }
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+        });
     }, 1000);
   };
 
@@ -52,16 +56,16 @@ const GroupDetail = () => {
       dispatch(fetchMemberGroup({ groupId, page }));
       dispatch(fetchListJoinGroup({ groupId, page }));
     }
-  }, [location]);
+  }, [groupId]);
 
   useEffect(() => {
     if (groupId && infogroup?.isInGroup) {
-      setData([]);
+      dispatch(clearPostGroup());
       setPage(0);
       setHasMore(true);
       loadPostGroups();
     }
-  }, [location]);
+  }, [groupId]);
 
   return (
     <div
@@ -83,7 +87,7 @@ const GroupDetail = () => {
           <div className="col-span-2 flex w-full flex-col gap-4 ">
             <InputBoxGroup />
 
-            <Posts posts={data} />
+            <Posts posts={postOfGroup} />
 
             {loading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
           </div>

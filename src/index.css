@@ -74,3 +74,7 @@ body {
 .no-scroll {
   overflow: hidden;
 }
+
+.ant-select-selector {
+  border-radius: 20px !important;
+}

@@ -4,12 +4,13 @@ import { useLocation } from "react-router-dom";
 import { Skeleton } from "antd";
 import { AppDispatch } from "src/app/store";
 import { useAppSelector } from "src/app/appHooks";
-import { fetchPostUser } from "src/slices/posts/postSlice";
+import { clearPostOfUser, fetchPostUser } from "src/slices/posts/postSlice";
 import Information from "src/components/molecules/profile/Infomation";
 import Introduce from "src/components/molecules/profile/Introduce";
 import Posts from "src/components/molecules/home/Posts";
 import { selectInfoUser } from "src/slices/friend/selector";
-import { fetchListImage, fetchUserInfo } from "src/slices/friend/friendSlice";
+import { clearUserInfo, fetchListImage, fetchUserInfo } from "src/slices/friend/friendSlice";
+import { selectPost } from "src/slices/posts/selector";
 
 const UserProfile = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,38 +19,36 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [data, setData] = useState<any>([]);
   const infoUser = useAppSelector(selectInfoUser.getUserInfo);
+  const postUser = useAppSelector(selectPost.getPostsUser);
 
   const loadPostUser = () => {
-    if (loading || !hasMore) return;
+    if (loading) return;
 
     setLoading(true);
 
     setTimeout(() => {
       dispatch(fetchPostUser({ userId: id, page }))
-        .then((body) => {
-          const newPosts = body.payload;
-
-          setData((prev: any) => [...prev, ...newPosts]);
-
-          if (newPosts.length < 5) {
+        .then((response) => {
+          if (response.payload.length < 5) {
             setHasMore(false);
           } else {
+            setHasMore(true);
             setPage((prevPage) => prevPage + 1);
           }
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+        });
     }, 1000);
   };
 
   useEffect(() => {
-    loadPostUser();
-  }, []);
-
-  useEffect(() => {
+    dispatch(clearPostOfUser());
+    dispatch(clearUserInfo());
     dispatch(fetchUserInfo(id));
     dispatch(fetchListImage(id));
+    loadPostUser();
   }, [id]);
 
   return (
@@ -69,11 +68,11 @@ const UserProfile = () => {
 
       <div className="mx-auto mt-6 h-full w-full grid-cols-3 gap-4 px-2 md:px-6 lg:grid xl:max-w-screen-xl xl:px-24 2xl:max-w-screen-2xl 2xl:px-52">
         <div className="col-span-1">
-          <Introduce user={infoUser} />
+          <Introduce user={infoUser} userId={id} />
         </div>
 
         <div className="col-span-2 flex w-full flex-col gap-4 ">
-          <Posts posts={data} />
+          <Posts posts={postUser} />
 
           {loading && <Skeleton avatar paragraph={{ rows: 3 }} active />}
         </div>
